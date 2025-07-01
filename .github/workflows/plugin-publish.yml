@@ -1,0 +1,116 @@
+name: Plugin Publish Workflow
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download the latest CLI tool
+        run: |
+          DIFY_PLUGIN_LATEST_URL=$(
+              curl -s https://api.github.com/repos/langgenius/dify-plugin-daemon/releases/latest \
+              | jq -r '.assets[] | select(.name | contains("dify-plugin-linux-amd64")) | .browser_download_url'
+          )
+          curl -L -o ${RUNNER_TEMP}/dify ${DIFY_PLUGIN_LATEST_URL}
+          chmod +x ${RUNNER_TEMP}/dify
+
+          echo "Dify CLI tool downloaded as: ${RUNNER_TEMP}/dify"
+          ls -l ${RUNNER_TEMP}/dify
+
+      - name: Get and verify basic info from tag and manifest
+        id: get_basic_info
+        run: |
+          # Extract plugin type, name, and version from the release tag
+          TAGGED_PLUGIN_TYPE=$(echo "${{ github.event.release.tag_name }}" | cut -d '/' -f 1)
+          TAGGED_PLUGIN_NAME=$(echo "${{ github.event.release.tag_name }}" | cut -d '/' -f 2)
+          TAGGED_PLUGIN_VERSION=$(echo "${{ github.event.release.tag_name }}" | cut -d '/' -f 3)
+          echo "Released tag: ${{ github.event.release.tag_name }}"
+          echo "Plugin type in tag: ${TAGGED_PLUGIN_TYPE}"
+          echo "Plugin name in tag: ${TAGGED_PLUGIN_NAME}"
+          echo "Plugin version in tag: ${TAGGED_PLUGIN_VERSION}"
+
+          # Check if the tag is correctly formatted
+          if [ -z "${TAGGED_PLUGIN_TYPE}" ] || [ -z "${TAGGED_PLUGIN_NAME}" ] || [ -z "${TAGGED_PLUGIN_VERSION}" ]; then
+            echo "Invalid tag format. Expected format: <plugin_type>/<plugin_name>/<version>"
+            exit 1
+          fi
+
+          # Gather plugin information from the manifest file
+          PLUGIN_SRC="${GITHUB_WORKSPACE}/${TAGGED_PLUGIN_TYPE}/${TAGGED_PLUGIN_NAME}"
+          if [ ! -d "${PLUGIN_SRC}" ]; then
+            echo "Directory ${PLUGIN_SRC} does not exist."
+            exit 1
+          fi
+          PLUGIN_NAME=$(grep "^name:" ${PLUGIN_SRC}/manifest.yaml | cut -d ' ' -f 2)
+          PLUGIN_VERSION=$(grep "^version:" ${PLUGIN_SRC}/manifest.yaml | cut -d ' ' -f 2)
+          PLUGIN_AUTHOR=$(grep "^author:" ${PLUGIN_SRC}/manifest.yaml | cut -d ' ' -f 2)
+          echo "Plugin source directory: ${PLUGIN_SRC}"
+          echo "Plugin name in manifest: ${PLUGIN_NAME}"
+          echo "Plugin version in manifest: ${PLUGIN_VERSION}"
+          echo "Plugin author in manifest: ${PLUGIN_AUTHOR}"
+
+          # Ensure the plugin name and version match the tag
+          if [ "${PLUGIN_NAME}/${PLUGIN_VERSION}" != "${TAGGED_PLUGIN_NAME}/${TAGGED_PLUGIN_VERSION}" ]; then
+            echo "Plugin name and version in manifest (${PLUGIN_NAME}/${PLUGIN_VERSION}) does not match name and version in tag (${TAGGED_PLUGIN_NAME}/${TAGGED_PLUGIN_VERSION})."
+            exit 1
+          fi
+
+          # Set outputs for later steps
+          echo "plugin_src=${GITHUB_WORKSPACE}/${TAGGED_PLUGIN_TYPE}/${TAGGED_PLUGIN_NAME}" >> $GITHUB_OUTPUT
+          echo "plugin_type=$TAGGED_PLUGIN_TYPE" >> $GITHUB_OUTPUT
+          echo "plugin_name=$PLUGIN_NAME" >> $GITHUB_OUTPUT
+          echo "plugin_version=$PLUGIN_VERSION" >> $GITHUB_OUTPUT
+          echo "plugin_author=$PLUGIN_AUTHOR" >> $GITHUB_OUTPUT
+
+      - name: Package plugin
+        id: package
+        run: |
+          PLUGIN_PACKAGE_PATH="${RUNNER_TEMP}/${{ steps.get_basic_info.outputs.plugin_name }}.difypkg"
+          ${RUNNER_TEMP}/dify plugin package ${{ steps.get_basic_info.outputs.plugin_src }} -o ${PLUGIN_PACKAGE_PATH}
+
+          echo "Plugin package created at: ${PLUGIN_PACKAGE_PATH}"
+          ls -l ${PLUGIN_PACKAGE_PATH}
+          echo "plugin_package_path=${PLUGIN_PACKAGE_PATH}" >> $GITHUB_OUTPUT
+
+      - name: Checkout forked dify-plugins repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.get_basic_info.outputs.plugin_author }}/dify-plugins
+          path: dify-plugins
+          token: ${{ secrets.PLUGIN_ACTION }}
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Push plugin package to forked dify-plugins repo
+        run: |
+          cd ${GITHUB_WORKSPACE}/dify-plugins
+          FORKED_PLUGIN_PATH="${{ steps.get_basic_info.outputs.plugin_author }}/${{ steps.get_basic_info.outputs.plugin_name }}"
+          mkdir -p ${FORKED_PLUGIN_PATH}
+          mv ${{ steps.package.outputs.plugin_package_path }} ${FORKED_PLUGIN_PATH}/
+
+          echo "Plugin package moved to: ${FORKED_PLUGIN_PATH}/"
+          ls -l ${FORKED_PLUGIN_PATH}/
+
+          echo "Configuring git for the forked repository"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          echo "Checking out latest main branch and creating a new branch for the plugin bump"
+          git fetch origin main
+          git checkout main
+          git pull origin main
+          BRANCH_NAME="bump-${{ steps.get_basic_info.outputs.plugin_name }}-plugin-${{ steps.get_basic_info.outputs.plugin_version }}"
+          git checkout -b ${BRANCH_NAME}
+
+          echo "Adding and committing the plugin package"
+          git add .
+          git commit -m "feat: bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin to version ${{ steps.get_basic_info.outputs.plugin_version }}"
+
+          echo "Pushing changes to the forked repository"
+          git push -f -u origin ${BRANCH_NAME}
