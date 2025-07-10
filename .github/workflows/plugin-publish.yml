@@ -91,6 +91,13 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/dify-plugins
           FORKED_PLUGIN_PATH="${{ steps.get_basic_info.outputs.plugin_author }}/${{ steps.get_basic_info.outputs.plugin_name }}"
+
+          if [ -d "${FORKED_PLUGIN_PATH}" ]; then
+            PLUGIN_ACTION_TYPE="update"
+          else
+            PLUGIN_ACTION_TYPE="add"
+          fi
+
           mkdir -p ${FORKED_PLUGIN_PATH}
           mv ${{ steps.package.outputs.plugin_package_path }} ${FORKED_PLUGIN_PATH}/
 
@@ -110,7 +117,13 @@ jobs:
 
           echo "Adding and committing the plugin package"
           git add .
-          git commit -m "feat: bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin to version ${{ steps.get_basic_info.outputs.plugin_version }}"
+
+          CONVENTIONAL_SCOPE="${{ steps.get_basic_info.outputs.plugin_author }}/${{ steps.get_basic_info.outputs.plugin_name }}"
+          if [ "${PLUGIN_ACTION_TYPE}" = "add" ]; then
+            git commit -m "feat(${CONVENTIONAL_SCOPE}): add new ${{ steps.get_basic_info.outputs.plugin_name }} plugin"
+          else
+            git commit -m "feat(${CONVENTIONAL_SCOPE}): bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin to version ${{ steps.get_basic_info.outputs.plugin_version }}"
+          fi
 
           echo "Pushing changes to the forked repository"
           git push -f -u origin ${BRANCH_NAME}
