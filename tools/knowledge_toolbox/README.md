@@ -3,8 +3,8 @@
 - **Plugin ID** : kurokobo/knowledge_toolbox
 - **Author** : kurokobo
 - **Type** : tool
-- **Repository** : https://github.com/kurokobo/dify-plugin-collection
-- **Marketplace** : https://marketplace.dify.ai/plugins/kurokobo/knowledge_toolbox
+- **Repository** : <https://github.com/kurokobo/dify-plugin-collection>
+- **Marketplace** : <https://marketplace.dify.ai/plugins/kurokobo/knowledge_toolbox>
 
 ## ✨ Overview
 
@@ -98,6 +98,9 @@ You can choose the output format of the file:
 - `url`
   - As `text` output variable.
   - Download URL of the file.
+- `link`
+  - As `text` output variable.
+  - Markdown download link of the file.
 - `file`
   - As `files` output variable.
   - File object of the file.

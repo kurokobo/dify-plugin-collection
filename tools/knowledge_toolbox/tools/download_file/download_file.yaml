@@ -108,19 +108,19 @@ parameters:
     human_description:
       en_US: >-
         Format of the output.
-        "json" for JSON string, "url" for download URL, "file" for file object, "content" for file content.
+        "json" for JSON string, "url" for download URL, "link" for Markdown download link, "file" for file object, "content" for file content.
         Default is "url".
       ja_JP: >-
         出力のフォーマット。
-        "json" は JSON 文字列、"url" はダウンロード URL、"file" はファイルオブジェクト、"content" はファイル内容。
+        "json" は JSON 文字列、"url" はダウンロード URL、"link" は Markdown のダウンロードリンク、"file" はファイルオブジェクト、"content" はファイル内容。
         デフォルトは "url"。
       zh_Hans: >-
         输出的格式。
-        "json" 表示 JSON 字符串，"url" 表示下载链接，"file" 表示文件对象，"content" 表示文件内容。
+        "json" 表示 JSON 字符串，"url" 表示下载链接，"link" 表示 Markdown 下载链接，"file" 表示文件对象，"content" 表示文件内容。
         默认是 "url"。
       pt_BR: >-
         Formato da saída.
-        "json" para string JSON, "url" para URL de download, "file" para objeto de arquivo, "content" para conteúdo do arquivo.
+        "json" para string JSON, "url" para URL de download, "link" para link de download em Markdown, "file" para objeto de arquivo, "content" para conteúdo do arquivo.
         O padrão é "url"。
     options:
       - value: "json"
@@ -129,6 +129,9 @@ parameters:
       - value: "url"
         label:
           en_US: "url"
+      - value: "link"
+        label:
+          en_US: "link"
       - value: "file"
         label:
           en_US: "file"
