@@ -7,7 +7,7 @@ A repository of various plugins for Dify, developed by [@kurokobo](https://githu
 <!-- ls: tools -->
 - [📁 File Tools v0.0.1 (tools/file_tools)](/tools/file_tools)
   - A collection of various tools for handling file object.
-- [📁 Knowledge Toolbox v0.0.1 (tools/knowledge_toolbox)](/tools/knowledge_toolbox)
+- [📁 Knowledge Toolbox v0.0.2 (tools/knowledge_toolbox)](/tools/knowledge_toolbox)
   - Small tools for working with Dify Knowledge API.
 <!-- /ls: tools -->
 
