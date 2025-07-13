@@ -11,6 +11,7 @@ identity:
   icon: icon.svg
 
 tools:
+  - tools/add_file_url_to_citations/add_file_url_to_citations.yaml
   - tools/download_file/download_file.yaml
   - tools/get_full_doc/get_full_doc.yaml
 

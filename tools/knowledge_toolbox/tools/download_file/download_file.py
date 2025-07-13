@@ -46,6 +46,11 @@ class DownloadFileTool(Tool):
         elif format == "url":
             yield self.create_text_message(download_url)
             return
+        elif format == "link":
+            filename = data.get("name")
+            markdown_link = f"[{filename}]({download_url})"
+            yield self.create_text_message(markdown_link)
+            return
 
         # step 2: fetch the file
         try:
@@ -72,7 +77,7 @@ class DownloadFileTool(Tool):
                 blob=file_bytes,
                 meta={
                     "mime_type": data.get("mime_type"),
-                    "filename": data.get("filename"),
+                    "filename": data.get("name"),
                 },
             )
             return
