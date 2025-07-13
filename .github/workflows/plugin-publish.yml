@@ -92,28 +92,28 @@ jobs:
           cd ${GITHUB_WORKSPACE}/dify-plugins
           FORKED_PLUGIN_PATH="${{ steps.get_basic_info.outputs.plugin_author }}/${{ steps.get_basic_info.outputs.plugin_name }}"
 
-          if [ -d "${FORKED_PLUGIN_PATH}" ]; then
-            PLUGIN_ACTION_TYPE="update"
-          else
-            PLUGIN_ACTION_TYPE="add"
-          fi
-
-          mkdir -p ${FORKED_PLUGIN_PATH}
-          mv ${{ steps.package.outputs.plugin_package_path }} ${FORKED_PLUGIN_PATH}/
-
-          echo "Plugin package moved to: ${FORKED_PLUGIN_PATH}/"
-          ls -l ${FORKED_PLUGIN_PATH}/
-
           echo "Configuring git for the forked repository"
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
           echo "Checking out latest main branch and creating a new branch for the plugin bump"
-          git fetch origin main
           git checkout main
-          git pull origin main
+          git remote add upstream https://github.com/langgenius/dify-plugins.git
+          git pull upstream main
           BRANCH_NAME="bump-${{ steps.get_basic_info.outputs.plugin_name }}-plugin-${{ steps.get_basic_info.outputs.plugin_version }}"
           git checkout -b ${BRANCH_NAME}
+
+          echo "Preparing to move the plugin package to the forked repository"
+          if [ -d "${FORKED_PLUGIN_PATH}" ]; then
+            PLUGIN_ACTION_TYPE="update"
+          else
+            PLUGIN_ACTION_TYPE="add"
+            mkdir -p ${FORKED_PLUGIN_PATH}
+          fi
+          mv ${{ steps.package.outputs.plugin_package_path }} ${FORKED_PLUGIN_PATH}/
+
+          echo "Plugin package moved to: ${FORKED_PLUGIN_PATH}/"
+          ls -l ${FORKED_PLUGIN_PATH}/
 
           echo "Adding and committing the plugin package"
           git add .
