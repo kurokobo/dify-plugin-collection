@@ -17,6 +17,28 @@ Small tools for working with Dify Knowledge API:
 - ✅ **Get Full Doc**
   - Retrieve the full doc by concatenating all the chunks of the specified document in Knowledge.
 
+## ▶️ Demo App
+
+The DSL file of the demo app for this plugin is available on GitHub.
+
+- [💾 _examples/demo_knowledge_toolbox.yml](https://github.com/kurokobo/dify-plugin-collection/blob/main/tools/knowledge_toolbox/_examples/demo_knowledge_toolbox.yml).
+
+## 📕 Setup Instructions
+
+After installing the plugin, navigate to the `Tools` or `Plugins` page and then click on the **Knowledge Toolbox** plugin to configure it.  
+By clicking on the `API Key Authorization Configuration` button, you can set following fields to use this plugin in your app.
+
+- `Authorization Name`
+  - The name of the authorization configuration, e.g. `Workspace A @ Dify Cloud`, `Workspace B @ Self-Hosted Dify`, etc.
+- `Dify Knowledge API Base URL`
+  - The base URL of the Dify Knowledge API, with trailing `/v1`.
+  - For example, `https://api.dify.ai/v1` for Dify Cloud, or `http://api:5001/v1` for Docker-based self-hosted Dify.
+- `Dify Knowledge API Key`
+  - The API key for the Dify Knowledge API.
+  - You can generate it at `Knowledge` > `API Access` > `API Key` in the Dify Console.
+
+You can add multiple authorizations for different Dify Knowledge APIs, and can select one of them when using the tools in your app.
+
 ## 🛠️ Bundled Tools
 
 ### ✅ Add File URL to Citations
@@ -26,10 +48,6 @@ With this tool, you can provide the download URLs of the files in the workflow r
 
 #### Parameters
 
-- `api_base_url`
-  - The base URL of the Knowledge API, with trailing `/v1`.
-- `api_key`
-  - The API key for the Knowledge API.
 - `context`
   - The result of the Knowledge Retrieval node.
   - However, since Array[Object] cannot be selected directly here, please convert it to a string using a Template node or similar before inputting.
@@ -75,10 +93,6 @@ If you want to retrieve the contents of a file that isn't plain text, the **✅ 
 
 #### Parameters
 
-- `api_base_url`
-  - The base URL of the Knowledge API, with trailing `/v1`.
-- `api_key`
-  - The API key for the Knowledge API.
 - `knowledge_id`
   - The ID of the Knowledge to retrieve the uploaded file from.
   - You can find this ID in the URL of each Knowledge page (`/datasets/<knowledge_id>`).
@@ -115,10 +129,6 @@ With this tool, for example, you can force the LLM node to always refer to the e
 
 #### Parameters
 
-- `api_base_url`
-  - The base URL of the Knowledge API, with trailing `/v1`.
-- `api_key`
-  - The API key for the Knowledge API.
 - `knowledge_id`
   - The ID of the Knowledge to retrieve the uploaded file from.
   - You can find this ID in the URL of each Knowledge page (`/datasets/<knowledge_id>`).

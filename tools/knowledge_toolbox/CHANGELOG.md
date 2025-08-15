@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.0.3
+
+- Moved the API configurations (base URL and API key) to the plugin authorization configurations.
+
 ## 0.0.2
 
 - Added a new tool: **Add File URL to Citations**.
