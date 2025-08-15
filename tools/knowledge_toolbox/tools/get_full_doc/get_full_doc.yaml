@@ -17,48 +17,6 @@ description:
 
 parameters:
 
-  - name: api_base_url
-    type: string
-    label:
-      en_US: API Base URL
-    human_description:
-      en_US: >-
-        The base URL of the Knowledge API, with trailing "/v1".
-        Example: "https://api.dify.ai/v1", "http://api:5001/v1".
-      ja_JP: >-
-        ナレッジ API のベース URL（末尾に "/v1" を付ける）。
-        例: "https://api.dify.ai/v1", "http://api:5001/v1"。
-      zh_Hans: >-
-        Knowledge API 的基础 URL，结尾带有 "/v1"。
-        例如: "https://api.dify.ai/v1", "http://api:5001/v1"。
-      pt_BR: >-
-        A URL base da API do Knowledge, terminando com "/v1".
-        Exemplo: "https://api.dify.ai/v1", "http://api:5001/v1".
-    required: true
-    default: ""
-    form: llm
-
-  - name: api_key
-    type: secret-input
-    label:
-      en_US: API Key
-    human_description:
-      en_US: >-
-        The API key for the Knowledge API.
-        You can generate it at "Knowledge" -> "API Access" -> "API Key" in the Dify Console.
-      ja_JP: >-
-        Knowledge API の API キー。
-        Dify のコンソールの "Knowledge" -> "API Access" -> "API Key" で発行できる。
-      zh_Hans: >-
-        Knowledge API 的 API 密钥。
-        可以在 Dify 控制台的“Knowledge”->“API Access”->“API Key”中生成。
-      pt_BR: >-
-        A chave de API para o Knowledge API.
-        Você pode gerá-la em "Knowledge" -> "API Access" -> "API Key" no Console Dify.
-    required: true
-    default: ""
-    form: llm
-
   - name: knowledge_id
     type: string
     label:

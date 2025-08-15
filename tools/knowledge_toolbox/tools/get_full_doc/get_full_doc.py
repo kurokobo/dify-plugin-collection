@@ -4,17 +4,26 @@ import requests
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
+from dify_plugin.errors.tool import ToolProviderCredentialValidationError
 
 
 class GetFullDocTool(Tool):
 
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
-        api_base_url = tool_parameters.get("api_base_url")
-        api_key = tool_parameters.get("api_key")
         knowledge_id = tool_parameters.get("knowledge_id")
         document_id = tool_parameters.get("document_id")
-        delimiter = tool_parameters.get(
-            "delimiter", "\n\n").encode().decode("unicode_escape")
+        delimiter = tool_parameters.get("delimiter", "\n\n").encode().decode("unicode_escape")
+
+        if not self.runtime or not self.runtime.credentials:
+            raise ToolProviderCredentialValidationError("Tool runtime or credentials are missing")
+
+        api_base_url = self.runtime.credentials.get("api_base_url")
+        api_key = self.runtime.credentials.get("api_key")
+
+        if not api_base_url:
+            raise ToolProviderCredentialValidationError("Knowledge API base URL is required.")
+        if not api_key:
+            raise ToolProviderCredentialValidationError("Knowledge API key is required.")
 
         url = f"{api_base_url.rstrip('/')}/datasets/{knowledge_id}/documents/{document_id}/segments"
         headers = {

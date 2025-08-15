@@ -1,0 +1,912 @@
+app:
+  description: The demo app for Knowledge Toolbox
+  icon: 📘
+  icon_background: '#D1E0FF'
+  mode: advanced-chat
+  name: 'Demo: Knowledge Toolbox'
+  use_icon_as_answer_icon: true
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: kurokobo/knowledge_toolbox:0.0.3@4dc3ca69c5942a455a188129e36b4f704933c6c5bb5b30869c1e386ae52340fb
+kind: app
+version: 0.3.1
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: '📦 **Welcome to the Knowledge Toolbox demo!**
+
+
+      Send me a query to retrieve information from my knowledge base!
+
+      Note that this app uses economical mode for knowledge retrieval, so using complex
+      queries may cause some issues. Please use the buttons below instead.'
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - Dify
+    - Introduction
+    - Features
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1755217028483-source-1755217465741-target
+      source: '1755217028483'
+      sourceHandle: source
+      target: '1755217465741'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: template-transform
+      id: 1755217465741-source-1755217535260-target
+      source: '1755217465741'
+      sourceHandle: source
+      target: '1755217535260'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: tool
+      id: 1755217535260-source-1755217554648-target
+      source: '1755217535260'
+      sourceHandle: source
+      target: '1755217554648'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: template-transform
+        targetType: tool
+      id: 1755217535260-source-1755217588458-target
+      source: '1755217535260'
+      sourceHandle: source
+      target: '1755217588458'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1755217588458-source-answer-target
+      source: '1755217588458'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1755217028483-source-1755218072351-target
+      source: '1755217028483'
+      sourceHandle: source
+      target: '1755218072351'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1755217554648-source-answer-target
+      source: '1755217554648'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1755218072351-source-answer-target
+      source: '1755218072351'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1755217028483-source-1755218568651-target
+      source: '1755217028483'
+      sourceHandle: source
+      target: '1755218568651'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1755218568651-source-answer-target
+      source: '1755218568651'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables: []
+      height: 54
+      id: '1755217028483'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '## 🛠️  Tool: Add File URL to Citations
+
+
+          This app retrieves the knowledge with query `{{#sys.query#}}`, which may
+          cause multiple chunks to be retrieved.
+
+
+          Here are **✅ the download links for each citation** by this tool:
+
+
+          {{#1755217554648.text#}}
+
+
+          This tool can also output **✅ the download links with actual citations in
+          collapsible format**, which can replace default citations:
+
+
+          {{#1755217588458.text#}}
+
+
+          ## 🛠️  Tool: Download File
+
+
+          You can get **✅ the download link of the specific document in the specific
+          knowledge**.
+
+
+          Here is a download link for my pdf file in my knowledge:
+
+
+          - {{#1755218072351.text#}}
+
+
+          Here, we’re getting the download link, but if the file is text-based, it’s
+          also possible to **✅ retrieve its contents directly**.
+
+          Additionally, you can also **✅ output it as a file object for use as input
+          with other tools**.
+
+
+          ## 🛠️  Tool: Get Full Doc
+
+
+          This is a tool to **✅ retrieve the full doc by concatenating all the chunks
+          of the specified document in knowledge**.
+
+
+          <details>
+
+          <summary>Concatenated Chunks of My PDF</summary>
+
+          {{#1755218568651.text#}}
+
+          </details>
+
+
+          You can force the LLM node to always refer to the entire content of a specific
+          document, for example.'
+        desc: ''
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 592
+      id: answer
+      position:
+        x: 985.1533428716612
+        y: 578.9954660677435
+      positionAbsolute:
+        x: 985.1533428716612
+        y: 578.9954660677435
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - FtvZf3A/K61Ci7spKgZ2QVG2Wy1309/Macwkg27H2RPZlPtvOcqwHmXbboRKREVw
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: ''
+            provider: ''
+          top_k: 4
+        query_variable_selector:
+        - '1755217028483'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: Knowledge Retrieval
+        type: knowledge-retrieval
+      height: 92
+      id: '1755217465741'
+      position:
+        x: 384
+        y: 282
+      positionAbsolute:
+        x: 384
+        y: 282
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: true
+        template: '{{ context }}'
+        title: Template
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1755217465741'
+          - result
+          value_type: array[object]
+          variable: context
+      height: 54
+      id: '1755217535260'
+      position:
+        x: 384
+        y: 402.13870954907685
+      positionAbsolute:
+        x: 384
+        y: 402.13870954907685
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: Input the result of the Knowledge Retrieval node. However, since
+              Array[Object] cannot be selected directly here, please convert it to
+              a string using a Template node or similar before inputting. Refer to
+              the documentation for details.
+            ja_JP: 知識取得ノードの結果を入力する。 ただし、ここでは Array[Object] は直接は選べないため、テンプレートノードなどで文字列に変換してから入力すること。
+              詳細はドキュメントを参照。
+            pt_BR: Insira o resultado do nó de Recuperação de Conhecimento. No entanto,
+              como Array[Object] não pode ser selecionado diretamente aqui, converta-o
+              em uma string usando um nó de Template ou similar antes de inserir.
+              Consulte a documentação para obter detalhes.
+            zh_Hans: 输入知识检索节点的结果。 由于这里不能直接选择 Array[Object]，请在输入前使用模板节点等将其转换为字符串。 有关详细信息，请参阅文档。
+          label:
+            en_US: Context
+            ja_JP: Context
+            pt_BR: Context
+            zh_Hans: Context
+          llm_description: ''
+          max: null
+          min: null
+          name: context
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: full
+          form: form
+          human_description:
+            en_US: Format of the output. "full" returns a complete object with the
+              metadata of the Knowledge Retrieval node results, adding a "download_url"
+              field. "minimal_json" returns a JSON string with basic information such
+              as file names and download URLs of the referenced documents. "minimal_markdown"
+              returns a list of Markdown formatted download links for the referenced
+              documents. "chunks_markdown" returns a collapsible Markdown that contains
+              the referenced chunks and download links for the documents.
+            ja_JP: 結果のフォーマット。 "full" は知識取得ノードの結果のメタデータに "download_url" フィールドを追加した完全なオブジェクトを返す。
+              "minimal_json" は参照されているドキュメントのファイル名やダウンロード URL などの基礎情報を JSON 形式の文字列で返す。
+              "minimal_markdown" は参照されているドキュメントの Markdown 形式のダウンロードリンクの一覧を返す。 "chunks_markdown"
+              は参照されているチャンクとドキュメントのダウンロードリンクを含む折りたたみ可能な Markdown を返す。
+            pt_BR: Formato da saída. "full" retorna um objeto completo com os metadados
+              dos resultados do nó de Recuperação de Conhecimento, adicionando um
+              campo "download_url". "minimal_json" retorna uma string JSON com informações
+              básicas, como nomes de arquivos e URLs de download dos documentos referenciados.
+              "minimal_markdown" retorna uma lista de links de download formatados
+              em Markdown para os documentos referenciados. "chunks_markdown" retorna
+              um Markdown dobrável que contém os blocos referenciados e links de download
+              para os documentos.
+            zh_Hans: 输出的格式。 "full" 返回一个完整的对象，包含知识检索节点结果的元数据，并添加一个 "download_url" 字段。
+              "minimal_json" 返回一个 JSON 字符串，包含引用文档的基本信息，如文件名和下载 URL。 "minimal_markdown"
+              返回一个 Markdown 格式的引用文档下载链接列表。 "chunks_markdown" 返回一个可折叠的 Markdown，包含引用的块和文档的下载链接。
+          label:
+            en_US: Format of the output
+            ja_JP: Format of the output
+            pt_BR: Format of the output
+            zh_Hans: Format of the output
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - icon: ''
+            label:
+              en_US: full
+              ja_JP: full
+              pt_BR: full
+              zh_Hans: full
+            value: full
+          - icon: ''
+            label:
+              en_US: minimal_json
+              ja_JP: minimal_json
+              pt_BR: minimal_json
+              zh_Hans: minimal_json
+            value: minimal_json
+          - icon: ''
+            label:
+              en_US: minimal_markdown
+              ja_JP: minimal_markdown
+              pt_BR: minimal_markdown
+              zh_Hans: minimal_markdown
+            value: minimal_markdown
+          - icon: ''
+            label:
+              en_US: chunks_markdown
+              ja_JP: chunks_markdown
+              pt_BR: chunks_markdown
+              zh_Hans: chunks_markdown
+            value: chunks_markdown
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        params:
+          context: ''
+          format: ''
+        provider_id: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_name: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_type: builtin
+        selected: false
+        title: Add File URL to Citations
+        tool_configurations:
+          format:
+            type: constant
+            value: minimal_markdown
+        tool_description: Retrieves download URLs for files included in the results
+          of the Knowledge Retrieval node and returns a list.
+        tool_label: Add File URL to Citations
+        tool_name: add_file_url_to_citations
+        tool_node_version: '2'
+        tool_parameters:
+          context:
+            type: mixed
+            value: '{{#1755217535260.output#}}'
+        type: tool
+      height: 90
+      id: '1755217554648'
+      position:
+        x: 685.3479297856013
+        y: 282
+      positionAbsolute:
+        x: 685.3479297856013
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: Input the result of the Knowledge Retrieval node. However, since
+              Array[Object] cannot be selected directly here, please convert it to
+              a string using a Template node or similar before inputting. Refer to
+              the documentation for details.
+            ja_JP: 知識取得ノードの結果を入力する。 ただし、ここでは Array[Object] は直接は選べないため、テンプレートノードなどで文字列に変換してから入力すること。
+              詳細はドキュメントを参照。
+            pt_BR: Insira o resultado do nó de Recuperação de Conhecimento. No entanto,
+              como Array[Object] não pode ser selecionado diretamente aqui, converta-o
+              em uma string usando um nó de Template ou similar antes de inserir.
+              Consulte a documentação para obter detalhes.
+            zh_Hans: 输入知识检索节点的结果。 由于这里不能直接选择 Array[Object]，请在输入前使用模板节点等将其转换为字符串。 有关详细信息，请参阅文档。
+          label:
+            en_US: Context
+            ja_JP: Context
+            pt_BR: Context
+            zh_Hans: Context
+          llm_description: ''
+          max: null
+          min: null
+          name: context
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: full
+          form: form
+          human_description:
+            en_US: Format of the output. "full" returns a complete object with the
+              metadata of the Knowledge Retrieval node results, adding a "download_url"
+              field. "minimal_json" returns a JSON string with basic information such
+              as file names and download URLs of the referenced documents. "minimal_markdown"
+              returns a list of Markdown formatted download links for the referenced
+              documents. "chunks_markdown" returns a collapsible Markdown that contains
+              the referenced chunks and download links for the documents.
+            ja_JP: 結果のフォーマット。 "full" は知識取得ノードの結果のメタデータに "download_url" フィールドを追加した完全なオブジェクトを返す。
+              "minimal_json" は参照されているドキュメントのファイル名やダウンロード URL などの基礎情報を JSON 形式の文字列で返す。
+              "minimal_markdown" は参照されているドキュメントの Markdown 形式のダウンロードリンクの一覧を返す。 "chunks_markdown"
+              は参照されているチャンクとドキュメントのダウンロードリンクを含む折りたたみ可能な Markdown を返す。
+            pt_BR: Formato da saída. "full" retorna um objeto completo com os metadados
+              dos resultados do nó de Recuperação de Conhecimento, adicionando um
+              campo "download_url". "minimal_json" retorna uma string JSON com informações
+              básicas, como nomes de arquivos e URLs de download dos documentos referenciados.
+              "minimal_markdown" retorna uma lista de links de download formatados
+              em Markdown para os documentos referenciados. "chunks_markdown" retorna
+              um Markdown dobrável que contém os blocos referenciados e links de download
+              para os documentos.
+            zh_Hans: 输出的格式。 "full" 返回一个完整的对象，包含知识检索节点结果的元数据，并添加一个 "download_url" 字段。
+              "minimal_json" 返回一个 JSON 字符串，包含引用文档的基本信息，如文件名和下载 URL。 "minimal_markdown"
+              返回一个 Markdown 格式的引用文档下载链接列表。 "chunks_markdown" 返回一个可折叠的 Markdown，包含引用的块和文档的下载链接。
+          label:
+            en_US: Format of the output
+            ja_JP: Format of the output
+            pt_BR: Format of the output
+            zh_Hans: Format of the output
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - icon: ''
+            label:
+              en_US: full
+              ja_JP: full
+              pt_BR: full
+              zh_Hans: full
+            value: full
+          - icon: ''
+            label:
+              en_US: minimal_json
+              ja_JP: minimal_json
+              pt_BR: minimal_json
+              zh_Hans: minimal_json
+            value: minimal_json
+          - icon: ''
+            label:
+              en_US: minimal_markdown
+              ja_JP: minimal_markdown
+              pt_BR: minimal_markdown
+              zh_Hans: minimal_markdown
+            value: minimal_markdown
+          - icon: ''
+            label:
+              en_US: chunks_markdown
+              ja_JP: chunks_markdown
+              pt_BR: chunks_markdown
+              zh_Hans: chunks_markdown
+            value: chunks_markdown
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        params:
+          context: ''
+          format: ''
+        provider_id: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_name: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_type: builtin
+        selected: false
+        title: Add File URL to Citations
+        tool_configurations:
+          format:
+            type: constant
+            value: chunks_markdown
+        tool_description: Retrieves download URLs for files included in the results
+          of the Knowledge Retrieval node and returns a list.
+        tool_label: Add File URL to Citations
+        tool_name: add_file_url_to_citations
+        tool_node_version: '2'
+        tool_parameters:
+          context:
+            type: mixed
+            value: '{{#1755217535260.output#}}'
+        type: tool
+      height: 90
+      id: '1755217588458'
+      position:
+        x: 685.3479297856013
+        y: 402.13870954907685
+      positionAbsolute:
+        x: 685.3479297856013
+        y: 402.13870954907685
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The ID of the Knowledge to retrieve the uploaded file from. You
+              can find this ID in the URL of each Knowledge page (/datasets/<knowledge_id>).
+            ja_JP: アップロードしたファイルを取得するナレッジの ID。 各ナレッジのページの URL（/datasets/<knowledge_id>）で確認できる。
+            pt_BR: O ID do Knowledge de onde recuperar o arquivo enviado。 Você pode
+              encontrar esse ID na URL de cada página do Knowledge (/datasets/<knowledge_id>)。
+            zh_Hans: 要获取已上传文件的知识库 ID。 可以在每个知识库页面的 URL（/datasets/<knowledge_id>）中找到。
+          label:
+            en_US: Knowledge ID
+            ja_JP: Knowledge ID
+            pt_BR: Knowledge ID
+            zh_Hans: Knowledge ID
+          llm_description: ''
+          max: null
+          min: null
+          name: knowledge_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The ID of the document in the Knowledge to retrieve. You can find
+              this ID in the URL of each document page (/datasets/<knowledge_id>/documents/<document_id>).
+            ja_JP: 取得するドキュメントの ID。 各ドキュメントページの URL（/datasets/<knowledge_id>/documents/<document_id>）で確認できる。
+            pt_BR: O ID do documento no Knowledge a ser recuperado。 Você pode encontrar
+              esse ID na URL de cada página de documento (/datasets/<knowledge_id>/documents/<document_id>)。
+            zh_Hans: 要获取的知识库中文档的 ID。 可以在每个文档页面的 URL（/datasets/<knowledge_id>/documents/<document_id>）中找到。
+          label:
+            en_US: Document ID
+            ja_JP: Document ID
+            pt_BR: Document ID
+            zh_Hans: Document ID
+          llm_description: ''
+          max: null
+          min: null
+          name: document_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: url
+          form: form
+          human_description:
+            en_US: Format of the output. "json" for JSON string, "url" for download
+              URL, "link" for Markdown download link, "file" for file object, "content"
+              for file content. Default is "url".
+            ja_JP: 出力のフォーマット。 "json" は JSON 文字列、"url" はダウンロード URL、"link" は Markdown
+              のダウンロードリンク、"file" はファイルオブジェクト、"content" はファイル内容。 デフォルトは "url"。
+            pt_BR: Formato da saída. "json" para string JSON, "url" para URL de download,
+              "link" para link de download em Markdown, "file" para objeto de arquivo,
+              "content" para conteúdo do arquivo. O padrão é "url"。
+            zh_Hans: 输出的格式。 "json" 表示 JSON 字符串，"url" 表示下载链接，"link" 表示 Markdown 下载链接，"file"
+              表示文件对象，"content" 表示文件内容。 默认是 "url"。
+          label:
+            en_US: Format of the output
+            ja_JP: Format of the output
+            pt_BR: Format of the output
+            zh_Hans: Format of the output
+          llm_description: ''
+          max: null
+          min: null
+          name: format
+          options:
+          - icon: ''
+            label:
+              en_US: json
+              ja_JP: json
+              pt_BR: json
+              zh_Hans: json
+            value: json
+          - icon: ''
+            label:
+              en_US: url
+              ja_JP: url
+              pt_BR: url
+              zh_Hans: url
+            value: url
+          - icon: ''
+            label:
+              en_US: link
+              ja_JP: link
+              pt_BR: link
+              zh_Hans: link
+            value: link
+          - icon: ''
+            label:
+              en_US: file
+              ja_JP: file
+              pt_BR: file
+              zh_Hans: file
+            value: file
+          - icon: ''
+            label:
+              en_US: content
+              ja_JP: content
+              pt_BR: content
+              zh_Hans: content
+            value: content
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        params:
+          document_id: ''
+          format: ''
+          knowledge_id: ''
+        provider_id: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_name: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_type: builtin
+        selected: false
+        title: Download File
+        tool_configurations:
+          format:
+            type: constant
+            value: link
+        tool_description: Retrieve the uploaded file in Knowledge as a JSON, download
+          URL, file object, or file content.
+        tool_label: Download File
+        tool_name: download_file
+        tool_node_version: '2'
+        tool_parameters:
+          document_id:
+            type: mixed
+            value: 3e45b31e-f8d9-4416-98ef-eeb2569e01e0
+          knowledge_id:
+            type: mixed
+            value: 75148bc7-3330-4ec9-9771-2e85234237b7
+        type: tool
+      height: 90
+      id: '1755218072351'
+      position:
+        x: 384
+        y: 578.9954660677435
+      positionAbsolute:
+        x: 384
+        y: 578.9954660677435
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The ID of the Knowledge to retrieve the uploaded file from. You
+              can find this ID in the URL of each Knowledge page (/datasets/<knowledge_id>).
+            ja_JP: アップロードしたファイルを取得するナレッジの ID。 各ナレッジのページの URL（/datasets/<knowledge_id>）で確認できる。
+            pt_BR: O ID do Knowledge de onde recuperar o arquivo enviado. Você pode
+              encontrar esse ID na URL de cada página do Knowledge (/datasets/<knowledge_id>).
+            zh_Hans: 要获取的知识库 ID。 可以在每个知识库页面的 URL（/datasets/<knowledge_id>）中找到。
+          label:
+            en_US: Knowledge ID
+            ja_JP: Knowledge ID
+            pt_BR: Knowledge ID
+            zh_Hans: Knowledge ID
+          llm_description: ''
+          max: null
+          min: null
+          name: knowledge_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: ''
+          form: llm
+          human_description:
+            en_US: The ID of the document in the Knowledge to retrieve. You can find
+              this ID in the URL of each document page (/datasets/<knowledge_id>/documents/<document_id>).
+            ja_JP: 取得するドキュメントの ID。 各ドキュメントページの URL（/datasets/<knowledge_id>/documents/<document_id>）で確認できる。
+            pt_BR: O ID do documento no Knowledge a ser recuperado. Você pode encontrar
+              esse ID na URL de cada página de documento (/datasets/<knowledge_id>/documents/<document_id>).
+            zh_Hans: 要获取的知识库中文档的 ID。 可以在每个文档页面的 URL（/datasets/<knowledge_id>/documents/<document_id>）中找到。
+          label:
+            en_US: Document ID
+            ja_JP: Document ID
+            pt_BR: Document ID
+            zh_Hans: Document ID
+          llm_description: ''
+          max: null
+          min: null
+          name: document_id
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: '
+
+
+            '
+          form: form
+          human_description:
+            en_US: The string inserted between each chunk while joining them together.
+              Default is "\n\n".
+            ja_JP: 各チャンクを連結する時に間に挿入する文字列。 デフォルトは "\n\n"。
+            pt_BR: A string inserida entre cada pedaço ao juntá-los. O padrão é "\n\n".
+            zh_Hans: 连接每个分块时插入的字符串。 默认是 "\n\n"。
+          label:
+            en_US: Delimiter
+            ja_JP: Delimiter
+            pt_BR: Delimiter
+            zh_Hans: Delimiter
+          llm_description: ''
+          max: null
+          min: null
+          name: delimiter
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          delimiter: ''
+          document_id: ''
+          knowledge_id: ''
+        provider_id: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_name: kurokobo/knowledge_toolbox/knowledge_toolbox
+        provider_type: builtin
+        selected: false
+        title: Get Full Doc
+        tool_configurations:
+          delimiter:
+            type: mixed
+            value: '
+
+
+              '
+        tool_description: Retrieve the full doc by concatenating all the chunks of
+          the specified document in Knowledge.
+        tool_label: Get Full Doc
+        tool_name: get_full_doc
+        tool_node_version: '2'
+        tool_parameters:
+          document_id:
+            type: mixed
+            value: 3e45b31e-f8d9-4416-98ef-eeb2569e01e0
+          knowledge_id:
+            type: mixed
+            value: 75148bc7-3330-4ec9-9771-2e85234237b7
+        type: tool
+      height: 90
+      id: '1755218568651'
+      position:
+        x: 384
+        y: 874.2577847026905
+      positionAbsolute:
+        x: 384
+        y: 874.2577847026905
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -64.72828963069924
+      y: 69.8743917637305
+      zoom: 1.0186558081616457
