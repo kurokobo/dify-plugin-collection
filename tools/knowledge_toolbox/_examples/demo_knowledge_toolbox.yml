@@ -7,9 +7,9 @@ app:
   use_icon_as_answer_icon: true
 dependencies:
 - current_identifier: null
-  type: package
+  type: marketplace
   value:
-    plugin_unique_identifier: kurokobo/knowledge_toolbox:0.0.3@4dc3ca69c5942a455a188129e36b4f704933c6c5bb5b30869c1e386ae52340fb
+    marketplace_plugin_unique_identifier: kurokobo/knowledge_toolbox:0.0.3@6d96b685e8ba28c9a8b2f6367bbcb128d3d07c74b38dc67853fae8a28c15337c
 kind: app
 version: 0.3.1
 workflow:
@@ -313,7 +313,7 @@ workflow:
       width: 244
     - data:
         desc: ''
-        selected: true
+        selected: false
         template: '{{ context }}'
         title: Template
         type: template-transform
@@ -331,7 +331,7 @@ workflow:
       positionAbsolute:
         x: 384
         y: 402.13870954907685
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -871,7 +871,7 @@ workflow:
         provider_id: kurokobo/knowledge_toolbox/knowledge_toolbox
         provider_name: kurokobo/knowledge_toolbox/knowledge_toolbox
         provider_type: builtin
-        selected: false
+        selected: true
         title: Get Full Doc
         tool_configurations:
           delimiter:
@@ -901,12 +901,12 @@ workflow:
       positionAbsolute:
         x: 384
         y: 874.2577847026905
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 244
     viewport:
-      x: -64.72828963069924
-      y: 69.8743917637305
-      zoom: 1.0186558081616457
+      x: 42.35548155779486
+      y: -112.1663248340262
+      zoom: 1.024556850800857
