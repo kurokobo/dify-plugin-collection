@@ -1,0 +1,31 @@
+version: 0.0.1
+type: plugin
+author: kurokobo
+name: simple_audio_mixer
+label:
+  en_US: Simple Audio Mixer
+description:
+  en_US: Simple audio mixing tools to enrich your podcasts and music.
+  ja_JP: ポッドキャストや音楽を豊かにするシンプルな音声ミキシングツール集。
+  zh_Hans: 简单的音频混音工具，丰富您的播客和音乐。
+  pt_BR: Ferramentas simples de mixagem de áudio para enriquecer seus podcasts e músicas.
+icon: icon.svg
+resource:
+  memory: 268435456
+plugins:
+  tools:
+    - provider/simple_audio_mixer.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: null
+created_at: 2025-08-15T00:00:00.000000000Z
+privacy: PRIVACY.md
+repo: https://github.com/kurokobo/dify-plugin-collection
+verified: false

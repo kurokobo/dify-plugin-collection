@@ -1,0 +1,19 @@
+identity:
+  author: kurokobo
+  name: simple_audio_mixer
+  label:
+    en_US: Simple Audio Mixer
+  description:
+    en_US: Simple audio mixing tools to enrich your podcasts and music.
+    ja_JP: あなたのポッドキャストや音楽をゆたかにするシンプルな音声ミキシングツール集。
+    zh_Hans: 简单的音频混音工具，丰富您的播客和音乐。
+    pt_BR: Ferramentas simples de mixagem de áudio para enriquecer seus podcasts e músicas.
+  icon: icon.svg
+
+tools:
+  - tools/simple_bgm_mixer/simple_bgm_mixer.yaml
+  - tools/simple_stereo_mixer/simple_stereo_mixer.yaml
+
+extra:
+  python:
+    source: provider/simple_audio_mixer.py

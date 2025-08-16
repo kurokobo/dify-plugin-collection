@@ -1,0 +1,234 @@
+identity:
+  name: simple_bgm_mixer
+  author: kurokobo
+  label:
+    en_US: Simple BGM Mixer
+    ja_JP: シンプルな BGM ミキサー
+    zh_Hans: 简单的背景音乐混音器
+    pt_BR: Misturador de BGM Simples
+
+description:
+  human:
+    en_US: Mixes a voice file with a background music file.
+    ja_JP: 音声ファイルと BGM ファイルをミックスする。
+    zh_Hans: 混合一个语音文件和一个背景音乐文件。
+    pt_BR: Mistura um arquivo de voz com um arquivo de música de fundo。
+  llm: Mixes a voice file with a background music file.
+
+parameters:
+  - name: voice_file
+    type: file
+    label:
+      en_US: Voice File
+    human_description:
+      en_US: The voice file to be mixed with the BGM.
+      ja_JP: BGM とミックスする音声ファイル
+      zh_Hans: 要与 BGM 混合的语音文件
+      pt_BR: O arquivo de voz a ser misturado com o BGM。
+    required: true
+    form: form
+
+  - name: bgm_file
+    type: file
+    label:
+      en_US: BGM File
+    human_description:
+      en_US: The background music file to be mixed with the voice.
+      ja_JP: 音声とミックスする背景音楽ファイル
+      zh_Hans: 要与语音混合的背景音乐文件
+      pt_BR: O arquivo de música de fundo a ser misturado com a voz。
+    required: true
+    form: form
+
+  - name: output_format
+    type: select
+    form: form
+    label:
+      en_US: Output Format
+    human_description:
+      en_US: The output audio format
+      ja_JP: 出力音声のフォーマット
+      zh_Hans: 输出音频格式
+      pt_BR: Formato de saída do áudio
+    options:
+      - label:
+          en_US: WAV
+        value: wav
+      - label:
+          en_US: MP3
+        value: mp3
+    required: true
+    default: mp3
+
+  - name: a_bgm_intro_fadein_ms
+    type: number
+    label:
+      en_US: A) BGM Intro Fade-in Duration (ms)
+    human_description:
+      en_US: Duration of the BGM intro fade-in effect in milliseconds.
+      ja_JP: BGM のイントロフェードイン効果の時間（ミリ秒単位）
+      zh_Hans: BGM 介绍淡入效果的持续时间（毫秒）
+      pt_BR: Duração do efeito de fade-in da introdução do BGM em milissegundos。
+    required: true
+    default: 100
+    form: form
+
+  - name: b_bgm_intro_play_ms
+    type: number
+    label:
+      en_US: B) BGM Intro Play Duration (ms)
+    human_description:
+      en_US: Duration before the fade-out starts after the BGM intro fade-in (in milliseconds).
+      ja_JP: BGM のイントロフェードイン後にフェードアウトを開始するまでの時間（ミリ秒単位）
+      zh_Hans: BGM 介绍淡入后开始淡出的持续时间（毫秒）
+      pt_BR: Duração antes do início do fade-out após o fade-in da introdução do BGM (em milissegundos)。
+    required: true
+    default: 5000
+    form: form
+
+  - name: c_bgm_intro_fadeout_ms
+    type: number
+    label:
+      en_US: C) BGM Intro Fade-out Duration (ms)
+    human_description:
+      en_US: Duration of the BGM intro fade-out effect in milliseconds.
+      ja_JP: BGM のイントロフェードアウト効果の時間（ミリ秒単位）
+      zh_Hans: BGM 介绍淡出效果的持续时间（毫秒）
+      pt_BR: Duração do efeito de fade-out da introdução do BGM em milissegundos。
+    required: true
+    default: 1000
+    form: form
+
+  - name: d_bgm_pre_voice_delay_ms
+    type: number
+    label:
+      en_US: D) BGM Pre-Voice Delay Duration (ms)
+    human_description:
+      en_US: Delay time before the voice starts after the BGM intro fade-out (in milliseconds).
+      ja_JP: BGM のイントロフェードアウト後に音声が開始するまでの遅延時間（ミリ秒単位）
+      zh_Hans: BGM 介绍淡出后语音开始前的延迟时间（毫秒）
+      pt_BR: Tempo de atraso antes do início da voz após o fade-out da introdução do BGM (em milissegundos)。
+    required: true
+    default: 500
+    form: form
+
+  - name: e_bgm_post_voice_delay_ms
+    type: number
+    label:
+      en_US: E) BGM Post-Voice Delay Duration (ms)
+    human_description:
+      en_US: Delay time before the fade-out starts after the voice ends (in milliseconds).
+      ja_JP: 音声の終了後に BGM のフェードアウトが開始されるまでの遅延時間（ミリ秒単位）
+      zh_Hans: 语音结束后 BGM 淡出开始前的延迟时间（毫秒）
+      pt_BR: Tempo de atraso antes do início do fade-out após o término da voz (em milissegundos)。
+    required: true
+    default: 1000
+    form: form
+
+  - name: f_bgm_outro_fadein_ms
+    type: number
+    label:
+      en_US: F) BGM Outro Fade-in Duration (ms)
+    human_description:
+      en_US: Duration of the BGM outro fade-in effect in milliseconds.
+      ja_JP: BGM のアウトロフェードイン効果の時間（ミリ秒単位）
+      zh_Hans: BGM 结尾淡入效果的持续时间（毫秒）
+      pt_BR: Duração do efeito de fade-in do BGM de encerramento em milissegundos。
+    required: true
+    default: 1000
+    form: form
+
+  - name: g_bgm_outro_play_ms
+    type: number
+    label:
+      en_US: G) BGM Outro Play Duration (ms)
+    human_description:
+      en_US: Duration before the fade-out starts after the BGM outro fade-in (in milliseconds).
+      ja_JP: BGM のアウトロフェードイン後にフェードアウトを開始するまでの時間（ミリ秒単位）
+      zh_Hans: BGM 结尾淡入后开始淡出的持续时间（毫秒）
+      pt_BR: Duração antes do início do fade-out após o fade-in do BGM de encerramento (em milissegundos)。
+    required: true
+    default: 5000
+    form: form
+
+  - name: h_bgm_outro_fadeout_ms
+    type: number
+    label:
+      en_US: H) BGM Outro Fade-out Duration (ms)
+    human_description:
+      en_US: Duration of the BGM outro fade-out effect in milliseconds.
+      ja_JP: BGM のアウトロフェードアウト効果の時間（ミリ秒単位）
+      zh_Hans: BGM 结尾淡出效果的持续时间（毫秒）
+      pt_BR: Duração do efeito de fade-out do BGM de encerramento em milissegundos。
+    required: true
+    default: 5000
+    form: form
+
+  - name: i_voice_volume_ratio
+    type: number
+    label:
+      en_US: I) Voice Volume Ratio
+    human_description:
+      en_US: Volume ratio of the voice (1.0 = 100%).
+      ja_JP: 音声の音量（1.0 = 100%）
+      zh_Hans: 语音的音量比例（1.0 = 100%）
+      pt_BR: Relação de volume da voz (1.0 = 100%)。
+    required: true
+    default: 1.0
+    form: form
+
+  - name: j_bgm_intro_volume_ratio
+    type: number
+    label:
+      en_US: J) BGM Intro Volume Ratio
+    human_description:
+      en_US: Volume ratio of the BGM intro (1.0 = 100%).
+      ja_JP: BGM のイントロ部分の音量（1.0 = 100%）
+      zh_Hans: BGM 介绍部分的音量比例（1.0 = 100%）
+      pt_BR: Relação de volume da introdução do BGM (1.0 = 100%)。
+    required: true
+    default: 1.0
+    form: form
+
+  - name: k_bgm_during_voice_volume_ratio
+    type: number
+    label:
+      en_US: K) BGM During Voice Volume Ratio
+    human_description:
+      en_US: Volume ratio of the BGM during voice playback (1.0 = 100%).
+      ja_JP: BGM の音声再生中の音量（1.0 = 100%）
+      zh_Hans: 语音播放期间 BGM 的音量比例（1.0 = 100%）
+      pt_BR: Relação de volume do BGM durante a reprodução da voz (1.0 = 100%)。
+    required: true
+    default: 0.2
+    form: form
+
+  - name: l_bgm_outro_volume_ratio
+    type: number
+    label:
+      en_US: L) BGM Outro Volume Ratio
+    human_description:
+      en_US: Volume ratio of the BGM outro (1.0 = 100%).
+      ja_JP: BGM のアウトロ部分の音量（1.0 = 100%）
+      zh_Hans: BGM 结尾部分的音量比例（1.0 = 100%）
+      pt_BR: Relação de volume do BGM de encerramento (1.0 = 100%)。
+    required: true
+    default: 1.0
+    form: form
+
+  - name: z_master_volume_ratio
+    type: number
+    label:
+      en_US: Z) Master Volume Ratio
+    human_description:
+      en_US: Overall volume ratio (1.0 = 100%).
+      ja_JP: 全体の音量（1.0 = 100%）
+      zh_Hans: 整体音量比例（1.0 = 100%）
+      pt_BR: Relação de volume geral (1.0 = 100%)。
+    required: true
+    default: 1.0
+    form: form
+
+extra:
+  python:
+    source: tools/simple_bgm_mixer/simple_bgm_mixer.py
