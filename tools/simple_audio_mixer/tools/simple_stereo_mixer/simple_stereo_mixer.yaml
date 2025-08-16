@@ -1,0 +1,149 @@
+identity:
+  name: simple_stereo_mixer
+  author: kurokobo
+  label:
+    en_US: Simple Stereo Mixer
+    ja_JP: シンプルなステレオミキサー
+    zh_Hans: 简单的立体声混音器
+    pt_BR: Misturador de Estéreo Simples
+
+description:
+  human:
+    en_US: Mixes up to five audio files into a single stereo audio file.
+    ja_JP: 最大で 5 つの音声ファイルを単一のステレオ音声ファイルにミックスする。
+    zh_Hans: 将多达五个音频文件混合为一个立体声音频文件。
+    pt_BR: Mistura até cinco arquivos de áudio em um único arquivo de áudio estéreo.
+  llm: Mixes multiple audio files into a single stereo audio file.
+
+parameters:
+  - name: audio_file_1
+    type: file
+    label:
+      en_US: Audio File 1
+    human_description:
+      en_US: The audio file 1 to be mixed.
+      ja_JP: ミックスする音声ファイル 1
+      zh_Hans: 要混合的音频文件 1
+      pt_BR: O arquivo de áudio 1 a ser misturado。
+    required: true
+    form: form
+
+  - name: audio_file_2
+    type: file
+    label:
+      en_US: Audio File 2
+    human_description:
+      en_US: The audio file 2 to be mixed.
+      ja_JP: ミックスする音声ファイル 2
+      zh_Hans: 要混合的音频文件 2
+      pt_BR: O arquivo de áudio 2 a ser misturado。
+    required: false
+    form: form
+
+  - name: audio_file_3
+    type: file
+    label:
+      en_US: Audio File 3
+    human_description:
+      en_US: The audio file 3 to be mixed.
+      ja_JP: ミックスする音声ファイル 3
+      zh_Hans: 要混合的音频文件 3
+      pt_BR: O arquivo de áudio 3 a ser misturado。
+    required: false
+    form: form
+
+  - name: audio_file_4
+    type: file
+    label:
+      en_US: Audio File 4
+    human_description:
+      en_US: The audio file 4 to be mixed.
+      ja_JP: ミックスする音声ファイル 4
+      zh_Hans: 要混合的音频文件 4
+      pt_BR: O arquivo de áudio 4 a ser misturado。
+    required: false
+    form: form
+
+  - name: audio_file_5
+    type: file
+    label:
+      en_US: Audio File 5
+    human_description:
+      en_US: The audio file 5 to be mixed.
+      ja_JP: ミックスする音声ファイル 5
+      zh_Hans: 要混合的音频文件 5
+      pt_BR: O arquivo de áudio 5 a ser misturado。
+    required: false
+    form: form
+
+  - name: pannings
+    type: string
+    label:
+      en_US: Panning for Each Audio File
+    human_description:
+      en_US: >-
+        A colon-separated list of panning values for each audio file.
+        -1.0 is 100% left, 0.0 is center, and 1.0 is 100% right.
+        Example: -0.8:0.0:0.8 (for three audio files)
+      ja_JP: >-
+        それぞれの音声ファイルのパンニングをコロン区切りでつなげたもの。
+        -1.0 が 100% 左、0.0 がセンター、1.0 が 100% 右。
+        例： -0.8:0.0:0.8 (3 つの音声ファイルの場合)
+      zh_Hans: >-
+        每个音频文件的平移值，以冒号分隔。
+        -1.0 表示 100% 左侧，0.0 表示居中，1.0 表示 100% 右侧。
+        例如： -0.8:0.0:0.8 (对于三个音频文件)
+      pt_BR: >-
+        Uma lista de valores de panorâmica para cada arquivo de áudio, separados por dois pontos.
+        -1.0 é 100% à esquerda, 0.0 é centralizado, e 1.0 é 100% à direita.
+        Exemplo: -0.8:0.0:0.8 (para três arquivos de áudio)
+    required: false
+    form: form
+
+  - name: volume_ratios
+    type: string
+    label:
+      en_US: Volume Ratios for Each Audio File
+    human_description:
+      en_US: >-
+        A colon-separated list of volume ratios for each audio file.
+        0.0 means 0%, 1.0 means 100%, and 2.0 means 200%.
+        Example: 0.5:1.0:1.5 (for three audio files)
+      ja_JP: >-
+        それぞれの音声ファイルの音量比をコロン区切りでつなげたもの。
+        0.0 が 0%、1.0 が 100%、2.0 が 200%。
+        例： 0.5:1.0:1.5 (3 つの音声ファイルの場合)
+      zh_Hans: >-
+        每个音频文件的音量比例，以冒号分隔。
+        0.0 表示 0%，1.0 表示 100%，2.0 表示 200%。
+        例如： 0.5:1.0:1.5 (对于三个音频文件)
+      pt_BR: >-
+        Uma lista de proporções de volume para cada arquivo de áudio, separadas por dois pontos.
+        0.0 significa 0%, 1.0 significa 100%, e 2.0 significa 200%.
+        Exemplo: 0.5:1.0:1.5 (for three audio files)
+    required: false
+    form: form
+
+  - name: output_format
+    type: select
+    form: form
+    label:
+      en_US: Output Format
+    human_description:
+      en_US: The output audio format
+      ja_JP: 出力音声のフォーマット
+      zh_Hans: 输出音频格式
+      pt_BR: Formato de saída do áudio
+    options:
+      - label:
+          en_US: WAV
+        value: wav
+      - label:
+          en_US: MP3
+        value: mp3
+    required: true
+    default: mp3
+
+extra:
+  python:
+    source: tools/simple_stereo_mixer/simple_stereo_mixer.py
