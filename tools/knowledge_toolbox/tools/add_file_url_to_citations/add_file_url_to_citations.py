@@ -54,7 +54,7 @@ class AddFileURLToCitationsTool(Tool):
                 response.raise_for_status()
                 data = response.json()
             except Exception as e:
-                pass
+                data = {}
 
             document["download_url"] = data.get("download_url", "")
             document['name'] = data.get("name", "")

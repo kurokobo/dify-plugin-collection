@@ -10,12 +10,14 @@
 
 Small tools for working with Dify Knowledge API:
 
-- ✅ **Add File URL to Citations**
-  - Retrieves download URLs for files included in the results of the Knowledge Retrieval node and returns a list.
-- ✅ **Download File**
-  - Retrieve the uploaded file in Knowledge as a JSON, download URL, file object, or file content.
 - ✅ **Get Full Doc**
   - Retrieve the full doc by concatenating all the chunks of the specified document in Knowledge.
+- ⚠️ **Add File URL to Citations**
+  - **This tool does not work with versions newer than 1.8.1. See below for details.**
+  - Retrieves download URLs for files included in the results of the Knowledge Retrieval node and returns a list.
+- ⚠️ **Download File**
+  - **This tool does not work with versions newer than 1.8.1. See below for details.**
+  - Retrieve the uploaded file in Knowledge as a JSON, download URL, file object, or file content.
 
 ## ▶️ Demo App
 
@@ -41,7 +43,33 @@ You can add multiple authorizations for different Dify Knowledge APIs, and can s
 
 ## 🛠️ Bundled Tools
 
+### ✅ Get Full Doc
+
+This is a tool to retrieve the full doc by concatenating all the chunks of the specified document in Knowledge.
+With this tool, for example, you can force the LLM node to always refer to the entire content of a specific document, which is quite useful.
+
+#### Parameters
+
+- `knowledge_id`
+  - The ID of the Knowledge to retrieve the uploaded file from.
+  - You can find this ID in the URL of each Knowledge page (`/datasets/<knowledge_id>`).
+- `document_id`
+  - The ID of the document that contains the uploaded file.
+  - You can find this ID in the URL of each document page (`/datasets/<knowledge_id>/documents/<document_id>`).
+- `delimiter`
+  - The string inserted between each chunk while joining them together.
+
+#### Output Format
+
+As `text` output variable, you can get the full doc of the specified document as a single (big, long) string by concatenating all of its chunks using the specified delimiter.
+
 ### ✅ Add File URL to Citations
+
+⚠️ **USE WITH CAUTION** ⚠️
+
+- **This tool does not work with Dify versions newer than 1.8.1.**
+- **This is because the `/upload-file` endpoint of the Dify Knowledge API, which this tool relies on, has been removed ([see here](https://github.com/langgenius/dify/pull/25543)).**
+- **If a similar API is implemented again in the future, I'll update this tool, but I don't have an ETA.**
 
 This is a tool to retrieve the download URLs for files included in the results of the Knowledge Retrieval node.
 With this tool, you can provide the download URLs of the files in the workflow results.
@@ -86,6 +114,12 @@ You can choose the output format:
 
 ### ✅ Download File
 
+⚠️ **USE WITH CAUTION** ⚠️
+
+- **This tool does not work with Dify versions newer than 1.8.1.**
+- **This is because the `/upload-file` endpoint of the Dify Knowledge API, which this tool relies on, has been removed ([see here](https://github.com/langgenius/dify/pull/25543)).**
+- **If a similar API is implemented again in the future, I'll update this tool, but I don't have an ETA.**
+
 This is a tool to retrieve the uploaded file in Knowledge.  
 With this tool, you can use Knowledge like a simple file server. This is useful when you want to retrieve specific files or their contents within your workflow and use them as templates, for example.
 
@@ -121,26 +155,6 @@ You can choose the output format of the file:
 - `content`
   - As `text` output variable.
   - Content of the file as a string.
-
-### ✅ Get Full Doc
-
-This is a tool to retrieve the full doc by concatenating all the chunks of the specified document in Knowledge.
-With this tool, for example, you can force the LLM node to always refer to the entire content of a specific document, which is quite useful.
-
-#### Parameters
-
-- `knowledge_id`
-  - The ID of the Knowledge to retrieve the uploaded file from.
-  - You can find this ID in the URL of each Knowledge page (`/datasets/<knowledge_id>`).
-- `document_id`
-  - The ID of the document that contains the uploaded file.
-  - You can find this ID in the URL of each document page (`/datasets/<knowledge_id>/documents/<document_id>`).
-- `delimiter`
-  - The string inserted between each chunk while joining them together.
-
-#### Output Format
-
-As `text` output variable, you can get the full doc of the specified document as a single (big, long) string by concatenating all of its chunks using the specified delimiter.
 
 ## 🕙 Changelog
 
