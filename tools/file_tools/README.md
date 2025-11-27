@@ -103,6 +103,8 @@ This tool is useful for saving generated content or decoded binary data as a dow
 
 If you leave the MIME type empty, it will be automatically determined based on the file name. Of course, you can also specify a MIME type explicitly using the `mime_type` option.
 
+When the `format` is set to `text`, you can also specify the encoding using the `encoding` option (e.g., `utf-8`, `shift_jis`, `euc-jp`). If not specified, it defaults to `utf-8`.
+
 ## Related Links
 
 - **Icon**: [Heroicons](https://heroicons.com/)

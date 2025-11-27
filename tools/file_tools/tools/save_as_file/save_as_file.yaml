@@ -107,6 +107,38 @@ parameters:
     default: "text"
     form: form
 
+  - name: encoding
+    type: string
+    label:
+      en_US: Encoding
+      ja_JP: エンコーディング
+      zh_Hans: 编码
+      pt_BR: Codificação
+    human_description:
+      en_US: >-
+        The encoding to use when saving the file.
+        This parameter is only used when the format is "text".
+        Specify a valid Python encoding name (e.g., "utf-8", "shift_jis", "euc-jp").
+        Default is empty, which means "utf-8".
+      ja_JP: >-
+        ファイルを保存する際に使用するエンコーディング。
+        このパラメータは、形式が "text" の場合にのみ使用される。
+        有効な Python エンコーディング名を指定する（例："utf-8"、"shift_jis"、"euc-jp"）。
+        デフォルトは空で、"utf-8" を意味する。
+      zh_Hans: >-
+        保存文件时使用的编码。
+        此参数仅在格式为 "text" 时使用。
+        指定有效的 Python 编码名称（例如："utf-8"、"shift_jis"、"euc-jp"）。
+        默认值为空，表示 "utf-8"。
+      pt_BR: >-
+        A codificação a ser usada ao salvar o arquivo.
+        Este parâmetro é usado apenas quando o formato é "text".
+        Especifique um nome de codificação Python válido (por exemplo, "utf-8", "shift_jis", "euc-jp").
+        O padrão é vazio, o que significa "utf-8".
+    required: false
+    default: ""
+    form: llm
+
 extra:
   python:
     source: tools/save_as_file/save_as_file.py
