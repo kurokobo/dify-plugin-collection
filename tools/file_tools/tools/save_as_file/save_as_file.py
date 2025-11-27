@@ -14,13 +14,14 @@ class SaveAsFileTool(Tool):
         filename = tool_parameters.get("filename")
         mime_type = tool_parameters.get("mime_type", "")
         format = tool_parameters.get("format", "raw")
+        encoding = tool_parameters.get("encoding", "utf-8")
 
         if not mime_type:
             mime_type, _ = mimetypes.guess_type(filename)
         if not mime_type:
             raise ValueError("MIME type could not be determined by filename. Please provide a valid MIME type explicitly.")
 
-        file_blob = content.encode("utf-8") if format == "text" else base64.b64decode(content)
+        file_blob = content.encode(encoding) if format == "text" else base64.b64decode(content)
 
         yield self.create_blob_message(
             blob=file_blob,
