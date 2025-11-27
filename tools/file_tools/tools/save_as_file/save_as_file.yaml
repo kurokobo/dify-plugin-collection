@@ -116,27 +116,27 @@ parameters:
       pt_BR: Codificação
     human_description:
       en_US: >-
-        The encoding to use when saving the file as text.
-        Specify a valid Python encoding name (e.g., "utf-8", "shift_jis", "euc-jp", "cp1252").
+        The encoding to use when saving the file.
         This parameter is only used when the format is "text".
-        Default is "utf-8".
+        Specify a valid Python encoding name (e.g., "utf-8", "shift_jis", "euc-jp").
+        Default is empty, which means "utf-8".
       ja_JP: >-
-        テキストとしてファイルを保存する際に使用するエンコーディング。
-        有効な Python エンコーディング名を指定する（例："utf-8"、"shift_jis"、"euc-jp"、"cp1252"）。
+        ファイルを保存する際に使用するエンコーディング。
         このパラメータは、形式が "text" の場合にのみ使用される。
-        デフォルトは "utf-8"。
+        有効な Python エンコーディング名を指定する（例："utf-8"、"shift_jis"、"euc-jp"）。
+        デフォルトは空で、"utf-8" を意味する。
       zh_Hans: >-
-        将文件保存为文本时使用的编码。
-        指定有效的 Python 编码名称（例如："utf-8"、"shift_jis"、"euc-jp"、"cp1252"）。
+        保存文件时使用的编码。
         此参数仅在格式为 "text" 时使用。
-        默认值为 "utf-8"。
+        指定有效的 Python 编码名称（例如："utf-8"、"shift_jis"、"euc-jp"）。
+        默认值为空，表示 "utf-8"。
       pt_BR: >-
-        A codificação a ser usada ao salvar o arquivo como texto.
-        Especifique um nome de codificação Python válido (por exemplo, "utf-8", "shift_jis", "euc-jp", "cp1252").
+        A codificação a ser usada ao salvar o arquivo.
         Este parâmetro é usado apenas quando o formato é "text".
-        O padrão é "utf-8".
+        Especifique um nome de codificação Python válido (por exemplo, "utf-8", "shift_jis", "euc-jp").
+        O padrão é vazio, o que significa "utf-8".
     required: false
-    default: "utf-8"
+    default: ""
     form: llm
 
 extra:

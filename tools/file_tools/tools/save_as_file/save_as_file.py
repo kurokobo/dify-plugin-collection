@@ -15,7 +15,7 @@ class SaveAsFileTool(Tool):
         filename = tool_parameters.get("filename")
         mime_type = tool_parameters.get("mime_type", "")
         format = tool_parameters.get("format", "raw")
-        encoding = tool_parameters.get("encoding", "utf-8")
+        encoding = tool_parameters.get("encoding", "") or "utf-8"
 
         if not mime_type:
             mime_type, _ = mimetypes.guess_type(filename)
