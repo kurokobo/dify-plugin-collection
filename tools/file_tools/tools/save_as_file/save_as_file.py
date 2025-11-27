@@ -27,7 +27,10 @@ class SaveAsFileTool(Tool):
                 codecs.lookup(encoding)
             except LookupError:
                 raise ValueError(f"Invalid encoding: '{encoding}'. Please provide a valid Python encoding name.")
-            file_blob = content.encode(encoding)
+            try:
+                file_blob = content.encode(encoding)
+            except UnicodeEncodeError as e:
+                raise ValueError(f"Content cannot be encoded with '{encoding}': {e}")
         else:
             file_blob = base64.b64decode(content)
 
