@@ -1,6 +1,7 @@
 from collections.abc import Generator
 from typing import Any
 import base64
+import codecs
 import mimetypes
 
 from dify_plugin import Tool
@@ -21,7 +22,14 @@ class SaveAsFileTool(Tool):
         if not mime_type:
             raise ValueError("MIME type could not be determined by filename. Please provide a valid MIME type explicitly.")
 
-        file_blob = content.encode(encoding) if format == "text" else base64.b64decode(content)
+        if format == "text":
+            try:
+                codecs.lookup(encoding)
+            except LookupError:
+                raise ValueError(f"Invalid encoding: '{encoding}'. Please provide a valid Python encoding name.")
+            file_blob = content.encode(encoding)
+        else:
+            file_blob = base64.b64decode(content)
 
         yield self.create_blob_message(
             blob=file_blob,
