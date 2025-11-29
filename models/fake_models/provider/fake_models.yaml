@@ -1,0 +1,52 @@
+provider: fake_models
+label:
+  en_US: Fake Models
+description:
+  en_US: Fake LLM models that never relies on any external service and always returns dummy responses.
+  ja_JP: 外部サービスに依存せず、常にダミーの応答を返す偽の LLM モデル。
+  zh_Hans: 假 LLM 模型，永远不依赖任何外部服务，并始终返回虚拟响应。
+  pt_BR: Modelos Fake LLM que nunca dependem de nenhum serviço externo e sempre retornam respostas fictícias.
+icon_small:
+  en_US: icon.svg
+icon_large:
+  en_US: icon.svg
+background: #E5E7EB
+help:
+  title:
+    en_US: See the documentation for more details
+    zh_Hans: 查看文档以获取更多详细信息
+    ja_JP: 詳細についてはドキュメントを参照してください
+    pt_BR: Veja a documentação para mais detalhes
+  url:
+    en_US: https://marketplace.dify.ai/plugins/kurokobo/fake_models
+supported_model_types:
+  - llm
+configurate_methods:
+  - predefined-model
+provider_credential_schema: 
+  credential_form_schemas:
+    - variable: fake
+      label:
+        en_US: Options
+        zh_Hans: 选项
+        ja_JP: オプション
+        pt_BR: Opções
+      type: radio
+      required: false
+      options:
+        - label:
+            en_US: Load predefined models
+            zh_Hans: 加载预定义模型
+            ja_JP: 事前定義されたモデルを読み込む
+            pt_BR: Carregar modelos predefinidos
+          value: fake
+      default: fake
+models:
+  llm:
+    predefined:
+      - models/llm/*.yaml
+extra:
+  python:
+    provider_source: provider/fake_models.py
+    model_sources:
+      - models/llm/llm.py

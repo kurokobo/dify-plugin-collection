@@ -1,0 +1,53 @@
+model: fixed
+label:
+  en_US: fixed
+model_type: llm
+features:
+  - multi-tool-call
+  - agent-thought
+  - stream-tool-call
+  - vision
+model_properties:
+  mode: chat
+  context_size: 10000000
+parameter_rules:
+  - name: delay_ms
+    label:
+      en_US: Delay (ms)
+    type: int
+    help:
+      en_US: The delay in milliseconds before responding
+      ja_JP: 応答する前の遅延時間（ミリ秒）
+      zh_Hans: 响应前的延迟时间（毫秒）
+      pt_BR: O atraso em milissegundos antes de responder
+    required: false
+    default: 0
+    min: 0
+  - name: interval_ms
+    label:
+      en_US: Interval (ms)
+    type: int
+    help:
+      en_US: The interval in milliseconds between streaming chunks
+      ja_JP: ストリーミングチャンク間の間隔（ミリ秒）
+      zh_Hans: 流式传输块之间的间隔时间（毫秒）
+      pt_BR: O intervalo em milissegundos entre os pedaços de streaming
+    required: false
+    default: 0
+    min: 0
+  - name: response
+    label:
+      en_US: Response
+    type: text
+    help:
+      en_US: The content that the model responds with each time
+      ja_JP: モデルが毎回応答する内容
+      zh_Hans: 模型每次响应的内容
+      pt_BR: O conteúdo com o qual o modelo responde a cada vez
+    required: true
+    default: Hello, World!
+pricing:
+  input: '0'
+  output: '0'
+  unit: '0.000001'
+  currency: USD

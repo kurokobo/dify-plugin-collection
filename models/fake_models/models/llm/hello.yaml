@@ -1,0 +1,18 @@
+model: hello
+label:
+  en_US: hello
+model_type: llm
+features:
+  - multi-tool-call
+  - agent-thought
+  - stream-tool-call
+  - vision
+model_properties:
+  mode: chat
+  context_size: 10000000
+parameter_rules: []
+pricing:
+  input: '0'
+  output: '0'
+  unit: '0.000001'
+  currency: USD

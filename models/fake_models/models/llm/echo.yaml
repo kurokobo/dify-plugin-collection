@@ -1,0 +1,54 @@
+model: echo
+label:
+  en_US: echo
+model_type: llm
+features:
+  - multi-tool-call
+  - agent-thought
+  - stream-tool-call
+  - vision
+model_properties:
+  mode: chat
+  context_size: 10000000
+parameter_rules:
+  - name: delay_ms
+    label:
+      en_US: Delay (ms)
+    type: int
+    help:
+      en_US: The delay in milliseconds before responding
+      ja_JP: 応答する前の遅延時間（ミリ秒）
+      zh_Hans: 响应前的延迟时间（毫秒）
+      pt_BR: O atraso em milissegundos antes de responder
+    required: false
+    default: 0
+    min: 0
+  - name: interval_ms
+    label:
+      en_US: Interval (ms)
+    type: int
+    help:
+      en_US: The interval in milliseconds between streaming chunks
+      ja_JP: ストリーミングチャンク間の間隔（ミリ秒）
+      zh_Hans: 流式传输块之间的间隔时间（毫秒）
+      pt_BR: O intervalo em milissegundos entre os pedaços de streaming
+    required: false
+    default: 0
+    min: 0
+  - name: repeat
+    label:
+      en_US: Repeat
+    type: int
+    help:
+      en_US: The number of times to repeat the echoed message
+      ja_JP: エコーメッセージを繰り返す回数
+      zh_Hans: 重复回显消息的次数
+      pt_BR: O número de vezes para repetir a mensagem ecoada
+    required: false
+    default: 1
+    min: 1
+pricing:
+  input: '0'
+  output: '0'
+  unit: '0.000001'
+  currency: USD

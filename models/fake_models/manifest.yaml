@@ -1,0 +1,32 @@
+version: 0.0.1
+type: plugin
+author: kurokobo
+name: fake_models
+label:
+  en_US: Fake Models
+description:
+  en_US: Fake LLM models that never relies on any external service and always returns dummy responses.
+  ja_JP: 外部サービスに依存せず、常にダミーの応答を返す偽の LLM モデル。
+  zh_Hans: 假 LLM 模型，永远不依赖任何外部服务，并始终返回虚拟响应。
+  pt_BR: Modelos Fake LLM que nunca dependem de nenhum serviço externo e sempre retornam respostas fictícias.
+icon: icon.svg
+resource:
+  memory: 268435456
+  permission: {}
+plugins:
+  models:
+    - provider/fake_models.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: null
+created_at: 2025-10-18T00:00:00.000000000Z
+privacy: PRIVACY.md
+repo: https://github.com/kurokobo/dify-plugin-collection
+verified: false
