@@ -2,6 +2,13 @@
 
 A repository of various plugins for Dify, developed by [@kurokobo](https://github.com/kurokobo). All plugins in this repository are available on the [Dify Marketplace](https://marketplace.dify.ai/).
 
+## 📦 Model Plugins
+
+<!-- ls: models -->
+- [📁 Fake Models v0.0.1 (models/fake_models)](/models/fake_models)
+  - Fake LLM models that never relies on any external service and always returns dummy responses.
+<!-- /ls: models -->
+
 ## 📦 Tool Plugins
 
 <!-- ls: tools -->
