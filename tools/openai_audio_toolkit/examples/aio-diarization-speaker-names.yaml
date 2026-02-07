@@ -1,0 +1,1628 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 'OpenAI Audio Toolkit Demo: All-in-One Diarization with Adjusting Speaker
+    Name'
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@dbc3cdff903953ac93b7f6e0315ec02a867d747fd3da8586337a53cb6559863f
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables:
+  - description: ''
+    id: 151701d0-8e9d-426d-9d8f-364ffe5b0526
+    name: raw_json
+    selector:
+    - conversation
+    - raw_json
+    value: ''
+    value_type: string
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 1024
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 1024
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: 'Please pass audio or video files to be diarized.
+
+      If you send multiple files, the results will be concatenated.
+
+
+      Since the message field cannot be left empty, please enter something (anything
+      is fine) before sending. (This won’t affect the outcome.)'
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1770471529626-source-1770471648851-target
+      source: '1770471529626'
+      sourceHandle: source
+      target: '1770471648851'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1770471648851-true-1770471666642-target
+      source: '1770471648851'
+      sourceHandle: 'true'
+      target: '1770471666642'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: assigner
+      id: 1770471666642-source-1770471715920-target
+      source: '1770471666642'
+      sourceHandle: source
+      target: '1770471715920'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: tool
+      id: 1770471715920-source-1770471990133-target
+      source: '1770471715920'
+      sourceHandle: source
+      target: '1770471990133'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1770471990133-source-answer-target
+      source: '1770471990133'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: if-else
+      id: 1770471648851-false-1770472280883-target
+      source: '1770471648851'
+      sourceHandle: 'false'
+      target: '1770472280883'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1770472280883-true-1770472461658-target
+      source: '1770472280883'
+      sourceHandle: 'true'
+      target: '1770472461658'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1770472538276-source-1770472546485-target
+      source: '1770472538276'
+      sourceHandle: source
+      target: '1770472546485'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: assigner
+      id: 1770472461658-source-1770472770878-target
+      source: '1770472461658'
+      sourceHandle: source
+      target: '1770472770878'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: assigner
+        targetType: tool
+      id: 1770472770878-source-1770472538276-target
+      source: '1770472770878'
+      sourceHandle: source
+      target: '1770472538276'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: tool
+      id: 1770472280883-false-1770472805013-target
+      source: '1770472280883'
+      sourceHandle: 'false'
+      target: '1770472805013'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: tool
+      id: 1770472805013-source-1770472845987-target
+      source: '1770472805013'
+      sourceHandle: source
+      target: '1770472845987'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1770472845987-source-1770472905440-target
+      source: '1770472845987'
+      sourceHandle: source
+      target: '1770472905440'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - audio
+          - video
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: Audio or Video Files to be Diarized
+          max_length: 10
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: input_files
+      height: 109
+      id: '1770471529626'
+      position:
+        x: 80
+        y: 281
+      positionAbsolute:
+        x: 80
+        y: 281
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '## Preview of Speaker Names
+
+
+          Up to 100 transcriptions per speaker will be shown.
+
+          Specify your rules for editing speaker names in the following format.
+
+
+          ```text
+
+          <Old Speaker Name>:<New Speaker Name>
+
+          <Old Speaker Name>:<New Speaker Name>
+
+          <Old Speaker Name>:<New Speaker Name>
+
+          <Old Speaker Name>:<New Speaker Name>
+
+          ...
+
+          ```
+
+
+          Example:
+
+
+          ```text
+
+          1-1-A:John Smith
+
+          1-1-B:Jane Doe
+
+          1-1-C:Alice Johnson
+
+          ```
+
+
+          ## Transcription by Speaker
+
+
+          {{#1770471990133.text#}}'
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 294
+      id: answer
+      position:
+        x: 1887
+        y: 302
+      positionAbsolute:
+        x: 1887
+        y: 302
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: '='
+            id: 740501a3-6a5d-492e-9b2e-e5075784bb44
+            value: '1'
+            varType: number
+            variable_selector:
+            - sys
+            - dialogue_count
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 124
+      id: '1770471648851'
+      position:
+        x: 390
+        y: 302
+      positionAbsolute:
+        x: 390
+        y: 302
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: One or more audio/video files to transcribe with speaker diarization
+              enabled; processed in the given order.
+            ja_JP: 話者分離を有効にして文字起こしする 1 つ以上の音声・動画ファイル。指定順に結合されます。
+            pt_BR: Um ou mais arquivos de áudio/vídeo para transcrição com diarização
+              de falantes; serão concatenados na ordem fornecida.
+            zh_Hans: 一个或多个启用说话人分离进行转录的音频/视频文件，将按提供顺序合并。
+          label:
+            en_US: Audio/Video Files
+            ja_JP: 音声・動画ファイル（複数可）
+            pt_BR: Arquivos de áudio/vídeo
+            zh_Hans: 音频/视频文件（可多个）
+          llm_description: Provide one or more audio or video files to transcribe
+            with diarization; results are concatenated in order.
+          max: null
+          min: null
+          name: input_files
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: true
+          form: form
+          human_description:
+            en_US: Automatically split files larger than 25MB or longer than 1500
+              seconds into smaller chunks. If disabled, files are sent as-is and must
+              already be accepted by the API (e.g., split_audio outputs).
+            ja_JP: '25MB を超えるまたは 1500 秒を超える音声ファイルを自動的に小さなチャンクに分割します。無効にすると、ファイルはそのまま送信されるため
+              API が受け付ける形式である必要があります（例: split_audio の出力）。'
+            pt_BR: 'Divide automaticamente arquivos maiores que 25MB ou mais longos
+              que 1500 segundos em blocos menores. Se desabilitado, os arquivos são
+              enviados como estão e devem ser aceitos pela API (ex.: saída do split_audio).'
+            zh_Hans: 自动将大于 25MB 或长于 1500 秒的音频文件拆分为更小的块。如果禁用，文件将按原样发送，且必须已被 API 接受（例如
+              split_audio 的输出）。
+          label:
+            en_US: Auto-split Large/Long Files
+            ja_JP: 大きい・長い音声を自動分割
+            pt_BR: Dividir automaticamente arquivos grandes ou longos
+            zh_Hans: 自动拆分大文件或长音频
+          llm_description: Enable automatic splitting for files exceeding 25MB or
+            1500 seconds duration. If disabled, inputs must already be accepted by
+            the API.
+          max: null
+          min: null
+          name: auto_split
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: false
+          form: form
+          human_description:
+            en_US: When auto-split is enabled, split audio at silence points instead
+              of fixed time intervals. This may be slower but produces more natural
+              splits. Falls back to time-based splitting if no silence is detected.
+            ja_JP: 自動分割が有効な場合、固定時間ではなく無音部分で音声を分割します。処理は遅くなりますが、より自然な分割ができます。無音が検出されない場合は時間ベースの分割にフォールバックします。
+            pt_BR: Quando a divisão automática está habilitada, divide o áudio em
+              pontos de silêncio em vez de intervalos de tempo fixos. Pode ser mais
+              lento, mas produz divisões mais naturais. Volta à divisão baseada em
+              tempo se nenhum silêncio for detectado.
+            zh_Hans: 当启用自动拆分时，在静音点而非固定时间间隔处拆分音频。这可能较慢，但会产生更自然的拆分。如果未检测到静音，将回退到基于时间的拆分。
+          label:
+            en_US: Use Silence Detection
+            ja_JP: 無音検出を使用
+            pt_BR: Usar detecção de silêncio
+            zh_Hans: 使用静音检测
+          llm_description: Split audio at detected silence points for more natural
+            chunks when auto-split is enabled. Defaults to time-based splitting; slower
+            processing.
+          max: null
+          min: null
+          name: use_silence_detection
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: plain_text
+          form: form
+          human_description:
+            en_US: Choose the output format and delivery method for the formatted
+              transcript.
+            ja_JP: 整形された書き起こしの出力形式と出力方法を選択します。
+            pt_BR: Escolha o formato e o modo de saída do transcript formatado.
+            zh_Hans: 选择格式化转录的输出格式和输出方式。
+          label:
+            en_US: Output Format
+            ja_JP: 出力フォーマット
+            pt_BR: Formato de saída
+            zh_Hans: 输出格式
+          llm_description: Choose output format and mode, e.g., plain_text or vtt_file.
+          max: null
+          min: null
+          name: output_format
+          options:
+          - icon: ''
+            label:
+              en_US: Plain (Text)
+              ja_JP: Plain（テキスト）
+              pt_BR: Plain (Texto)
+              zh_Hans: Plain（文本）
+            value: plain_text
+          - icon: ''
+            label:
+              en_US: JSON (Text)
+              ja_JP: JSON（テキスト）
+              pt_BR: JSON (Texto)
+              zh_Hans: JSON（文本）
+            value: json_text
+          - icon: ''
+            label:
+              en_US: Markdown (Text)
+              ja_JP: Markdown（テキスト）
+              pt_BR: Markdown (Texto)
+              zh_Hans: Markdown（文本）
+            value: markdown_text
+          - icon: ''
+            label:
+              en_US: VTT (Text)
+              ja_JP: VTT（テキスト）
+              pt_BR: VTT (Texto)
+              zh_Hans: VTT（文本）
+            value: vtt_text
+          - icon: ''
+            label:
+              en_US: SRT (Text)
+              ja_JP: SRT（テキスト）
+              pt_BR: SRT (Texto)
+              zh_Hans: SRT（文本）
+            value: srt_text
+          - icon: ''
+            label:
+              en_US: Plain (File)
+              ja_JP: Plain（ファイル）
+              pt_BR: Plain (Arquivo)
+              zh_Hans: Plain（文件）
+            value: plain_file
+          - icon: ''
+            label:
+              en_US: JSON (File)
+              ja_JP: JSON（ファイル）
+              pt_BR: JSON (Arquivo)
+              zh_Hans: JSON（文件）
+            value: json_file
+          - icon: ''
+            label:
+              en_US: Markdown (File)
+              ja_JP: Markdown（ファイル）
+              pt_BR: Markdown (Arquivo)
+              zh_Hans: Markdown（文件）
+            value: markdown_file
+          - icon: ''
+            label:
+              en_US: VTT (File)
+              ja_JP: VTT（ファイル）
+              pt_BR: VTT (Arquivo)
+              zh_Hans: VTT（文件）
+            value: vtt_file
+          - icon: ''
+            label:
+              en_US: SRT (File)
+              ja_JP: SRT（ファイル）
+              pt_BR: SRT (Arquivo)
+              zh_Hans: SRT（文件）
+            value: srt_file
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: select
+        params:
+          auto_split: ''
+          input_files: ''
+          output_format: ''
+          use_silence_detection: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@2aa30cb18cb7cff76cd4026c256f947fe6894d32163702e64770779e3c23bd1e
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: true
+        title: All-in-One Diarize
+        tool_configurations:
+          auto_split:
+            type: constant
+            value: true
+          input_files:
+            type: variable
+            value:
+            - '1770471529626'
+            - input_files
+          output_format:
+            type: constant
+            value: json_text
+          use_silence_detection:
+            type: constant
+            value: false
+        tool_description: Transcribes one or more audio/video files using an OpenAI-based
+          model and outputs diarized segments, optionally formatted as text or files.
+        tool_label: All-in-One Diarize
+        tool_name: all_in_one_diarize
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 166
+      id: '1770471666642'
+      position:
+        x: 692
+        y: 302
+      positionAbsolute:
+        x: 692
+        y: 302
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1770471666642'
+          - text
+          variable_selector:
+          - conversation
+          - raw_json
+          write_mode: over-write
+        selected: false
+        title: Variable Assigner
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1770471715920'
+      position:
+        x: 994
+        y: 302
+      positionAbsolute:
+        x: 994
+        y: 302
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON string of an object or array that contains segments (e.g.,
+              diarize_audio, concat_segments, or format_segments JSON output).
+            ja_JP: 'segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments
+              / format_segments の JSON 出力）。'
+            pt_BR: 'String JSON de um objeto ou array contendo segments (ex.: saída
+              JSON do diarize_audio / concat_segments / format_segments).'
+            zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments
+              / format_segments 的 JSON 输出）。
+          label:
+            en_US: Segments (JSON String)
+            ja_JP: セグメント（JSON文字列）
+            pt_BR: Segmentos (JSON String)
+            zh_Hans: 分段（JSON 字符串）
+          llm_description: Provide a JSON string of a diarize_audio/concat_segments/format_segments-like
+            output.
+          max: null
+          min: null
+          name: segments_json_string
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON file that contains a segments payload (e.g., format_segments
+              JSON file output).
+            ja_JP: 'segments を含む JSON ファイル（例: format_segments の JSON ファイル出力）。'
+            pt_BR: 'Arquivo JSON contendo payload de segments (ex.: saída JSON do
+              format_segments).'
+            zh_Hans: 包含 segments 的 JSON 文件（例如 format_segments 的 JSON 文件输出）。
+          label:
+            en_US: Segments (JSON File)
+            ja_JP: セグメント（JSONファイル）
+            pt_BR: Segmentos (Arquivo JSON)
+            zh_Hans: 分段（JSON 文件）
+          llm_description: Provide a JSON file that contains segments.
+          max: null
+          min: null
+          name: segments_json_file
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: plain_text
+          form: form
+          human_description:
+            en_US: Choose the output format and delivery method for grouped speakers.
+            ja_JP: 話者ごとにグループ化した出力の形式と出力方法を選択します。
+            pt_BR: Escolha o formato e o modo de saída do agrupamento por falante.
+            zh_Hans: 选择按说话人分组后的输出格式和输出方式。
+          label:
+            en_US: Output Format
+            ja_JP: 出力フォーマット
+            pt_BR: Formato de saída
+            zh_Hans: 输出格式
+          llm_description: Choose output format and mode, e.g., markdown_list_text
+            or json_file.
+          max: null
+          min: null
+          name: output_format
+          options:
+          - icon: ''
+            label:
+              en_US: Plain (Text)
+              ja_JP: Plain（テキスト）
+              pt_BR: Plain (Texto)
+              zh_Hans: Plain（文本）
+            value: plain_text
+          - icon: ''
+            label:
+              en_US: Plain (File)
+              ja_JP: Plain（ファイル）
+              pt_BR: Plain (Arquivo)
+              zh_Hans: Plain（文件）
+            value: plain_file
+          - icon: ''
+            label:
+              en_US: Markdown List (Text)
+              ja_JP: Markdown（リスト・テキスト）
+              pt_BR: Markdown Lista (Texto)
+              zh_Hans: Markdown 列表（文本）
+            value: markdown_list_text
+          - icon: ''
+            label:
+              en_US: Markdown List (File)
+              ja_JP: Markdown（リスト・ファイル）
+              pt_BR: Markdown Lista (Arquivo)
+              zh_Hans: Markdown 列表（文件）
+            value: markdown_list_file
+          - icon: ''
+            label:
+              en_US: Markdown Collapsible (Text)
+              ja_JP: Markdown（折りたたみ・テキスト）
+              pt_BR: Markdown Recolhível (Texto)
+              zh_Hans: Markdown 折叠（文本）
+            value: markdown_collapsible_text
+          - icon: ''
+            label:
+              en_US: Markdown Collapsible (File)
+              ja_JP: Markdown（折りたたみ・ファイル）
+              pt_BR: Markdown Recolhível (Arquivo)
+              zh_Hans: Markdown 折叠（文件）
+            value: markdown_collapsible_file
+          - icon: ''
+            label:
+              en_US: JSON (Text)
+              ja_JP: JSON（テキスト）
+              pt_BR: JSON (Texto)
+              zh_Hans: JSON（文本）
+            value: json_text
+          - icon: ''
+            label:
+              en_US: JSON (File)
+              ja_JP: JSON（ファイル）
+              pt_BR: JSON (Arquivo)
+              zh_Hans: JSON（文件）
+            value: json_file
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: 0
+          form: form
+          human_description:
+            en_US: Maximum number of transcript items per speaker. Use 0 for unlimited.
+            ja_JP: 話者ごとの発言数の上限。0 で無制限。
+            pt_BR: Número máximo de falas por falante. Use 0 para ilimitado.
+            zh_Hans: 每个说话人的发言数量上限。0 表示不限制。
+          label:
+            en_US: Preview Limit per Speaker
+            ja_JP: 話者ごとのプレビュー上限
+            pt_BR: Limite de pré-visualização por falante
+            zh_Hans: 每个说话人的预览上限
+          llm_description: Set to 0 for unlimited; otherwise provide a positive integer.
+          max: null
+          min: null
+          name: preview_limit
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        params:
+          output_format: ''
+          preview_limit: ''
+          segments_json_file: ''
+          segments_json_string: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@2aa30cb18cb7cff76cd4026c256f947fe6894d32163702e64770779e3c23bd1e
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: false
+        title: Review Speakers
+        tool_configurations:
+          output_format:
+            type: constant
+            value: markdown_collapsible_text
+          preview_limit:
+            type: constant
+            value: 100
+          segments_json_file:
+            type: constant
+            value: null
+          segments_json_string:
+            type: mixed
+            value: '{{#conversation.raw_json#}}'
+        tool_description: To review speaker-wise utterances in preparation for replacing
+          auto-assigned sequential speaker names with the replace_speaker_name tool,
+          groups diarized segments by speaker and outputs text, Markdown, or JSON
+          (text or file).
+        tool_label: Review Speakers
+        tool_name: review_speakers
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 166
+      id: '1770471990133'
+      position:
+        x: 1287
+        y: 302
+      positionAbsolute:
+        x: 1287
+        y: 302
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is not
+            id: 7849b496-261d-4c13-a7cb-1711bcca6fd2
+            value: Save
+            varType: string
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: is not
+            id: a97538ee-4165-4d9d-9cc9-1d05f82bb1a2
+            value: save
+            varType: string
+            variable_selector:
+            - sys
+            - query
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: IF/ELSE 2
+        type: if-else
+      height: 150
+      id: '1770472280883'
+      position:
+        x: 692
+        y: 622
+      positionAbsolute:
+        x: 692
+        y: 622
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON string of an object or array that contains segments (e.g.,
+              diarize_audio, concat_segments, or format_segments JSON output).
+            ja_JP: 'segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments
+              / format_segments の JSON 出力）。'
+            pt_BR: 'String JSON de um objeto ou array contendo segments (ex.: saída
+              JSON do diarize_audio / concat_segments / format_segments).'
+            zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments
+              / format_segments 的 JSON 输出）。
+          label:
+            en_US: Segments (JSON String)
+            ja_JP: セグメント（JSON文字列）
+            pt_BR: Segmentos (JSON String)
+            zh_Hans: 分段（JSON 字符串）
+          llm_description: Provide a JSON string of a diarize_audio/concat_segments/format_segments-like
+            output.
+          max: null
+          min: null
+          name: segments_json_string
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON file that contains a segments payload (e.g., format_segments
+              JSON file output).
+            ja_JP: 'segments を含む JSON ファイル（例: format_segments の JSON ファイル出力）。'
+            pt_BR: 'Arquivo JSON contendo payload de segments (ex.: saída JSON do
+              format_segments).'
+            zh_Hans: 包含 segments 的 JSON 文件（例如 format_segments 的 JSON 文件输出）。
+          label:
+            en_US: Segments (JSON File)
+            ja_JP: セグメント（JSONファイル）
+            pt_BR: Segmentos (Arquivo JSON)
+            zh_Hans: 分段（JSON 文件）
+          llm_description: Provide a JSON file that contains segments.
+          max: null
+          min: null
+          name: segments_json_file
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'One rule per line in the form ''from:to''. Example: Speaker1:John
+              Doe. Colons cannot appear in names. Lines starting with # are ignored.'
+            ja_JP: '1 行 1 ルールで ''from:to'' 形式。例: Speaker1:John Doe。コロンは名前に含めません。#
+              から始まる行は無視します。'
+            pt_BR: 'Uma regra por linha no formato ''from:to''. Ex.: Speaker1:John
+              Doe. Dois-pontos não podem aparecer nos nomes. Linhas iniciadas com
+              # são ignoradas.'
+            zh_Hans: '每行一条规则，格式为 ''from:to''。例如：Speaker1:John Doe。名称中不允许包含冒号。以 # 开头的行将被忽略。'
+          label:
+            en_US: Replace Rules
+            ja_JP: 置換ルール
+            pt_BR: Regras de substituição
+            zh_Hans: 替换规则
+          llm_description: Provide replace rules in 'from:to' format, one per line.
+          max: null
+          min: null
+          name: replace_rules
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          replace_rules: ''
+          segments_json_file: ''
+          segments_json_string: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@2aa30cb18cb7cff76cd4026c256f947fe6894d32163702e64770779e3c23bd1e
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: false
+        title: Replace Speaker Name
+        tool_configurations:
+          replace_rules:
+            type: mixed
+            value: '{{#sys.query#}}'
+          segments_json_file:
+            type: constant
+            value: null
+          segments_json_string:
+            type: mixed
+            value: '{{#conversation.raw_json#}}'
+        tool_description: Replaces auto-assigned sequential speaker names using user-provided
+          rules and outputs JSON for downstream formatting.
+        tool_label: Replace Speaker Name
+        tool_name: replace_speaker_name
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 140
+      id: '1770472461658'
+      position:
+        x: 994
+        y: 622
+      positionAbsolute:
+        x: 994
+        y: 622
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON string of an object or array that contains segments (e.g.,
+              diarize_audio, concat_segments, or format_segments JSON output).
+            ja_JP: 'segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments
+              / format_segments の JSON 出力）。'
+            pt_BR: 'String JSON de um objeto ou array contendo segments (ex.: saída
+              JSON do diarize_audio / concat_segments / format_segments).'
+            zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments
+              / format_segments 的 JSON 输出）。
+          label:
+            en_US: Segments (JSON String)
+            ja_JP: セグメント（JSON文字列）
+            pt_BR: Segmentos (JSON String)
+            zh_Hans: 分段（JSON 字符串）
+          llm_description: Provide a JSON string of a diarize_audio/concat_segments/format_segments-like
+            output.
+          max: null
+          min: null
+          name: segments_json_string
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON file that contains a segments payload (e.g., format_segments
+              JSON file output).
+            ja_JP: 'segments を含む JSON ファイル（例: format_segments の JSON ファイル出力）。'
+            pt_BR: 'Arquivo JSON contendo payload de segments (ex.: saída JSON do
+              format_segments).'
+            zh_Hans: 包含 segments 的 JSON 文件（例如 format_segments 的 JSON 文件输出）。
+          label:
+            en_US: Segments (JSON File)
+            ja_JP: セグメント（JSONファイル）
+            pt_BR: Segmentos (Arquivo JSON)
+            zh_Hans: 分段（JSON 文件）
+          llm_description: Provide a JSON file that contains segments.
+          max: null
+          min: null
+          name: segments_json_file
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: file
+        - auto_generate: null
+          default: plain_text
+          form: form
+          human_description:
+            en_US: Choose the output format and delivery method for grouped speakers.
+            ja_JP: 話者ごとにグループ化した出力の形式と出力方法を選択します。
+            pt_BR: Escolha o formato e o modo de saída do agrupamento por falante.
+            zh_Hans: 选择按说话人分组后的输出格式和输出方式。
+          label:
+            en_US: Output Format
+            ja_JP: 出力フォーマット
+            pt_BR: Formato de saída
+            zh_Hans: 输出格式
+          llm_description: Choose output format and mode, e.g., markdown_list_text
+            or json_file.
+          max: null
+          min: null
+          name: output_format
+          options:
+          - icon: ''
+            label:
+              en_US: Plain (Text)
+              ja_JP: Plain（テキスト）
+              pt_BR: Plain (Texto)
+              zh_Hans: Plain（文本）
+            value: plain_text
+          - icon: ''
+            label:
+              en_US: Plain (File)
+              ja_JP: Plain（ファイル）
+              pt_BR: Plain (Arquivo)
+              zh_Hans: Plain（文件）
+            value: plain_file
+          - icon: ''
+            label:
+              en_US: Markdown List (Text)
+              ja_JP: Markdown（リスト・テキスト）
+              pt_BR: Markdown Lista (Texto)
+              zh_Hans: Markdown 列表（文本）
+            value: markdown_list_text
+          - icon: ''
+            label:
+              en_US: Markdown List (File)
+              ja_JP: Markdown（リスト・ファイル）
+              pt_BR: Markdown Lista (Arquivo)
+              zh_Hans: Markdown 列表（文件）
+            value: markdown_list_file
+          - icon: ''
+            label:
+              en_US: Markdown Collapsible (Text)
+              ja_JP: Markdown（折りたたみ・テキスト）
+              pt_BR: Markdown Recolhível (Texto)
+              zh_Hans: Markdown 折叠（文本）
+            value: markdown_collapsible_text
+          - icon: ''
+            label:
+              en_US: Markdown Collapsible (File)
+              ja_JP: Markdown（折りたたみ・ファイル）
+              pt_BR: Markdown Recolhível (Arquivo)
+              zh_Hans: Markdown 折叠（文件）
+            value: markdown_collapsible_file
+          - icon: ''
+            label:
+              en_US: JSON (Text)
+              ja_JP: JSON（テキスト）
+              pt_BR: JSON (Texto)
+              zh_Hans: JSON（文本）
+            value: json_text
+          - icon: ''
+            label:
+              en_US: JSON (File)
+              ja_JP: JSON（ファイル）
+              pt_BR: JSON (Arquivo)
+              zh_Hans: JSON（文件）
+            value: json_file
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: 0
+          form: form
+          human_description:
+            en_US: Maximum number of transcript items per speaker. Use 0 for unlimited.
+            ja_JP: 話者ごとの発言数の上限。0 で無制限。
+            pt_BR: Número máximo de falas por falante. Use 0 para ilimitado.
+            zh_Hans: 每个说话人的发言数量上限。0 表示不限制。
+          label:
+            en_US: Preview Limit per Speaker
+            ja_JP: 話者ごとのプレビュー上限
+            pt_BR: Limite de pré-visualização por falante
+            zh_Hans: 每个说话人的预览上限
+          llm_description: Set to 0 for unlimited; otherwise provide a positive integer.
+          max: null
+          min: null
+          name: preview_limit
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        params:
+          output_format: ''
+          preview_limit: ''
+          segments_json_file: ''
+          segments_json_string: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@2aa30cb18cb7cff76cd4026c256f947fe6894d32163702e64770779e3c23bd1e
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: false
+        title: Review Speakers 2
+        tool_configurations:
+          output_format:
+            type: constant
+            value: markdown_collapsible_text
+          preview_limit:
+            type: constant
+            value: 100
+          segments_json_file:
+            type: constant
+            value: null
+          segments_json_string:
+            type: mixed
+            value: '{{#conversation.raw_json#}}'
+        tool_description: To review speaker-wise utterances in preparation for replacing
+          auto-assigned sequential speaker names with the replace_speaker_name tool,
+          groups diarized segments by speaker and outputs text, Markdown, or JSON
+          (text or file).
+        tool_label: Review Speakers
+        tool_name: review_speakers
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 166
+      id: '1770472538276'
+      position:
+        x: 1587
+        y: 622
+      positionAbsolute:
+        x: 1587
+        y: 622
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '## Updated Preview of Speaker Names
+
+
+          If you need to revise the speaker names again, please resend the correction
+          rules using the same format as before.
+
+
+          Once the revisions are complete, the final result will be output as both
+          text and a file by sending the string "Save."
+
+
+          ## Transcription by Speaker
+
+
+          {{#1770472538276.text#}}'
+        selected: false
+        title: Answer 2
+        type: answer
+        variables: []
+      height: 230
+      id: '1770472546485'
+      position:
+        x: 1887
+        y: 622
+      positionAbsolute:
+        x: 1887
+        y: 622
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - '1770472461658'
+          - text
+          variable_selector:
+          - conversation
+          - raw_json
+          write_mode: over-write
+        selected: false
+        title: Variable Assigner 2
+        type: assigner
+        version: '2'
+      height: 84
+      id: '1770472770878'
+      position:
+        x: 1287
+        y: 622
+      positionAbsolute:
+        x: 1287
+        y: 622
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON string of an object or array that contains segments (e.g.,
+              diarize_audio / concat_segments / replace_speaker_name text output).
+            ja_JP: 'segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments
+              / replace_speaker_name の text 出力）。'
+            pt_BR: 'String JSON de um objeto ou array contendo segments (ex.: saída
+              text do diarize_audio / concat_segments / replace_speaker_name).'
+            zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments
+              / replace_speaker_name 的 text 输出）。
+          label:
+            en_US: Segments (JSON String)
+            ja_JP: セグメント（JSON文字列）
+            pt_BR: Segmentos (JSON String)
+            zh_Hans: 分段（JSON 字符串）
+          llm_description: Provide a JSON string of a diarize_audio/concat_segments-like
+            output.
+          max: null
+          min: null
+          name: segments_json_string
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: plain_text
+          form: form
+          human_description:
+            en_US: Choose the output format and delivery method for the formatted
+              transcript.
+            ja_JP: 整形された書き起こしの出力形式と出力方法を選択します。
+            pt_BR: Escolha o formato e o modo de saída do transcript formatado.
+            zh_Hans: 选择格式化转录的输出格式和输出方式。
+          label:
+            en_US: Output Format
+            ja_JP: 出力フォーマット
+            pt_BR: Formato de saída
+            zh_Hans: 输出格式
+          llm_description: Choose output format and mode, e.g., plain_text or vtt_file.
+          max: null
+          min: null
+          name: output_format
+          options:
+          - icon: ''
+            label:
+              en_US: Plain (Text)
+              ja_JP: Plain（テキスト）
+              pt_BR: Plain (Texto)
+              zh_Hans: Plain（文本）
+            value: plain_text
+          - icon: ''
+            label:
+              en_US: JSON (Text)
+              ja_JP: JSON（テキスト）
+              pt_BR: JSON (Texto)
+              zh_Hans: JSON（文本）
+            value: json_text
+          - icon: ''
+            label:
+              en_US: Markdown (Text)
+              ja_JP: Markdown（テキスト）
+              pt_BR: Markdown (Texto)
+              zh_Hans: Markdown（文本）
+            value: markdown_text
+          - icon: ''
+            label:
+              en_US: VTT (Text)
+              ja_JP: VTT（テキスト）
+              pt_BR: VTT (Texto)
+              zh_Hans: VTT（文本）
+            value: vtt_text
+          - icon: ''
+            label:
+              en_US: SRT (Text)
+              ja_JP: SRT（テキスト）
+              pt_BR: SRT (Texto)
+              zh_Hans: SRT（文本）
+            value: srt_text
+          - icon: ''
+            label:
+              en_US: Plain (File)
+              ja_JP: Plain（ファイル）
+              pt_BR: Plain (Arquivo)
+              zh_Hans: Plain（文件）
+            value: plain_file
+          - icon: ''
+            label:
+              en_US: JSON (File)
+              ja_JP: JSON（ファイル）
+              pt_BR: JSON (Arquivo)
+              zh_Hans: JSON（文件）
+            value: json_file
+          - icon: ''
+            label:
+              en_US: Markdown (File)
+              ja_JP: Markdown（ファイル）
+              pt_BR: Markdown (Arquivo)
+              zh_Hans: Markdown（文件）
+            value: markdown_file
+          - icon: ''
+            label:
+              en_US: VTT (File)
+              ja_JP: VTT（ファイル）
+              pt_BR: VTT (Arquivo)
+              zh_Hans: VTT（文件）
+            value: vtt_file
+          - icon: ''
+            label:
+              en_US: SRT (File)
+              ja_JP: SRT（ファイル）
+              pt_BR: SRT (Arquivo)
+              zh_Hans: SRT（文件）
+            value: srt_file
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          output_format: ''
+          segments_json_string: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@2aa30cb18cb7cff76cd4026c256f947fe6894d32163702e64770779e3c23bd1e
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: false
+        title: Format Segments (Text)
+        tool_configurations:
+          output_format:
+            type: constant
+            value: markdown_text
+          segments_json_string:
+            type: mixed
+            value: '{{#conversation.raw_json#}}'
+        tool_description: Formats diarization segments into text, Markdown, VTT, or
+          SRT.
+        tool_label: Format Segments
+        tool_name: format_segments
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 114
+      id: '1770472805013'
+      position:
+        x: 994
+        y: 879
+      positionAbsolute:
+        x: 994
+        y: 879
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: JSON string of an object or array that contains segments (e.g.,
+              diarize_audio / concat_segments / replace_speaker_name text output).
+            ja_JP: 'segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments
+              / replace_speaker_name の text 出力）。'
+            pt_BR: 'String JSON de um objeto ou array contendo segments (ex.: saída
+              text do diarize_audio / concat_segments / replace_speaker_name).'
+            zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments
+              / replace_speaker_name 的 text 输出）。
+          label:
+            en_US: Segments (JSON String)
+            ja_JP: セグメント（JSON文字列）
+            pt_BR: Segmentos (JSON String)
+            zh_Hans: 分段（JSON 字符串）
+          llm_description: Provide a JSON string of a diarize_audio/concat_segments-like
+            output.
+          max: null
+          min: null
+          name: segments_json_string
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: plain_text
+          form: form
+          human_description:
+            en_US: Choose the output format and delivery method for the formatted
+              transcript.
+            ja_JP: 整形された書き起こしの出力形式と出力方法を選択します。
+            pt_BR: Escolha o formato e o modo de saída do transcript formatado.
+            zh_Hans: 选择格式化转录的输出格式和输出方式。
+          label:
+            en_US: Output Format
+            ja_JP: 出力フォーマット
+            pt_BR: Formato de saída
+            zh_Hans: 输出格式
+          llm_description: Choose output format and mode, e.g., plain_text or vtt_file.
+          max: null
+          min: null
+          name: output_format
+          options:
+          - icon: ''
+            label:
+              en_US: Plain (Text)
+              ja_JP: Plain（テキスト）
+              pt_BR: Plain (Texto)
+              zh_Hans: Plain（文本）
+            value: plain_text
+          - icon: ''
+            label:
+              en_US: JSON (Text)
+              ja_JP: JSON（テキスト）
+              pt_BR: JSON (Texto)
+              zh_Hans: JSON（文本）
+            value: json_text
+          - icon: ''
+            label:
+              en_US: Markdown (Text)
+              ja_JP: Markdown（テキスト）
+              pt_BR: Markdown (Texto)
+              zh_Hans: Markdown（文本）
+            value: markdown_text
+          - icon: ''
+            label:
+              en_US: VTT (Text)
+              ja_JP: VTT（テキスト）
+              pt_BR: VTT (Texto)
+              zh_Hans: VTT（文本）
+            value: vtt_text
+          - icon: ''
+            label:
+              en_US: SRT (Text)
+              ja_JP: SRT（テキスト）
+              pt_BR: SRT (Texto)
+              zh_Hans: SRT（文本）
+            value: srt_text
+          - icon: ''
+            label:
+              en_US: Plain (File)
+              ja_JP: Plain（ファイル）
+              pt_BR: Plain (Arquivo)
+              zh_Hans: Plain（文件）
+            value: plain_file
+          - icon: ''
+            label:
+              en_US: JSON (File)
+              ja_JP: JSON（ファイル）
+              pt_BR: JSON (Arquivo)
+              zh_Hans: JSON（文件）
+            value: json_file
+          - icon: ''
+            label:
+              en_US: Markdown (File)
+              ja_JP: Markdown（ファイル）
+              pt_BR: Markdown (Arquivo)
+              zh_Hans: Markdown（文件）
+            value: markdown_file
+          - icon: ''
+            label:
+              en_US: VTT (File)
+              ja_JP: VTT（ファイル）
+              pt_BR: VTT (Arquivo)
+              zh_Hans: VTT（文件）
+            value: vtt_file
+          - icon: ''
+            label:
+              en_US: SRT (File)
+              ja_JP: SRT（ファイル）
+              pt_BR: SRT (Arquivo)
+              zh_Hans: SRT（文件）
+            value: srt_file
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          output_format: ''
+          segments_json_string: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@2aa30cb18cb7cff76cd4026c256f947fe6894d32163702e64770779e3c23bd1e
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: false
+        title: Format Segments (File)
+        tool_configurations:
+          output_format:
+            type: constant
+            value: vtt_file
+          segments_json_string:
+            type: mixed
+            value: '{{#conversation.raw_json#}}'
+        tool_description: Formats diarization segments into text, Markdown, VTT, or
+          SRT.
+        tool_label: Format Segments
+        tool_name: format_segments
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 114
+      id: '1770472845987'
+      position:
+        x: 1287
+        y: 879
+      positionAbsolute:
+        x: 1287
+        y: 879
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '## Diarized Transcription
+
+
+          - File: {{#1770472845987.files#}}
+
+
+          {{#1770472805013.text#}}'
+        selected: false
+        title: Answer 3
+        type: answer
+        variables: []
+      height: 136
+      id: '1770472905440'
+      position:
+        x: 1887
+        y: 879
+      positionAbsolute:
+        x: 1887
+        y: 879
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -49.01856833551369
+      y: -213.3085288275597
+      zoom: 1.000000000000001
+  rag_pipeline_variables: []

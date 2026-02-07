@@ -1,0 +1,101 @@
+identity:
+  name: all_in_one_transcribe
+  author: kurokobo
+  label:
+    en_US: All-in-One Transcribe
+    ja_JP: オールインワン文字起こし
+    zh_Hans: 一体化转写
+    pt_BR: Transcrição tudo-em-um
+
+description:
+  human:
+    en_US: "Transcribes one or more audio/video files and returns plain text. Handles splitting large or long files automatically."
+    ja_JP: "1 つ以上の音声・動画ファイルを文字起こしし、テキストを返します。大きい・長いファイルの分割も自動で行います。"
+    zh_Hans: "转写一个或多个音频/视频文件并返回纯文本，可自动拆分大文件或长音频。"
+    pt_BR: "Transcreve um ou mais arquivos de áudio/vídeo e retorna texto simples. Divide automaticamente arquivos grandes ou longos."
+  llm: "Transcribe one or more audio/video files and return plain text. Automatically splits large or long files."
+
+parameters:
+  - name: input_files
+    type: files
+    required: true
+    label:
+      en_US: Audio/Video Files
+      ja_JP: 音声・動画ファイル（複数可）
+      zh_Hans: 音频/视频文件（可多个）
+      pt_BR: Arquivos de áudio/vídeo
+    human_description:
+      en_US: "One or more audio/video files to transcribe; processed in the given order."
+      ja_JP: "文字起こしする 1 つ以上の音声・動画ファイル。指定順に処理されます。"
+      zh_Hans: "一个或多个用于转写的音频/视频文件，将按提供顺序处理。"
+      pt_BR: "Um ou mais arquivos de áudio/vídeo para transcrição; processados na ordem fornecida."
+    llm_description: "Provide one or more audio/video files to transcribe; processed in order."
+    form: form
+
+  - name: auto_split
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: Auto-split Large/Long Files
+      ja_JP: 大きい・長い音声を自動分割
+      zh_Hans: 自动拆分大文件或长音频
+      pt_BR: Dividir automaticamente arquivos grandes ou longos
+    human_description:
+      en_US: "Automatically split files larger than 25MB or longer than 1500 seconds into smaller chunks."
+      ja_JP: "25MB を超えるまたは 1500 秒を超える音声・動画ファイルを自動的に小さなチャンクに分割します。"
+      zh_Hans: "自动将大于 25MB 或长于 1500 秒的音频/视频文件拆分为更小的块。"
+      pt_BR: "Divide automaticamente arquivos maiores que 25MB ou mais longos que 1500 segundos em blocos menores."
+    llm_description: "Enable automatic splitting for files exceeding 25MB or 1500 seconds duration."
+    form: form
+
+  - name: use_silence_detection
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: Use Silence Detection
+      ja_JP: 無音検出を使用
+      zh_Hans: 使用静音检测
+      pt_BR: Usar detecção de silêncio
+    human_description:
+      en_US: "When auto-split is enabled, split audio at silence points instead of fixed time intervals. Falls back to time-based splitting if no silence is detected."
+      ja_JP: "自動分割が有効な場合、固定時間ではなく無音部分で音声を分割します。無音が検出されない場合は時間ベースの分割にフォールバックします。"
+      zh_Hans: "启用自动拆分时，在静音点而非固定时间间隔处拆分音频。如未检测到静音，将回退到基于时间的拆分。"
+      pt_BR: "Quando a divisão automática está habilitada, divide o áudio em pontos de silêncio em vez de intervalos de tempo fixos. Volta à divisão baseada em tempo se nenhum silêncio for detectado."
+    llm_description: "Split audio at detected silence points when auto-split is enabled; fall back to time-based splitting."
+    form: form
+
+  - name: output_format
+    type: select
+    required: false
+    default: plain_text
+    label:
+      en_US: Output Format
+      ja_JP: 出力フォーマット
+      zh_Hans: 输出格式
+      pt_BR: Formato de saída
+    options:
+      - label:
+          en_US: Plain (Text)
+          ja_JP: Plain（テキスト）
+          zh_Hans: Plain（文本）
+          pt_BR: Plain (Texto)
+        value: plain_text
+      - label:
+          en_US: Plain (File)
+          ja_JP: Plain（ファイル）
+          zh_Hans: Plain（文件）
+          pt_BR: Plain (Arquivo)
+        value: plain_file
+    human_description:
+      en_US: "Choose whether to return plain text or a text file."
+      ja_JP: "テキストとして返すか、テキストファイルとして返すかを選択します。"
+      zh_Hans: "选择返回纯文本还是文本文件。"
+      pt_BR: "Escolha retornar texto simples ou arquivo de texto."
+    llm_description: "Choose plain_text or plain_file."
+    form: form
+
+extra:
+  python:
+    source: tools/all_in_one_transcribe/all_in_one_transcribe.py

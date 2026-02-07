@@ -1,0 +1,106 @@
+identity:
+  author: "kurokobo"
+  name: "openai_audio_toolkit"
+  label:
+    en_US: "OpenAI Audio Toolkit"
+    zh_Hans: "OpenAI Audio Toolkit"
+    pt_BR: "OpenAI Audio Toolkit"
+    ja_JP: "OpenAI Audio Toolkit"
+  description:
+    en_US: "Advanced speech tools powered by OpenAI or Azure OpenAI."
+    zh_Hans: "由 OpenAI 或 Azure OpenAI 驱动的高级语音工具。"
+    pt_BR: "Ferramentas de voz avançadas com OpenAI ou Azure OpenAI."
+    ja_JP: "OpenAI または Azure OpenAI を活用した高度な音声ツール。"
+  icon: "icon.svg"
+
+credentials_for_provider:
+  service:
+    type: select
+    required: true
+    label:
+      en_US: "Service"
+      zh_Hans: "服务"
+      pt_BR: "Serviço"
+      ja_JP: "サービス"
+    help:
+      en_US: "Choose OpenAI or Azure OpenAI for speech features."
+      zh_Hans: "为语音功能选择 OpenAI 或 Azure OpenAI。"
+      pt_BR: "Escolha OpenAI ou Azure OpenAI para recursos de voz."
+      ja_JP: "音声機能に OpenAI か Azure OpenAI を選択してください。"
+    options:
+      - label:
+          en_US: "OpenAI"
+          zh_Hans: "OpenAI"
+          pt_BR: "OpenAI"
+          ja_JP: "OpenAI"
+        value: openai
+      - label:
+          en_US: "Azure OpenAI"
+          zh_Hans: "Azure OpenAI"
+          pt_BR: "Azure OpenAI"
+          ja_JP: "Azure OpenAI"
+        value: azure_openai
+  api_key:
+    type: secret-input
+    required: true
+    label:
+      en_US: "API Key"
+      zh_Hans: "API 密钥"
+      pt_BR: "Chave da API"
+      ja_JP: "API キー"
+    placeholder:
+      en_US: "Enter your API key"
+      zh_Hans: "请输入你的 API 密钥"
+      pt_BR: "Insira sua chave de API"
+      ja_JP: "API キーを入力してください"
+  openai_base_url:
+    type: text-input
+    required: false
+    label:
+      en_US: "API Base URL"
+      zh_Hans: "API 基础 URL"
+      pt_BR: "URL base da API"
+      ja_JP: "API ベース URL"
+    placeholder:
+      en_US: "https://api.openai.com"
+      zh_Hans: "https://api.openai.com"
+      pt_BR: "https://api.openai.com"
+      ja_JP: "https://api.openai.com"
+    help:
+      en_US: "Optional for OpenAI. Required for Azure OpenAI (e.g., https://your-resource.openai.azure.com)."
+      zh_Hans: "OpenAI 可选。Azure OpenAI 必填（例如 https://your-resource.openai.azure.com）。"
+      pt_BR: "Opcional para OpenAI. Obrigatório para Azure OpenAI (ex.: https://seu-recurso.openai.azure.com)."
+      ja_JP: "OpenAI では任意、Azure OpenAI では必須です（例: https://your-resource.openai.azure.com）。"
+  model:
+    type: text-input
+    required: true
+    label:
+      en_US: "Model name or deployment name"
+      zh_Hans: "模型名称或部署名称"
+      pt_BR: "Nome do modelo ou implantação"
+      ja_JP: "モデル名またはデプロイ名"
+    placeholder:
+      en_US: "Enter a speech-to-text model (use a diarization-capable model for diarization tools)"
+      zh_Hans: "输入语音转文本模型（使用说话人分离工具时需支持说话人分离的模型）"
+      pt_BR: "Informe um modelo de fala-para-texto (use um modelo com diarização para ferramentas de diarização)"
+      ja_JP: "音声認識モデルを入力してください（話者分離ツールを使う場合は話者分離対応モデルが必要）"
+    help:
+      en_US: "OpenAI: model name. Azure OpenAI: deployment name for the speech-to-text model. Use a diarization-capable model when using diarization tools."
+      zh_Hans: "OpenAI：模型名称。Azure OpenAI：语音转文本模型的部署名称。使用说话人分离工具时需支持说话人分离的模型。"
+      pt_BR: "OpenAI: nome do modelo. Azure OpenAI: nome da implantação do modelo de STT. Use um modelo com diarização ao usar ferramentas de diarização."
+      ja_JP: "OpenAI はモデル名、Azure OpenAI は音声認識モデルのデプロイ名を指定します。話者分離ツールを使う場合は話者分離対応モデルが必要です。"
+
+tools:
+  - tools/all_in_one_diarize/all_in_one_diarize.yaml
+  - tools/all_in_one_transcribe/all_in_one_transcribe.yaml
+  - tools/split_audio/split_audio.yaml
+  - tools/diarize_audio/diarize_audio.yaml
+  - tools/transcribe_audio/transcribe_audio.yaml
+  - tools/concat_segments/concat_segments.yaml
+  - tools/review_speakers/review_speakers.yaml
+  - tools/replace_speaker_name/replace_speaker_name.yaml
+  - tools/format_segments/format_segments.yaml
+
+extra:
+  python:
+    source: provider/openai_audio_toolkit.py

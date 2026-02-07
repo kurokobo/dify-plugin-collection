@@ -1,0 +1,149 @@
+identity:
+  name: all_in_one_diarize
+  author: kurokobo
+  label:
+    en_US: All-in-One Diarize
+    ja_JP: オールインワン話者分離
+    zh_Hans: 一体化说话人分离
+    pt_BR: Diarização tudo-em-um
+
+description:
+  human:
+    en_US: Transcribes one or more audio/video files using an OpenAI-based model and outputs diarized segments, optionally formatted as text or files.
+    ja_JP: OpenAI ベースのモデルで 1 つ以上の音声・動画ファイルを文字起こしし、話者分離セグメントを出力します（必要に応じて整形テキスト/ファイルで出力）。
+    zh_Hans: 使用基于 OpenAI 的模型转录一个或多个音频/视频文件，输出说话人分离的片段（可选格式化为文本或文件）。
+    pt_BR: Transcreve um ou mais arquivos de áudio/vídeo usando um modelo baseado no OpenAI e gera segmentos diarizados, com saída opcional em texto/arquivo.
+  llm: Transcribe audio/video with diarization and optionally format the output as text or files.
+
+parameters:
+  - name: input_files
+    type: files
+    required: true
+    label:
+      en_US: Audio/Video Files
+      ja_JP: 音声・動画ファイル（複数可）
+      zh_Hans: 音频/视频文件（可多个）
+      pt_BR: Arquivos de áudio/vídeo
+    human_description:
+      en_US: One or more audio/video files to transcribe with speaker diarization enabled; processed in the given order.
+      ja_JP: 話者分離を有効にして文字起こしする 1 つ以上の音声・動画ファイル。指定順に結合されます。
+      zh_Hans: 一个或多个启用说话人分离进行转录的音频/视频文件，将按提供顺序合并。
+      pt_BR: Um ou mais arquivos de áudio/vídeo para transcrição com diarização de falantes; serão concatenados na ordem fornecida.
+    llm_description: Provide one or more audio or video files to transcribe with diarization; results are concatenated in order.
+    form: form
+
+  - name: auto_split
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: Auto-split Large/Long Files
+      ja_JP: 大きい・長い音声を自動分割
+      zh_Hans: 自动拆分大文件或长音频
+      pt_BR: Dividir automaticamente arquivos grandes ou longos
+    human_description:
+      en_US: Automatically split files larger than 25MB or longer than 1500 seconds into smaller chunks. If disabled, files are sent as-is and must already be accepted by the API (e.g., split_audio outputs).
+      ja_JP: "25MB を超えるまたは 1500 秒を超える音声ファイルを自動的に小さなチャンクに分割します。無効にすると、ファイルはそのまま送信されるため API が受け付ける形式である必要があります（例: split_audio の出力）。"
+      zh_Hans: 自动将大于 25MB 或长于 1500 秒的音频文件拆分为更小的块。如果禁用，文件将按原样发送，且必须已被 API 接受（例如 split_audio 的输出）。
+      pt_BR: "Divide automaticamente arquivos maiores que 25MB ou mais longos que 1500 segundos em blocos menores. Se desabilitado, os arquivos são enviados como estão e devem ser aceitos pela API (ex.: saída do split_audio)."
+    llm_description: Enable automatic splitting for files exceeding 25MB or 1500 seconds duration. If disabled, inputs must already be accepted by the API.
+    form: form
+
+  - name: use_silence_detection
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: Use Silence Detection
+      ja_JP: 無音検出を使用
+      zh_Hans: 使用静音检测
+      pt_BR: Usar detecção de silêncio
+    human_description:
+      en_US: When auto-split is enabled, split audio at silence points instead of fixed time intervals. This may be slower but produces more natural splits. Falls back to time-based splitting if no silence is detected.
+      ja_JP: 自動分割が有効な場合、固定時間ではなく無音部分で音声を分割します。処理は遅くなりますが、より自然な分割ができます。無音が検出されない場合は時間ベースの分割にフォールバックします。
+      zh_Hans: 当启用自动拆分时，在静音点而非固定时间间隔处拆分音频。这可能较慢，但会产生更自然的拆分。如果未检测到静音，将回退到基于时间的拆分。
+      pt_BR: Quando a divisão automática está habilitada, divide o áudio em pontos de silêncio em vez de intervalos de tempo fixos. Pode ser mais lento, mas produz divisões mais naturais. Volta à divisão baseada em tempo se nenhum silêncio for detectado.
+    llm_description: Split audio at detected silence points for more natural chunks when auto-split is enabled. Defaults to time-based splitting; slower processing.
+    form: form
+
+  - name: output_format
+    type: select
+    required: true
+    default: plain_text
+    label:
+      en_US: Output Format
+      ja_JP: 出力フォーマット
+      zh_Hans: 输出格式
+      pt_BR: Formato de saída
+    options:
+      - label:
+          en_US: Plain (Text)
+          ja_JP: Plain（テキスト）
+          zh_Hans: Plain（文本）
+          pt_BR: Plain (Texto)
+        value: plain_text
+      - label:
+          en_US: JSON (Text)
+          ja_JP: JSON（テキスト）
+          zh_Hans: JSON（文本）
+          pt_BR: JSON (Texto)
+        value: json_text
+      - label:
+          en_US: Markdown (Text)
+          ja_JP: Markdown（テキスト）
+          zh_Hans: Markdown（文本）
+          pt_BR: Markdown (Texto)
+        value: markdown_text
+      - label:
+          en_US: VTT (Text)
+          ja_JP: VTT（テキスト）
+          zh_Hans: VTT（文本）
+          pt_BR: VTT (Texto)
+        value: vtt_text
+      - label:
+          en_US: SRT (Text)
+          ja_JP: SRT（テキスト）
+          zh_Hans: SRT（文本）
+          pt_BR: SRT (Texto)
+        value: srt_text
+      - label:
+          en_US: Plain (File)
+          ja_JP: Plain（ファイル）
+          zh_Hans: Plain（文件）
+          pt_BR: Plain (Arquivo)
+        value: plain_file
+      - label:
+          en_US: JSON (File)
+          ja_JP: JSON（ファイル）
+          zh_Hans: JSON（文件）
+          pt_BR: JSON (Arquivo)
+        value: json_file
+      - label:
+          en_US: Markdown (File)
+          ja_JP: Markdown（ファイル）
+          zh_Hans: Markdown（文件）
+          pt_BR: Markdown (Arquivo)
+        value: markdown_file
+      - label:
+          en_US: VTT (File)
+          ja_JP: VTT（ファイル）
+          zh_Hans: VTT（文件）
+          pt_BR: VTT (Arquivo)
+        value: vtt_file
+      - label:
+          en_US: SRT (File)
+          ja_JP: SRT（ファイル）
+          zh_Hans: SRT（文件）
+          pt_BR: SRT (Arquivo)
+        value: srt_file
+    human_description:
+      en_US: Choose the output format and delivery method for the formatted transcript.
+      ja_JP: 整形された書き起こしの出力形式と出力方法を選択します。
+      zh_Hans: 选择格式化转录的输出格式和输出方式。
+      pt_BR: Escolha o formato e o modo de saída do transcript formatado.
+    llm_description: "Choose output format and mode, e.g., plain_text or vtt_file."
+    form: form
+
+extra:
+  python:
+    source: tools/all_in_one_diarize/all_in_one_diarize.py

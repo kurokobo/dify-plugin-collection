@@ -1,0 +1,324 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 'OpenAI Audio Toolkit Demo: All-in-One Transcription'
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@dbc3cdff903953ac93b7f6e0315ec02a867d747fd3da8586337a53cb6559863f
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 1024
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 1024
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1770471165089-source-1770477895484-target
+      source: '1770471165089'
+      sourceHandle: source
+      target: '1770477895484'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: end
+      id: 1770477895484-source-1770471234832-target
+      source: '1770477895484'
+      sourceHandle: source
+      target: '1770471234832'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - audio
+          - video
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: Audio or Video Files to be Diarized
+          max_length: 10
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: input_files
+      height: 109
+      id: '1770471165089'
+      position:
+        x: 77
+        y: 261
+      positionAbsolute:
+        x: 77
+        y: 261
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: One or more audio/video files to transcribe; processed in the given
+              order.
+            ja_JP: 文字起こしする 1 つ以上の音声・動画ファイル。指定順に処理されます。
+            pt_BR: Um ou mais arquivos de áudio/vídeo para transcrição; processados
+              na ordem fornecida.
+            zh_Hans: 一个或多个用于转写的音频/视频文件，将按提供顺序处理。
+          label:
+            en_US: Audio/Video Files
+            ja_JP: 音声・動画ファイル（複数可）
+            pt_BR: Arquivos de áudio/vídeo
+            zh_Hans: 音频/视频文件（可多个）
+          llm_description: Provide one or more audio/video files to transcribe; processed
+            in order.
+          max: null
+          min: null
+          name: input_files
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: true
+          form: form
+          human_description:
+            en_US: Automatically split files larger than 25MB or longer than 1500
+              seconds into smaller chunks.
+            ja_JP: 25MB を超えるまたは 1500 秒を超える音声・動画ファイルを自動的に小さなチャンクに分割します。
+            pt_BR: Divide automaticamente arquivos maiores que 25MB ou mais longos
+              que 1500 segundos em blocos menores.
+            zh_Hans: 自动将大于 25MB 或长于 1500 秒的音频/视频文件拆分为更小的块。
+          label:
+            en_US: Auto-split Large/Long Files
+            ja_JP: 大きい・長い音声を自動分割
+            pt_BR: Dividir automaticamente arquivos grandes ou longos
+            zh_Hans: 自动拆分大文件或长音频
+          llm_description: Enable automatic splitting for files exceeding 25MB or
+            1500 seconds duration.
+          max: null
+          min: null
+          name: auto_split
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: false
+          form: form
+          human_description:
+            en_US: When auto-split is enabled, split audio at silence points instead
+              of fixed time intervals. Falls back to time-based splitting if no silence
+              is detected.
+            ja_JP: 自動分割が有効な場合、固定時間ではなく無音部分で音声を分割します。無音が検出されない場合は時間ベースの分割にフォールバックします。
+            pt_BR: Quando a divisão automática está habilitada, divide o áudio em
+              pontos de silêncio em vez de intervalos de tempo fixos. Volta à divisão
+              baseada em tempo se nenhum silêncio for detectado.
+            zh_Hans: 启用自动拆分时，在静音点而非固定时间间隔处拆分音频。如未检测到静音，将回退到基于时间的拆分。
+          label:
+            en_US: Use Silence Detection
+            ja_JP: 無音検出を使用
+            pt_BR: Usar detecção de silêncio
+            zh_Hans: 使用静音检测
+          llm_description: Split audio at detected silence points when auto-split
+            is enabled; fall back to time-based splitting.
+          max: null
+          min: null
+          name: use_silence_detection
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: plain_text
+          form: form
+          human_description:
+            en_US: Choose whether to return plain text or a text file.
+            ja_JP: テキストとして返すか、テキストファイルとして返すかを選択します。
+            pt_BR: Escolha retornar texto simples ou arquivo de texto.
+            zh_Hans: 选择返回纯文本还是文本文件。
+          label:
+            en_US: Output Format
+            ja_JP: 出力フォーマット
+            pt_BR: Formato de saída
+            zh_Hans: 输出格式
+          llm_description: Choose plain_text or plain_file.
+          max: null
+          min: null
+          name: output_format
+          options:
+          - icon: ''
+            label:
+              en_US: Plain (Text)
+              ja_JP: Plain（テキスト）
+              pt_BR: Plain (Texto)
+              zh_Hans: Plain（文本）
+            value: plain_text
+          - icon: ''
+            label:
+              en_US: Plain (File)
+              ja_JP: Plain（ファイル）
+              pt_BR: Plain (Arquivo)
+              zh_Hans: Plain（文件）
+            value: plain_file
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          auto_split: ''
+          input_files: ''
+          output_format: ''
+          use_silence_detection: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@dbc3cdff903953ac93b7f6e0315ec02a867d747fd3da8586337a53cb6559863f
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: true
+        title: All-in-One Transcribe
+        tool_configurations:
+          auto_split:
+            type: constant
+            value: true
+          input_files:
+            type: variable
+            value:
+            - '1770471165089'
+            - input_files
+          output_format:
+            type: constant
+            value: plain_text
+          use_silence_detection:
+            type: constant
+            value: false
+        tool_description: Transcribes one or more audio/video files and returns plain
+          text. Handles splitting large or long files automatically.
+        tool_label: All-in-One Transcribe
+        tool_name: all_in_one_transcribe
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 166
+      id: '1770477895484'
+      position:
+        x: 382
+        y: 282
+      positionAbsolute:
+        x: 382
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1770477895484'
+          - text
+          value_type: string
+          variable: text
+        selected: false
+        title: Output
+        type: end
+      height: 88
+      id: '1770471234832'
+      position:
+        x: 684
+        y: 282
+      positionAbsolute:
+        x: 684
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -26
+      y: -191.5
+      zoom: 1
+  rag_pipeline_variables: []

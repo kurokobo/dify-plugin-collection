@@ -1,0 +1,69 @@
+identity:
+  name: replace_speaker_name
+  author: kurokobo
+  label:
+    en_US: Replace Speaker Name
+    ja_JP: 話者名の置き換え
+    zh_Hans: 替换说话人名称
+    pt_BR: Substituir nome do falante
+
+description:
+  human:
+    en_US: Replaces auto-assigned sequential speaker names using user-provided rules and outputs JSON for downstream formatting.
+    ja_JP: ユーザーが指定したルールで機械的に付与された連番の話者名を置き換え、後続の整形用に JSON を出力します。
+    zh_Hans: 使用用户提供的规则替换自动分配的连续说话人名称，并输出 JSON 供后续格式化使用。
+    pt_BR: Substitui nomes sequenciais atribuídos automaticamente usando regras fornecidas pelo usuário e gera JSON para formatação posterior.
+  llm: Replace auto-assigned speaker names using user-provided rules and output JSON.
+
+parameters:
+  - name: segments_json_string
+    type: string
+    required: false
+    label:
+      en_US: Segments (JSON String)
+      ja_JP: セグメント（JSON文字列）
+      zh_Hans: 分段（JSON 字符串）
+      pt_BR: Segmentos (JSON String)
+    human_description:
+      en_US: JSON string of an object or array that contains segments (e.g., diarize_audio, concat_segments, or format_segments JSON output).
+      ja_JP: "segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments / format_segments の JSON 出力）。"
+      zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments / format_segments 的 JSON 输出）。
+      pt_BR: "String JSON de um objeto ou array contendo segments (ex.: saída JSON do diarize_audio / concat_segments / format_segments)."
+    llm_description: Provide a JSON string of a diarize_audio/concat_segments/format_segments-like output.
+    form: form
+
+  - name: segments_json_file
+    type: file
+    required: false
+    label:
+      en_US: Segments (JSON File)
+      ja_JP: セグメント（JSONファイル）
+      zh_Hans: 分段（JSON 文件）
+      pt_BR: Segmentos (Arquivo JSON)
+    human_description:
+      en_US: JSON file that contains a segments payload (e.g., format_segments JSON file output).
+      ja_JP: "segments を含む JSON ファイル（例: format_segments の JSON ファイル出力）。"
+      zh_Hans: 包含 segments 的 JSON 文件（例如 format_segments 的 JSON 文件输出）。
+      pt_BR: "Arquivo JSON contendo payload de segments (ex.: saída JSON do format_segments)."
+    llm_description: Provide a JSON file that contains segments.
+    form: form
+
+  - name: replace_rules
+    type: string
+    required: true
+    label:
+      en_US: Replace Rules
+      ja_JP: 置換ルール
+      zh_Hans: 替换规则
+      pt_BR: Regras de substituição
+    human_description:
+      en_US: "One rule per line in the form 'from:to'. Example: Speaker1:John Doe. Colons cannot appear in names. Lines starting with # are ignored."
+      ja_JP: "1 行 1 ルールで 'from:to' 形式。例: Speaker1:John Doe。コロンは名前に含めません。# から始まる行は無視します。"
+      zh_Hans: "每行一条规则，格式为 'from:to'。例如：Speaker1:John Doe。名称中不允许包含冒号。以 # 开头的行将被忽略。"
+      pt_BR: "Uma regra por linha no formato 'from:to'. Ex.: Speaker1:John Doe. Dois-pontos não podem aparecer nos nomes. Linhas iniciadas com # são ignoradas."
+    llm_description: Provide replace rules in 'from:to' format, one per line.
+    form: form
+
+extra:
+  python:
+    source: tools/replace_speaker_name/replace_speaker_name.py
