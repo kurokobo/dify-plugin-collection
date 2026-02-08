@@ -1386,7 +1386,7 @@ workflow:
         tool_configurations:
           output_format:
             type: constant
-            value: markdown_text
+            value: plain_file
           segments_json_string:
             type: mixed
             value: '{{#conversation.raw_json#}}'
@@ -1832,7 +1832,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -156.00000000000227
-      y: 109.99999999999943
+      x: -567.0000000000023
+      y: 217.99999999999886
       zoom: 1.000000000000001
   rag_pipeline_variables: []

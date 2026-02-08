@@ -557,7 +557,7 @@ workflow:
         provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
         provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
         provider_type: builtin
-        selected: true
+        selected: false
         title: All-in-One Diarize
         tool_configurations:
           auto_split:
@@ -1572,7 +1572,7 @@ workflow:
         tool_configurations:
           output_format:
             type: constant
-            value: vtt_file
+            value: plain_file
           segments_json_string:
             type: mixed
             value: '{{#conversation.raw_json#}}'
@@ -1622,7 +1622,7 @@ workflow:
       type: custom
       width: 242
     viewport:
-      x: -49.01856833551369
-      y: -213.3085288275597
+      x: -322.0000000000023
+      y: -161.00000000000114
       zoom: 1.000000000000001
   rag_pipeline_variables: []

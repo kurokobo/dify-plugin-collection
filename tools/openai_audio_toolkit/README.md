@@ -19,6 +19,8 @@ See the `▶️ Demo Apps (DSL)` section below for example apps using these tool
 There are two types of tools: **all-in-one tools** that auto-split and merge results, and **step-by-step tools** that run each stage separately.
 Note that the all-in-one tools can be slow and may hit timeouts for large/long files; if that happens, use the step-by-step tools.
 
+Self-hosted users: If you encounter file-size errors or node/app execution timeouts at runtime, consider tuning the environment variables in the **⚙️ Self-Hosted Tuning (Environment Variables)** section below.
+
 - ✅ **All-in-One Diarize** (all-in-one)
   - Transcribes one or more audio/video files with speaker diarization enabled.
   - Outputs formatted text or files when `output_format` is specified.
@@ -103,6 +105,24 @@ By clicking on the `API Key Authorization Configuration` button, you can set fol
   - If you are not using diarization tools, a regular speech-to-text model is fine.
 
 You can add multiple authorizations for different services or accounts, and can select one of them when using the tools in your app.
+
+## ⚙️ Self-Hosted Tuning (Environment Variables)
+
+If you run a self-hosted Dify instance and see file-size related errors, or node/app execution timeouts, review and tune the following environment variables.
+Edit your `.env` file and restart the instance with `docker compose down` and `docker compose up -d` to apply changes.
+
+### File size related
+
+- `UPLOAD_VIDEO_FILE_SIZE_LIMIT`
+- `UPLOAD_AUDIO_FILE_SIZE_LIMIT`
+- `NGINX_CLIENT_MAX_BODY_SIZE`
+
+### Timeout related
+
+- `APP_MAX_EXECUTION_TIME`
+- `WORKFLOW_MAX_EXECUTION_TIME`
+- `PLUGIN_MAX_EXECUTION_TIMEOUT`
+- `PLUGIN_DAEMON_TIMEOUT`
 
 ## 🛠️ Bundled Tools
 
