@@ -1,0 +1,482 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 'OpenAI Audio Toolkit Demo: Step-by-Step Transcription'
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@dbc3cdff903953ac93b7f6e0315ec02a867d747fd3da8586337a53cb6559863f
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 1024
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 1024
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: iteration
+      id: 1770471165089-source-1770474034524-target
+      source: '1770471165089'
+      sourceHandle: source
+      target: '1770474034524'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1770474034524'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1770474034524start-source-1770474044550-target
+      source: 1770474034524start
+      sourceHandle: source
+      target: '1770474044550'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: iteration
+      id: 1770474034524-source-1770474050573-target
+      source: '1770474034524'
+      sourceHandle: source
+      target: '1770474050573'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1770474050573-source-1770474225480-target
+      source: '1770474050573'
+      sourceHandle: source
+      target: '1770474225480'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1770474050573'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1770474050573start-source-1770478103330-target
+      source: 1770474050573start
+      sourceHandle: source
+      target: '1770478103330'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - audio
+          - video
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: Audio or Video Files to be Diarized
+          max_length: 10
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: input_files
+      height: 109
+      id: '1770471165089'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: true
+        height: 202
+        is_parallel: false
+        iterator_input_type: array[file]
+        iterator_selector:
+        - '1770471165089'
+        - input_files
+        output_selector:
+        - '1770474044550'
+        - files
+        output_type: array[file]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1770474034524start
+        title: Iteration
+        type: iteration
+        width: 386
+      height: 202
+      id: '1770474034524'
+      position:
+        x: 383
+        y: 282
+      positionAbsolute:
+        x: 383
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 386
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1770474034524start
+      parentId: '1770474034524'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 407
+        y: 350
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1770474034524'
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: One or more audio/video files to process; split if necessary based
+              on size and duration limits.
+            ja_JP: 処理する 1 つ以上の音声・動画ファイル。サイズと長さの制限に基づいて必要に応じて分割されます。
+            pt_BR: Um ou mais arquivos de áudio/vídeo para processar; divididos conforme
+              necessário com base nos limites de tamanho e duração.
+            zh_Hans: 一个或多个音频/视频文件要处理；如果必要，根据大小和持续时间限制进行拆分。
+          label:
+            en_US: Audio/Video Files
+            ja_JP: 音声・動画ファイル（複数可）
+            pt_BR: Arquivos de áudio/vídeo
+            zh_Hans: 音频/视频文件（可多个）
+          llm_description: Provide one or more audio/video files to be split if necessary
+            based on size (25MB) and duration (1500s) limits.
+          max: null
+          min: null
+          name: input_files
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: files
+        - auto_generate: null
+          default: false
+          form: form
+          human_description:
+            en_US: When splitting is needed, split audio at silence points instead
+              of fixed time intervals. This may be slower but produces more natural
+              splits. Falls back to time-based splitting if no silence is detected.
+            ja_JP: 分割が必要な場合、固定時間ではなく無音部分で音声を分割します。処理は遅くなりますが、より自然な分割ができます。無音が検出されない場合は時間ベースの分割にフォールバックします。
+            pt_BR: Quando a divisão é necessária, divide o áudio em pontos de silêncio
+              em vez de intervalos de tempo fixos. Pode ser mais lento, mas produz
+              divisões mais naturais. Volta à divisão baseada em tempo se nenhum silêncio
+              for detectado.
+            zh_Hans: 当需要拆分时，在静音点而非固定时间间隔处拆分音频。这可能较慢，但会产生更自然的拆分。如果未检测到静音，将回退到基于时间的拆分。
+          label:
+            en_US: Use Silence Detection
+            ja_JP: 無音検出を使用
+            pt_BR: Usar detecção de silêncio
+            zh_Hans: 使用静音检测
+          llm_description: Split audio at detected silence points for more natural
+            chunks when splitting is needed. Defaults to time-based splitting; slower
+            processing.
+          max: null
+          min: null
+          name: use_silence_detection
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        params:
+          input_files: ''
+          use_silence_detection: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@2aa30cb18cb7cff76cd4026c256f947fe6894d32163702e64770779e3c23bd1e
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: true
+        title: Split Audio
+        tool_configurations:
+          input_files:
+            type: variable
+            value:
+            - '1770474034524'
+            - item
+          use_silence_detection:
+            type: constant
+            value: false
+        tool_description: Splits one or more audio/video files based on file size
+          and duration limits. API-native formats within 25MB and 1500 seconds are
+          passed through; other inputs are transcoded and/or split into smaller chunks.
+          MP4 with supported audio codecs may be extracted as audio.
+        tool_label: Split Audio
+        tool_name: split_audio
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 114
+      id: '1770474044550'
+      parentId: '1770474034524'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 511
+        y: 350
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        error_handle_mode: terminated
+        flatten_output: true
+        height: 176
+        is_parallel: false
+        iterator_input_type: array[file]
+        iterator_selector:
+        - '1770474034524'
+        - output
+        output_selector:
+        - '1770478103330'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1770474050573start
+        title: Iteration 2
+        type: iteration
+        width: 386
+      height: 176
+      id: '1770474050573'
+      position:
+        x: 823
+        y: 282
+      positionAbsolute:
+        x: 823
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 386
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1770474050573start
+      parentId: '1770474050573'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 847
+        y: 350
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1770474050573'
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: One or more audio files to transcribe; processed in the given order.
+              Inputs must already be accepted by the API (e.g., split_audio outputs).
+            ja_JP: '文字起こしする 1 つ以上の音声ファイル。指定順に処理されます。入力は API が受け付ける形式である前提です（例: split_audio
+              の出力）。'
+            pt_BR: 'Um ou mais arquivos de áudio para transcrição; processados na
+              ordem fornecida. As entradas devem ser aceitas pela API (ex.: saída
+              do split_audio).'
+            zh_Hans: 一个或多个用于转写的音频文件，将按提供顺序处理。输入必须已被 API 接受（例如 split_audio 的输出）。
+          label:
+            en_US: Audio Files
+            ja_JP: 音声ファイル（複数可）
+            pt_BR: Arquivos de áudio
+            zh_Hans: 音频文件（可多个）
+          llm_description: Provide one or more audio files to transcribe; processed
+            in order. Inputs must already be accepted by the API.
+          max: null
+          min: null
+          name: input_files
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: files
+        params:
+          input_files: ''
+        plugin_id: kurokobo/openai_audio_toolkit
+        plugin_unique_identifier: kurokobo/openai_audio_toolkit:0.0.1@dbc3cdff903953ac93b7f6e0315ec02a867d747fd3da8586337a53cb6559863f
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=5aa2823f-93af-4737-9833-51d5b2a70f20&filename=e7422329b9a0aa8af892e5cb521c6fa02cf1217fe446432a3ca1a2ee74408dcc.svg
+        provider_id: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_name: kurokobo/openai_audio_toolkit/openai_audio_toolkit
+        provider_type: builtin
+        selected: false
+        title: Transcribe Audio
+        tool_configurations:
+          input_files:
+            type: variable
+            value:
+            - '1770474050573'
+            - item
+        tool_description: Transcribes one or more audio files and returns plain text.
+          Inputs must already be accepted by the API (e.g., outputs from split_audio).
+        tool_label: Transcribe Audio
+        tool_name: transcribe_audio
+        tool_node_version: '2'
+        tool_parameters: {}
+        type: tool
+      height: 88
+      id: '1770478103330'
+      parentId: '1770474050573'
+      position:
+        x: 127
+        y: 68
+      positionAbsolute:
+        x: 950
+        y: 350
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        outputs:
+        - value_selector:
+          - '1770474050573'
+          - output
+          value_type: array[string]
+          variable: text
+        selected: false
+        title: Output
+        type: end
+      height: 88
+      id: '1770474225480'
+      position:
+        x: 1279.2
+        y: 282
+      positionAbsolute:
+        x: 1279.2
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -24.200000000000045
+      y: -185.5
+      zoom: 1
+  rag_pipeline_variables: []

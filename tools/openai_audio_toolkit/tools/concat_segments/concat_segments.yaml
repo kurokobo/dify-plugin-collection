@@ -1,0 +1,53 @@
+identity:
+  name: concat_segments
+  author: kurokobo
+  label:
+    en_US: Concat Segments
+    ja_JP: セグメント結合
+    zh_Hans: 合并分段
+    pt_BR: Concatenar Segmentos
+
+description:
+  human:
+    en_US: Concatenates diarization segment arrays, normalizes segment IDs and time offsets, and outputs the result as text and JSON.
+    ja_JP: 話者分離セグメント配列を結合し、セグメント ID と時間オフセットを正規化して、テキストと JSON で出力します。
+    zh_Hans: 合并话者分离分段数组，规范化分段 ID 和时间偏移，并以文本和 JSON 输出结果。
+    pt_BR: Concatena arrays de segmentos diarizados, normaliza IDs e deslocamentos de tempo e gera o resultado em texto e JSON.
+  llm: Concatenate diarization segment arrays, normalize IDs/time offsets, and output as text and JSON.
+
+parameters:
+  - name: items_json_string
+    type: string
+    required: false
+    label:
+      en_US: Items (JSON String)
+      ja_JP: アイテム（JSON文字列）
+      zh_Hans: 项目（JSON 字符串）
+      pt_BR: Itens (JSON String)
+    human_description:
+      en_US: JSON string of an array of objects that each contain a segments array and optional metadata. Each item should match diarize_audio output shape.
+      ja_JP: segments 配列と任意の metadata を持つオブジェクト配列の JSON 文字列。各要素は diarize_audio の出力形状に合わせます。
+      zh_Hans: 包含 segments 数组和可选 metadata 的对象数组的 JSON 字符串。每个元素应符合 diarize_audio 的输出结构。
+      pt_BR: String JSON de um array de objetos contendo um array segments e metadata opcional. Cada item deve seguir o formato do diarize_audio.
+    llm_description: Provide a JSON string of diarize_audio-like outputs. Each item must include segments and may include metadata.
+    form: form
+
+  - name: items_array
+    type: array
+    required: false
+    label:
+      en_US: Items (Array, experimental)
+      ja_JP: アイテム（配列・experimental）
+      zh_Hans: 项目（数组・experimental）
+      pt_BR: Itens (Array, experimental)
+    human_description:
+      en_US: (experimental) Array of objects that each contain a segments array and optional metadata. Each item should match diarize_audio output shape.
+      ja_JP: (experimental) segments 配列と任意の metadata を持つオブジェクトの配列。各要素は diarize_audio の出力形状に合わせます。
+      zh_Hans: (experimental) 包含 segments 数组和可选 metadata 的对象数组。每个元素应符合 diarize_audio 的输出结构。
+      pt_BR: (experimental) Array de objetos contendo um array segments e metadata opcional. Cada item deve seguir o formato do diarize_audio.
+    llm_description: (experimental) Provide an array of diarize_audio-like outputs. Each item must include segments and may include metadata.
+    form: form
+
+extra:
+  python:
+    source: tools/concat_segments/concat_segments.py

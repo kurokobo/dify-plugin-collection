@@ -1,0 +1,115 @@
+identity:
+  name: format_segments
+  author: kurokobo
+  label:
+    en_US: Format Segments
+    ja_JP: セグメント整形
+    zh_Hans: 格式化分段
+    pt_BR: Formatar Segmentos
+
+description:
+  human:
+    en_US: Formats diarization segments into text, Markdown, VTT, or SRT.
+    ja_JP: 話者分離セグメントをテキスト、Markdown、VTT、SRT に整形します。
+    zh_Hans: 将话者分离分段格式化为文本、Markdown、VTT 或 SRT。
+    pt_BR: Formata segmentos diarizados em texto, Markdown, VTT ou SRT.
+  llm: Format diarization segments into Simple Text, Markdown, VTT, or SRT.
+
+parameters:
+  - name: segments_json_string
+    type: string
+    required: true
+    label:
+      en_US: Segments (JSON String)
+      ja_JP: セグメント（JSON文字列）
+      zh_Hans: 分段（JSON 字符串）
+      pt_BR: Segmentos (JSON String)
+    human_description:
+      en_US: JSON string of an object or array that contains segments (e.g., diarize_audio / concat_segments / replace_speaker_name text output).
+      ja_JP: "segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments / replace_speaker_name の text 出力）。"
+      zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments / replace_speaker_name 的 text 输出）。
+      pt_BR: "String JSON de um objeto ou array contendo segments (ex.: saída text do diarize_audio / concat_segments / replace_speaker_name)."
+    llm_description: Provide a JSON string of a diarize_audio/concat_segments-like output.
+    form: form
+
+  - name: output_format
+    type: select
+    required: false
+    default: plain_text
+    label:
+      en_US: Output Format
+      ja_JP: 出力フォーマット
+      zh_Hans: 输出格式
+      pt_BR: Formato de saída
+    options:
+      - label:
+          en_US: Plain (Text)
+          ja_JP: Plain（テキスト）
+          zh_Hans: Plain（文本）
+          pt_BR: Plain (Texto)
+        value: plain_text
+      - label:
+          en_US: JSON (Text)
+          ja_JP: JSON（テキスト）
+          zh_Hans: JSON（文本）
+          pt_BR: JSON (Texto)
+        value: json_text
+      - label:
+          en_US: Markdown (Text)
+          ja_JP: Markdown（テキスト）
+          zh_Hans: Markdown（文本）
+          pt_BR: Markdown (Texto)
+        value: markdown_text
+      - label:
+          en_US: VTT (Text)
+          ja_JP: VTT（テキスト）
+          zh_Hans: VTT（文本）
+          pt_BR: VTT (Texto)
+        value: vtt_text
+      - label:
+          en_US: SRT (Text)
+          ja_JP: SRT（テキスト）
+          zh_Hans: SRT（文本）
+          pt_BR: SRT (Texto)
+        value: srt_text
+      - label:
+          en_US: Plain (File)
+          ja_JP: Plain（ファイル）
+          zh_Hans: Plain（文件）
+          pt_BR: Plain (Arquivo)
+        value: plain_file
+      - label:
+          en_US: JSON (File)
+          ja_JP: JSON（ファイル）
+          zh_Hans: JSON（文件）
+          pt_BR: JSON (Arquivo)
+        value: json_file
+      - label:
+          en_US: Markdown (File)
+          ja_JP: Markdown（ファイル）
+          zh_Hans: Markdown（文件）
+          pt_BR: Markdown (Arquivo)
+        value: markdown_file
+      - label:
+          en_US: VTT (File)
+          ja_JP: VTT（ファイル）
+          zh_Hans: VTT（文件）
+          pt_BR: VTT (Arquivo)
+        value: vtt_file
+      - label:
+          en_US: SRT (File)
+          ja_JP: SRT（ファイル）
+          zh_Hans: SRT（文件）
+          pt_BR: SRT (Arquivo)
+        value: srt_file
+    human_description:
+      en_US: Choose the output format and delivery method for the formatted transcript.
+      ja_JP: 整形された書き起こしの出力形式と出力方法を選択します。
+      zh_Hans: 选择格式化转录的输出格式和输出方式。
+      pt_BR: Escolha o formato e o modo de saída do transcript formatado.
+    llm_description: "Choose output format and mode, e.g., plain_text or vtt_file."
+    form: form
+
+extra:
+  python:
+    source: tools/format_segments/format_segments.py

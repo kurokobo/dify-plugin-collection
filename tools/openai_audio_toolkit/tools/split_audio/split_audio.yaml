@@ -1,0 +1,54 @@
+identity:
+  name: split_audio
+  author: kurokobo
+  label:
+    en_US: Split Audio
+    ja_JP: Split Audio
+    zh_Hans: 音频分割
+    pt_BR: Dividir Áudio
+
+description:
+  human:
+    en_US: Splits one or more audio/video files based on file size and duration limits. API-native formats within 25MB and 1500 seconds are passed through; other inputs are transcoded and/or split into smaller chunks. MP4 with supported audio codecs may be extracted as audio.
+    ja_JP: 1 つ以上の音声・動画ファイルをサイズと長さに基づいて分割します。API ネイティブ形式で 25MB 以下かつ 1500 秒以下ならパススルーし、それ以外はトランスコードや分割で小さなチャンクにします。対応コーデックの MP4 は音声抽出される場合があります。
+    zh_Hans: 根据文件大小和时长限制拆分音频/视频文件。若为 API 原生格式且不超过 25MB/1500 秒，则直接通过；其他输入将被转码和/或拆分为更小的块。支持的 MP4 音频编码可能会被抽取为音频。
+    pt_BR: Divide arquivos de áudio/vídeo por tamanho e duração. Formatos nativos da API dentro de 25MB e 1500 segundos passam sem alteração; outras entradas são transcodificadas e/ou divididas em blocos menores. MP4 com codecs de áudio suportados pode ter o áudio extraído.
+  llm: Split audio by size/duration. API-native formats within limits pass through; others are transcoded and/or split into chunks.
+
+parameters:
+  - name: input_files
+    type: files
+    required: true
+    label:
+      en_US: Audio/Video Files
+      ja_JP: 音声・動画ファイル（複数可）
+      zh_Hans: 音频/视频文件（可多个）
+      pt_BR: Arquivos de áudio/vídeo
+    human_description:
+      en_US: One or more audio/video files to process; split if necessary based on size and duration limits.
+      ja_JP: 処理する 1 つ以上の音声・動画ファイル。サイズと長さの制限に基づいて必要に応じて分割されます。
+      zh_Hans: 一个或多个音频/视频文件要处理；如果必要，根据大小和持续时间限制进行拆分。
+      pt_BR: Um ou mais arquivos de áudio/vídeo para processar; divididos conforme necessário com base nos limites de tamanho e duração.
+    llm_description: Provide one or more audio/video files to be split if necessary based on size (25MB) and duration (1500s) limits.
+    form: form
+
+  - name: use_silence_detection
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: Use Silence Detection
+      ja_JP: 無音検出を使用
+      zh_Hans: 使用静音检测
+      pt_BR: Usar detecção de silêncio
+    human_description:
+      en_US: When splitting is needed, split audio at silence points instead of fixed time intervals. This may be slower but produces more natural splits. Falls back to time-based splitting if no silence is detected.
+      ja_JP: 分割が必要な場合、固定時間ではなく無音部分で音声を分割します。処理は遅くなりますが、より自然な分割ができます。無音が検出されない場合は時間ベースの分割にフォールバックします。
+      zh_Hans: 当需要拆分时，在静音点而非固定时间间隔处拆分音频。这可能较慢，但会产生更自然的拆分。如果未检测到静音，将回退到基于时间的拆分。
+      pt_BR: Quando a divisão é necessária, divide o áudio em pontos de silêncio em vez de intervalos de tempo fixos. Pode ser mais lento, mas produz divisões mais naturais. Volta à divisão baseada em tempo se nenhum silêncio for detectado.
+    llm_description: Split audio at detected silence points for more natural chunks when splitting is needed. Defaults to time-based splitting; slower processing.
+    form: form
+
+extra:
+  python:
+    source: tools/split_audio/split_audio.py

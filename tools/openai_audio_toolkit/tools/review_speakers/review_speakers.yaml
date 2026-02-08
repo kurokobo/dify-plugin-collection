@@ -1,0 +1,136 @@
+identity:
+  name: review_speakers
+  author: kurokobo
+  label:
+    en_US: Review Speakers
+    ja_JP: 話者レビュー
+    zh_Hans: 说话人审阅
+    pt_BR: Revisar falantes
+
+description:
+  human:
+    en_US: To review speaker-wise utterances in preparation for replacing auto-assigned sequential speaker names with the replace_speaker_name tool, groups diarized segments by speaker and outputs text, Markdown, or JSON (text or file).
+    ja_JP: 機械的に付与された連番の話者名を replace_speaker_name ツールで置き換える準備として、話者ごとの発言内容をレビューするために、入力された話者分離済みセグメントを話者でグループ化して出力します。
+    zh_Hans: 为使用 replace_speaker_name 工具替换自动分配的连续说话人名称做准备，对话者发言进行审阅，将输入的已分离分段按说话人分组并输出为文本、Markdown 或 JSON（文本/文件）。
+    pt_BR: Para revisar as falas por falante antes de substituir nomes sequenciais atribuídos automaticamente com o tool replace_speaker_name, agrupa os segmentos diarizados por falante e gera saída em texto, Markdown ou JSON (texto/arquivo).
+  llm: Group diarized segments by speaker to review utterances before replace_speaker_name; output as text, Markdown (list/collapsible), or JSON.
+
+parameters:
+  - name: segments_json_string
+    type: string
+    required: false
+    label:
+      en_US: Segments (JSON String)
+      ja_JP: セグメント（JSON文字列）
+      zh_Hans: 分段（JSON 字符串）
+      pt_BR: Segmentos (JSON String)
+    human_description:
+      en_US: JSON string of an object or array that contains segments (e.g., diarize_audio, concat_segments, or format_segments JSON output).
+      ja_JP: "segments を含むオブジェクトまたは配列の JSON 文字列（例: diarize_audio / concat_segments / format_segments の JSON 出力）。"
+      zh_Hans: 包含 segments 的对象或数组的 JSON 字符串（例如 diarize_audio / concat_segments / format_segments 的 JSON 输出）。
+      pt_BR: "String JSON de um objeto ou array contendo segments (ex.: saída JSON do diarize_audio / concat_segments / format_segments)."
+    llm_description: Provide a JSON string of a diarize_audio/concat_segments/format_segments-like output.
+    form: form
+
+  - name: segments_json_file
+    type: file
+    required: false
+    label:
+      en_US: Segments (JSON File)
+      ja_JP: セグメント（JSONファイル）
+      zh_Hans: 分段（JSON 文件）
+      pt_BR: Segmentos (Arquivo JSON)
+    human_description:
+      en_US: JSON file that contains a segments payload (e.g., format_segments JSON file output).
+      ja_JP: "segments を含む JSON ファイル（例: format_segments の JSON ファイル出力）。"
+      zh_Hans: 包含 segments 的 JSON 文件（例如 format_segments 的 JSON 文件输出）。
+      pt_BR: "Arquivo JSON contendo payload de segments (ex.: saída JSON do format_segments)."
+    llm_description: Provide a JSON file that contains segments.
+    form: form
+
+  - name: output_format
+    type: select
+    required: false
+    default: plain_text
+    label:
+      en_US: Output Format
+      ja_JP: 出力フォーマット
+      zh_Hans: 输出格式
+      pt_BR: Formato de saída
+    options:
+      - label:
+          en_US: Plain (Text)
+          ja_JP: Plain（テキスト）
+          zh_Hans: Plain（文本）
+          pt_BR: Plain (Texto)
+        value: plain_text
+      - label:
+          en_US: Plain (File)
+          ja_JP: Plain（ファイル）
+          zh_Hans: Plain（文件）
+          pt_BR: Plain (Arquivo)
+        value: plain_file
+      - label:
+          en_US: Markdown List (Text)
+          ja_JP: Markdown（リスト・テキスト）
+          zh_Hans: Markdown 列表（文本）
+          pt_BR: Markdown Lista (Texto)
+        value: markdown_list_text
+      - label:
+          en_US: Markdown List (File)
+          ja_JP: Markdown（リスト・ファイル）
+          zh_Hans: Markdown 列表（文件）
+          pt_BR: Markdown Lista (Arquivo)
+        value: markdown_list_file
+      - label:
+          en_US: Markdown Collapsible (Text)
+          ja_JP: Markdown（折りたたみ・テキスト）
+          zh_Hans: Markdown 折叠（文本）
+          pt_BR: Markdown Recolhível (Texto)
+        value: markdown_collapsible_text
+      - label:
+          en_US: Markdown Collapsible (File)
+          ja_JP: Markdown（折りたたみ・ファイル）
+          zh_Hans: Markdown 折叠（文件）
+          pt_BR: Markdown Recolhível (Arquivo)
+        value: markdown_collapsible_file
+      - label:
+          en_US: JSON (Text)
+          ja_JP: JSON（テキスト）
+          zh_Hans: JSON（文本）
+          pt_BR: JSON (Texto)
+        value: json_text
+      - label:
+          en_US: JSON (File)
+          ja_JP: JSON（ファイル）
+          zh_Hans: JSON（文件）
+          pt_BR: JSON (Arquivo)
+        value: json_file
+    human_description:
+      en_US: Choose the output format and delivery method for grouped speakers.
+      ja_JP: 話者ごとにグループ化した出力の形式と出力方法を選択します。
+      zh_Hans: 选择按说话人分组后的输出格式和输出方式。
+      pt_BR: Escolha o formato e o modo de saída do agrupamento por falante.
+    llm_description: "Choose output format and mode, e.g., markdown_list_text or json_file."
+    form: form
+
+  - name: preview_limit
+    type: number
+    required: false
+    default: 0
+    label:
+      en_US: Preview Limit per Speaker
+      ja_JP: 話者ごとのプレビュー上限
+      zh_Hans: 每个说话人的预览上限
+      pt_BR: Limite de pré-visualização por falante
+    human_description:
+      en_US: Maximum number of transcript items per speaker. Use 0 for unlimited.
+      ja_JP: 話者ごとの発言数の上限。0 で無制限。
+      zh_Hans: 每个说话人的发言数量上限。0 表示不限制。
+      pt_BR: Número máximo de falas por falante. Use 0 para ilimitado.
+    llm_description: Set to 0 for unlimited; otherwise provide a positive integer.
+    form: form
+
+extra:
+  python:
+    source: tools/review_speakers/review_speakers.py

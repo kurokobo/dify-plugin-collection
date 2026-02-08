@@ -1,0 +1,37 @@
+identity:
+  name: transcribe_audio
+  author: kurokobo
+  label:
+    en_US: Transcribe Audio
+    ja_JP: 音声文字起こし
+    zh_Hans: 音频转写
+    pt_BR: Transcrever Áudio
+
+description:
+  human:
+    en_US: "Transcribes one or more audio files and returns plain text. Inputs must already be accepted by the API (e.g., outputs from split_audio)."
+    ja_JP: "1 つ以上の音声ファイルを文字起こしし、テキストを返します。入力は API が受け付ける形式である前提です（例: split_audio の出力）。"
+    zh_Hans: "对一个或多个音频文件进行转写并返回纯文本。输入必须已被 API 接受（例如 split_audio 的输出）。"
+    pt_BR: "Transcreve um ou mais arquivos de áudio e retorna texto simples. As entradas devem ser aceitas pela API (ex.: saída do split_audio)."
+  llm: "Transcribe one or more audio files and return plain text. Inputs must already be accepted by the API."
+
+parameters:
+  - name: input_files
+    type: files
+    required: true
+    label:
+      en_US: Audio Files
+      ja_JP: 音声ファイル（複数可）
+      zh_Hans: 音频文件（可多个）
+      pt_BR: Arquivos de áudio
+    human_description:
+      en_US: "One or more audio files to transcribe; processed in the given order. Inputs must already be accepted by the API (e.g., split_audio outputs)."
+      ja_JP: "文字起こしする 1 つ以上の音声ファイル。指定順に処理されます。入力は API が受け付ける形式である前提です（例: split_audio の出力）。"
+      zh_Hans: "一个或多个用于转写的音频文件，将按提供顺序处理。输入必须已被 API 接受（例如 split_audio 的输出）。"
+      pt_BR: "Um ou mais arquivos de áudio para transcrição; processados na ordem fornecida. As entradas devem ser aceitas pela API (ex.: saída do split_audio)."
+    llm_description: "Provide one or more audio files to transcribe; processed in order. Inputs must already be accepted by the API."
+    form: form
+
+extra:
+  python:
+    source: tools/transcribe_audio/transcribe_audio.py

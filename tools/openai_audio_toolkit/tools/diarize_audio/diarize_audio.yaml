@@ -1,0 +1,37 @@
+identity:
+  name: diarize_audio
+  author: kurokobo
+  label:
+    en_US: Diarize Audio
+    ja_JP: 音声話者分離
+    zh_Hans: 音频说话人分离
+    pt_BR: Diarização de Áudio
+
+description:
+  human:
+    en_US: Transcribes one or more audio files with speaker diarization and outputs the concatenated segments as text and JSON. Inputs must already be accepted by the API (e.g., outputs from split_audio).
+    ja_JP: "1 つ以上の音声ファイルを話者分離で文字起こしし、結合したセグメントをテキストと JSON で出力します。入力は API が受け付ける形式である前提です（例: split_audio の出力）。"
+    zh_Hans: 对一个或多个音频文件进行说话人分离转录，并以文本和 JSON 输出合并后的片段。输入必须已被 API 接受（例如 split_audio 的输出）。
+    pt_BR: "Transcreve um ou mais arquivos de áudio com diarização de falantes e gera os segmentos concatenados em texto e JSON. As entradas devem ser aceitas pela API (ex.: saída do split_audio)."
+  llm: Transcribe audio with diarization and output concatenated segments as text and JSON. Inputs must already be accepted by the API.
+
+parameters:
+  - name: input_files
+    type: files
+    required: true
+    label:
+      en_US: Audio Files
+      ja_JP: 音声ファイル（複数可）
+      zh_Hans: 音频文件（可多个）
+      pt_BR: Arquivos de áudio
+    human_description:
+      en_US: One or more audio files to transcribe with speaker diarization enabled; processed in the given order. Inputs must already be accepted by the API (e.g., split_audio outputs).
+      ja_JP: "話者分離を有効にして文字起こしする 1 つ以上の音声ファイル。指定順に結合されます。入力は API が受け付ける形式である前提です（例: split_audio の出力）。"
+      zh_Hans: 一个或多个启用说话人分离进行转录的音频文件，将按提供顺序合并。输入必须已被 API 接受（例如 split_audio 的输出）。
+      pt_BR: "Um ou mais arquivos de áudio para transcrição com diarização de falantes; serão concatenados na ordem fornecida. As entradas devem ser aceitas pela API (ex.: saída do split_audio)."
+    llm_description: Provide one or more audio files to transcribe with diarization; results are concatenated in order. Inputs must already be accepted by the API.
+    form: form
+
+extra:
+  python:
+    source: tools/diarize_audio/diarize_audio.py
