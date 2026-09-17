@@ -1,7 +1,5 @@
 # 🔀 OpenAI LLM Reranker - OpenAI の LLM をリランクに利用
 
-[English](../README.md)
-
 - **Plugin ID** : kurokobo/openai_llm_reranker
 - **Author** : kurokobo
 - **Type** : model
