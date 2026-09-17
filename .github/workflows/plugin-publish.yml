@@ -47,9 +47,9 @@ jobs:
             echo "Directory ${PLUGIN_SRC} does not exist."
             exit 1
           fi
-          PLUGIN_NAME=$(grep "^name:" ${PLUGIN_SRC}/manifest.yaml | cut -d ' ' -f 2)
-          PLUGIN_VERSION=$(grep "^version:" ${PLUGIN_SRC}/manifest.yaml | cut -d ' ' -f 2)
-          PLUGIN_AUTHOR=$(grep "^author:" ${PLUGIN_SRC}/manifest.yaml | cut -d ' ' -f 2)
+          PLUGIN_NAME=$(grep "^name:" "${PLUGIN_SRC}/manifest.yaml" | cut -d ' ' -f 2 | tr -d '\r')
+          PLUGIN_VERSION=$(grep "^version:" "${PLUGIN_SRC}/manifest.yaml" | cut -d ' ' -f 2 | tr -d '\r')
+          PLUGIN_AUTHOR=$(grep "^author:" "${PLUGIN_SRC}/manifest.yaml" | cut -d ' ' -f 2 | tr -d '\r')
           echo "Plugin source directory: ${PLUGIN_SRC}"
           echo "Plugin name in manifest: ${PLUGIN_NAME}"
           echo "Plugin version in manifest: ${PLUGIN_VERSION}"
