@@ -31,7 +31,7 @@ Responses API を通じて、RankGPT 型の Listwise Reranking を行います�
 
 1. Dify の `設定` ページで `モデルプロバイダー` を開きます。
 2. **OpenAI LLM Reranker** を探し、Rerank モデルを追加します。
-3. OpenAI のモデル名または Azure OpenAI のデプロイ名と、以下の認証情報を入力します。
+3. 設定名、OpenAI の正確なモデル名または Azure OpenAI のデプロイ名、以下の認証情報を入力します。
 
 モデル設定を保存すると、認証情報、エンドポイント、選択したモデルまたはデプロイ、必要な API 機能を検証します。この検証では小さなリクエストを送信し、少量の API トークンを消費します。
 
@@ -42,8 +42,9 @@ Responses API を通じて、RankGPT 型の Listwise Reranking を行います�
 
 | 項目 | 説明 |
 | --- | --- |
-| `モデル名またはデプロイ名` | OpenAI では Responses API の Structured Outputs に対応するモデル名を、Azure OpenAI では対応モデルのデプロイ名を指定します。 |
+| `設定名` | Dify 上でこの設定を識別する名前です。`gpt-5.6-sol-reciprocal-rank` や `gpt-5.6-sol-relevance` など、API のモデル名とは異なる名前を指定できます。 |
 | `サービス` | `OpenAI` または `Azure OpenAI` を選択します。 |
+| `API モデル名またはデプロイ名` | API で使用する OpenAI の正確なモデル名または Azure OpenAI のデプロイ名を指定します。選択するモデルは Responses API の Structured Outputs に対応している必要があります。 |
 | `API キー` | 選択したサービスの API キーを入力します。 |
 | `OpenAI API ベース URL` | 任意です。空欄の場合は OpenAI の標準エンドポイントを使用します。 |
 | `Azure OpenAI エンドポイント` | `https://RESOURCE.openai.azure.com` のようなリソースエンドポイント、または `/openai/v1` で終わるバージョンレスエンドポイントを指定します。 |
@@ -52,6 +53,8 @@ Responses API を通じて、RankGPT 型の Listwise Reranking を行います�
 | `ステップサイズ` | 各リクエスト後に検索結果の先頭方向へ移動する件数です。既定値は `10` で、ウィンドウサイズより小さくする必要があります。 |
 | `文書あたりの最大文字数` | モデルへ送信する前に各文書をこの長さで切り詰めます。Dify には元の文書を返します。既定値は `4000` です。 |
 | `スコアの算出方法` | `最終順位から算出` は、生成された順位からスコアを算出します。`LLM 推定関連度` は各文書の有用性を `0.0` から `1.0` までの 6 段階で推定し、関連度に基づく閾値フィルタリングを可能にします。 |
+
+同じ API モデルを、異なる設定名と設定内容で複数登録できます。例えば、`最終順位から算出` を使用する `gpt-5.6-sol-reciprocal-rank` と、`LLM 推定関連度` を使用する `gpt-5.6-sol-relevance` を登録しておけば、プロバイダー設定を編集せずに Dify 上で使い分けられます。
 
 ## 🔍 仕組み
 

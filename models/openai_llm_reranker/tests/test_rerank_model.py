@@ -16,8 +16,12 @@ class RerankModelTests(unittest.TestCase):
         client.rank.return_value = [2, 0, 1]
 
         result = self.model._invoke(
-            model="gpt-test",
-            credentials={"window_size": "20", "step_size": "10"},
+            model="rank-only-config",
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "window_size": "20",
+                "step_size": "10",
+            },
             query="query",
             docs=["first", "second", "third"],
             top_n=2,
@@ -26,6 +30,27 @@ class RerankModelTests(unittest.TestCase):
         self.assertEqual([document.index for document in result.docs], [2, 0])
         self.assertEqual([document.text for document in result.docs], ["third", "first"])
         self.assertEqual([document.score for document in result.docs], [1.0, 0.5])
+        self.assertEqual(result.model, "rank-only-config")
+        create_client.assert_called_once_with(
+            {
+                "endpoint_model_name": "gpt-test",
+                "window_size": "20",
+                "step_size": "10",
+            },
+            "gpt-test",
+        )
+
+    @patch("models.rerank.rerank.create_responses_client")
+    def test_requires_endpoint_model_name(self, create_client: Mock) -> None:
+        with self.assertRaisesRegex(ValueError, "API model or deployment name is required"):
+            self.model._invoke(
+                model="display-name",
+                credentials={},
+                query="query",
+                docs=["document"],
+            )
+
+        create_client.assert_not_called()
 
     @patch("models.rerank.rerank.create_responses_client")
     def test_applies_score_threshold_to_pseudo_scores(self, create_client: Mock) -> None:
@@ -33,7 +58,7 @@ class RerankModelTests(unittest.TestCase):
 
         result = self.model._invoke(
             model="gpt-test",
-            credentials={},
+            credentials={"endpoint_model_name": "gpt-test"},
             query="query",
             docs=["first", "second", "third"],
             score_threshold=0.4,
@@ -47,7 +72,7 @@ class RerankModelTests(unittest.TestCase):
 
         result = self.model._invoke(
             model="gpt-test",
-            credentials={},
+            credentials={"endpoint_model_name": "gpt-test"},
             query="query",
             docs=["first", "second"],
         )
@@ -63,7 +88,10 @@ class RerankModelTests(unittest.TestCase):
 
         result = self.model._invoke(
             model="gpt-test",
-            credentials={"score_mode": "llm_estimated_relevance"},
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "score_mode": "llm_estimated_relevance",
+            },
             query="query",
             docs=["first", "second", "third"],
             score_threshold=0.1,
@@ -86,7 +114,10 @@ class RerankModelTests(unittest.TestCase):
 
         result = self.model._invoke(
             model="gpt-test",
-            credentials={"score_mode": "llm_estimated_relevance"},
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "score_mode": "llm_estimated_relevance",
+            },
             query="query",
             docs=["first", "second", "third"],
         )
@@ -103,7 +134,10 @@ class RerankModelTests(unittest.TestCase):
 
         result = self.model._invoke(
             model="gpt-test",
-            credentials={"score_mode": "llm_estimated_relevance"},
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "score_mode": "llm_estimated_relevance",
+            },
             query="query",
             docs=["first", "second"],
         )
@@ -118,7 +152,10 @@ class RerankModelTests(unittest.TestCase):
 
         result = self.model._invoke(
             model="gpt-test",
-            credentials={"score_mode": "llm_estimated_relevance"},
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "score_mode": "llm_estimated_relevance",
+            },
             query="query",
             docs=["weakly related"],
         )

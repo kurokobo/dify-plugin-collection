@@ -275,7 +275,7 @@ def _validate_ranked_scores(
     return RankedScores(order=order, scores=scores)
 
 
-def create_responses_client(credentials: dict, model: str) -> StructuredRankingClient:
+def create_responses_client(credentials: dict, endpoint_model_name: str) -> StructuredRankingClient:
     service = credentials.get("service", "openai")
     api_key = credentials.get("api_key")
     if not api_key:
@@ -300,4 +300,4 @@ def create_responses_client(credentials: dict, model: str) -> StructuredRankingC
     else:
         raise ValueError(f"Unsupported service: {service}")
 
-    return StructuredRankingClient(client=client, model=model)
+    return StructuredRankingClient(client=client, model=endpoint_model_name)

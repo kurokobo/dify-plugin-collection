@@ -50,7 +50,7 @@ class OpenAILLMRerankerModel(RerankModel):
         if not docs:
             return RerankResult(model=model, docs=[])
 
-        client = create_responses_client(credentials, model)
+        client = create_responses_client(credentials, _endpoint_model_name(credentials))
         max_doc_characters = _positive_int(credentials, "max_doc_characters", 4000)
         truncated_docs = [document[:max_doc_characters] for document in docs]
         window_size = _positive_int(credentials, "window_size", 20)
@@ -131,7 +131,7 @@ class OpenAILLMRerankerModel(RerankModel):
 
     def validate_credentials(self, model: str, credentials: dict) -> None:
         try:
-            client = create_responses_client(credentials, model)
+            client = create_responses_client(credentials, _endpoint_model_name(credentials))
             if _use_llm_scores(credentials):
                 client.rank_with_scores(
                     "Which document identifies the capital of Japan?",
@@ -177,6 +177,13 @@ def _positive_int(credentials: dict, name: str, default: int) -> int:
     if value < 1:
         raise ValueError(f"{name} must be positive")
     return value
+
+
+def _endpoint_model_name(credentials: dict) -> str:
+    endpoint_model_name = str(credentials.get("endpoint_model_name") or "").strip()
+    if not endpoint_model_name:
+        raise ValueError("API model or deployment name is required")
+    return endpoint_model_name
 
 
 def _use_llm_scores(credentials: dict) -> bool:

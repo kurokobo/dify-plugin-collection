@@ -21,15 +21,15 @@ configurate_methods:
 model_credential_schema:
   model:
     label:
-      en_US: Model or deployment name
-      ja_JP: モデル名またはデプロイ名
-      zh_Hans: 模型名称或部署名称
-      pt_BR: Nome do modelo ou da implantação
+      en_US: Configuration Name
+      ja_JP: 設定名
+      zh_Hans: 配置名称
+      pt_BR: Nome da configuração
     placeholder:
-      en_US: Enter an OpenAI model name or Azure OpenAI deployment name
-      ja_JP: OpenAI のモデル名または Azure OpenAI のデプロイ名を入力
-      zh_Hans: 输入 OpenAI 模型名称或 Azure OpenAI 部署名称
-      pt_BR: Insira um modelo OpenAI ou uma implantação do Azure OpenAI
+      en_US: Enter a unique name, for example gpt-5.6-sol-relevance
+      ja_JP: "一意の設定名を入力（例: gpt-5.6-sol-relevance）"
+      zh_Hans: 输入唯一的配置名称，例如 gpt-5.6-sol-relevance
+      pt_BR: Insira um nome exclusivo, por exemplo gpt-5.6-sol-relevance
   credential_form_schemas:
     - variable: service
       label:
@@ -53,6 +53,19 @@ model_credential_schema:
             ja_JP: Azure OpenAI
             zh_Hans: Azure OpenAI
             pt_BR: Azure OpenAI
+    - variable: endpoint_model_name
+      label:
+        en_US: API Model or Deployment Name
+        ja_JP: API モデル名またはデプロイ名
+        zh_Hans: API 模型名称或部署名称
+        pt_BR: Nome do modelo ou da implantação da API
+      type: text-input
+      required: true
+      placeholder:
+        en_US: Enter the exact model or deployment name used by the API
+        ja_JP: API で使用する正確なモデル名またはデプロイ名を入力
+        zh_Hans: 输入 API 使用的准确模型名称或部署名称
+        pt_BR: Insira o nome exato do modelo ou da implantação usado pela API
     - variable: api_key
       label:
         en_US: API Key

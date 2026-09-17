@@ -31,7 +31,7 @@ After installing the plugin:
 
 1. Go to the `Model Provider` section on the Dify `Settings` page.
 2. Find **OpenAI LLM Reranker** and add a rerank model.
-3. Enter an OpenAI model name or Azure OpenAI deployment name and configure the credentials described below.
+3. Enter a configuration name, the exact OpenAI model or Azure OpenAI deployment name, and the credentials described below.
 
 Saving the model configuration validates the credentials, endpoint, selected model or deployment, and required API capabilities. This validation sends a small request and consumes a small number of API tokens.
 
@@ -42,8 +42,9 @@ Saving the model configuration validates the credentials, endpoint, selected mod
 
 | Field | Description |
 | --- | --- |
-| `Model or deployment name` | For OpenAI, enter a model name that supports Structured Outputs on the Responses API. For Azure OpenAI, enter the deployment name for a compatible model. |
+| `Configuration Name` | A name used to identify this configuration in Dify, such as `gpt-5.6-sol-reciprocal-rank` or `gpt-5.6-sol-relevance`. It does not need to match the API model name. |
 | `Service` | Select `OpenAI` or `Azure OpenAI`. |
+| `API Model or Deployment Name` | Enter the exact OpenAI model name or Azure OpenAI deployment name used by the API. The selected model must support Structured Outputs on the Responses API. |
 | `API Key` | Enter the API key for the selected service. |
 | `OpenAI API Base URL` | Optional. Leave empty to use the standard OpenAI endpoint. |
 | `Azure OpenAI Endpoint` | Enter either a resource endpoint such as `https://RESOURCE.openai.azure.com` or a versionless endpoint ending in `/openai/v1`. |
@@ -52,6 +53,8 @@ Saving the model configuration validates the credentials, endpoint, selected mod
 | `Step Size` | Positions moved toward the head after each request. Default: `10`; must be smaller than the window size. |
 | `Maximum Characters per Document` | Documents are truncated to this length before ranking, while the original text is returned to Dify. Default: `4000`. |
 | `Score Calculation` | `From final rank` derives scores from the generated order. `LLM-estimated relevance` estimates each document's usefulness on a six-level scale from `0.0` to `1.0`, allowing relevance-based threshold filtering. |
+
+You can register the same API model more than once with different configuration names and settings. For example, create `gpt-5.6-sol-reciprocal-rank` with `From final rank` and `gpt-5.6-sol-relevance` with `LLM-estimated relevance`, then select the appropriate configuration in Dify without editing the provider settings.
 
 ## 🔍 How It Works
 
