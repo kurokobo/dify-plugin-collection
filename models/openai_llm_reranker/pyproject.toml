@@ -1,0 +1,23 @@
+[project]
+name = "openai-llm-reranker"
+version = "0.0.1"
+description = "Use OpenAI or Azure OpenAI LLMs as rerank models in Dify"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dify-plugin>=0.9.0,<0.10.0",
+    "openai>=2.38.0,<3.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.0,<10.0.0",
+    "ruff>=0.15.0,<0.16.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

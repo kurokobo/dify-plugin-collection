@@ -1,0 +1,17 @@
+Enterprise plan
+The Enterprise plan costs $199 per user each month. It includes single sign-on (SSO), audit logs, 24/7 phone support, a dedicated account manager, custom retention, and advanced security controls. Enterprise customers can use SSO and audit logs across all workspaces. Choose Enterprise when SSO, audit logs, phone support, and custom security controls are required.
+
+=== CHUNK ===
+
+Starter plan
+The Starter plan costs $9 per user each month. Customers often ask whether Starter includes single sign-on (SSO) and audit logs. Starter includes neither SSO nor audit logs. It provides password authentication, a 7-day activity history, and community support only.
+
+=== CHUNK ===
+
+Legacy plan
+The discontinued Legacy plan costs $29 per user each month. It provides password authentication and downloadable monthly usage summaries. It does not support single sign-on and does not keep administrative audit logs.
+
+=== CHUNK ===
+
+Team plan
+The Team plan costs $49 per user each month. It includes single sign-on (SSO), 90-day audit logs, role-based access control, and business-hours email support. It does not include a dedicated account manager or 24/7 phone support.

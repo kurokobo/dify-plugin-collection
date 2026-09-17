@@ -1,0 +1,40 @@
+version: 0.0.1
+type: plugin
+author: kurokobo
+name: openai_llm_reranker
+label:
+  en_US: OpenAI LLM Reranker
+  ja_JP: OpenAI LLM Reranker
+  zh_Hans: OpenAI LLM Reranker
+  pt_BR: OpenAI LLM Reranker
+description:
+  en_US: Use OpenAI or Azure OpenAI LLMs as rerank models in Dify.
+  ja_JP: OpenAI / Azure OpenAI の LLM を Dify の Rerank モデルとして利用するプラグイン。
+  zh_Hans: 将 OpenAI 或 Azure OpenAI LLM 用作 Dify 重排序模型。
+  pt_BR: Use LLMs da OpenAI ou Azure OpenAI como modelos de reranking no Dify.
+icon: icon.svg
+resource:
+  memory: 268435456
+  permission:
+    tool:
+      enabled: false
+    model:
+      enabled: true
+      llm: true
+plugins:
+  models:
+    - provider/openai_llm_reranker.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: null
+created_at: 2026-09-15T00:00:00.000000000Z
+privacy: PRIVACY.md
+repo: https://github.com/kurokobo/dify-plugin-collection
+verified: false

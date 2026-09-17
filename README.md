@@ -7,6 +7,8 @@ A repository of various plugins for Dify, developed by [@kurokobo](https://githu
 <!-- ls: models -->
 - [📁 Fake Models v0.0.1 (models/fake_models)](/models/fake_models)
   - Fake LLM models that never relies on any external service and always returns dummy responses.
+- [📁 OpenAI LLM Reranker v0.0.1 (models/openai_llm_reranker)](/models/openai_llm_reranker)
+  - Use OpenAI or Azure OpenAI LLMs as rerank models in Dify.
 <!-- /ls: models -->
 
 ## 📦 Tool Plugins
