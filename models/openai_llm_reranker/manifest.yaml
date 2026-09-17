@@ -1,6 +1,7 @@
 version: 0.0.1
 type: plugin
 author: kurokobo
+contact: kurokobo@protonmail.com
 name: openai_llm_reranker
 label:
   en_US: OpenAI LLM Reranker
@@ -33,7 +34,7 @@ meta:
     language: python
     version: "3.12"
     entrypoint: main
-  minimum_dify_version: null
+  minimum_dify_version: 1.0.0
 created_at: 2026-09-15T00:00:00.000000000Z
 privacy: PRIVACY.md
 repo: https://github.com/kurokobo/dify-plugin-collection
