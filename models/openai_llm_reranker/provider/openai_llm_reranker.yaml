@@ -1,0 +1,184 @@
+provider: openai_llm_reranker
+label:
+  en_US: OpenAI LLM Reranker
+  ja_JP: OpenAI LLM Reranker
+  zh_Hans: OpenAI LLM Reranker
+  pt_BR: OpenAI LLM Reranker
+description:
+  en_US: Use OpenAI or Azure OpenAI LLMs to rank search documents by relevance.
+  ja_JP: OpenAI / Azure OpenAI の LLM を利用して検索文書を関連度順に並べ替えます。
+  zh_Hans: 使用 OpenAI 或 Azure OpenAI LLM 按相关性对搜索文档进行重排序。
+  pt_BR: Use LLMs da OpenAI ou Azure OpenAI para reordenar documentos por relevância.
+icon_small:
+  en_US: icon.svg
+  ja_JP: icon.svg
+  zh_Hans: icon.svg
+  pt_BR: icon.svg
+supported_model_types:
+  - rerank
+configurate_methods:
+  - customizable-model
+model_credential_schema:
+  model:
+    label:
+      en_US: Configuration Name
+      ja_JP: 設定名
+      zh_Hans: 配置名称
+      pt_BR: Nome da configuração
+    placeholder:
+      en_US: Enter a unique name, for example gpt-5.6-sol-relevance
+      ja_JP: "一意の設定名を入力（例: gpt-5.6-sol-relevance）"
+      zh_Hans: 输入唯一的配置名称，例如 gpt-5.6-sol-relevance
+      pt_BR: Insira um nome exclusivo, por exemplo gpt-5.6-sol-relevance
+  credential_form_schemas:
+    - variable: service
+      label:
+        en_US: Service
+        ja_JP: サービス
+        zh_Hans: 服务
+        pt_BR: Serviço
+      type: select
+      required: true
+      default: openai
+      options:
+        - value: openai
+          label:
+            en_US: OpenAI
+            ja_JP: OpenAI
+            zh_Hans: OpenAI
+            pt_BR: OpenAI
+        - value: azure_openai
+          label:
+            en_US: Azure OpenAI
+            ja_JP: Azure OpenAI
+            zh_Hans: Azure OpenAI
+            pt_BR: Azure OpenAI
+    - variable: endpoint_model_name
+      label:
+        en_US: API Model or Deployment Name
+        ja_JP: API モデル名またはデプロイ名
+        zh_Hans: API 模型名称或部署名称
+        pt_BR: Nome do modelo ou da implantação da API
+      type: text-input
+      required: true
+      placeholder:
+        en_US: Enter the exact model or deployment name used by the API
+        ja_JP: API で使用する正確なモデル名またはデプロイ名を入力
+        zh_Hans: 输入 API 使用的准确模型名称或部署名称
+        pt_BR: Insira o nome exato do modelo ou da implantação usado pela API
+    - variable: api_key
+      label:
+        en_US: API Key
+        ja_JP: API キー
+        zh_Hans: API 密钥
+        pt_BR: Chave da API
+      type: secret-input
+      required: true
+    - variable: openai_base_url
+      label:
+        en_US: OpenAI API Base URL
+        ja_JP: OpenAI API ベース URL
+        zh_Hans: OpenAI API 基础 URL
+        pt_BR: URL base da API OpenAI
+      type: text-input
+      required: false
+      show_on:
+        - variable: service
+          value: openai
+      placeholder:
+        en_US: "Optional, for example https://api.openai.com/v1"
+        ja_JP: "任意（例: https://api.openai.com/v1）"
+        zh_Hans: "可选，例如 https://api.openai.com/v1"
+        pt_BR: "Opcional, por exemplo https://api.openai.com/v1"
+    - variable: azure_endpoint
+      label:
+        en_US: Azure OpenAI Endpoint
+        ja_JP: Azure OpenAI エンドポイント
+        zh_Hans: Azure OpenAI 终结点
+        pt_BR: Ponto de extremidade do Azure OpenAI
+      type: text-input
+      required: true
+      show_on:
+        - variable: service
+          value: azure_openai
+      placeholder:
+        en_US: "https://RESOURCE.openai.azure.com or https://RESOURCE.openai.azure.com/openai/v1"
+        ja_JP: "https://RESOURCE.openai.azure.com または https://RESOURCE.openai.azure.com/openai/v1"
+        zh_Hans: "https://RESOURCE.openai.azure.com 或 https://RESOURCE.openai.azure.com/openai/v1"
+        pt_BR: "https://RESOURCE.openai.azure.com ou https://RESOURCE.openai.azure.com/openai/v1"
+    - variable: azure_api_version
+      label:
+        en_US: Azure API Version
+        ja_JP: Azure API バージョン
+        zh_Hans: Azure API 版本
+        pt_BR: Versão da API do Azure
+      type: text-input
+      required: false
+      default: 2025-04-01-preview
+      show_on:
+        - variable: service
+          value: azure_openai
+      help:
+        en_US: Ignored when the endpoint ends in /openai/v1.
+        ja_JP: エンドポイントが /openai/v1 で終わる場合は使用されません。
+        zh_Hans: 当终结点以 /openai/v1 结尾时忽略此项。
+        pt_BR: Ignorado quando o ponto de extremidade termina em /openai/v1.
+    - variable: window_size
+      label:
+        en_US: Window Size
+        ja_JP: ウィンドウサイズ
+        zh_Hans: 窗口大小
+        pt_BR: Tamanho da janela
+      type: text-input
+      required: true
+      default: "20"
+    - variable: step_size
+      label:
+        en_US: Step Size
+        ja_JP: ステップサイズ
+        zh_Hans: 步长
+        pt_BR: Tamanho do passo
+      type: text-input
+      required: true
+      default: "10"
+    - variable: max_doc_characters
+      label:
+        en_US: Maximum Characters per Document
+        ja_JP: 文書あたりの最大文字数
+        zh_Hans: 每个文档的最大字符数
+        pt_BR: Máximo de caracteres por documento
+      type: text-input
+      required: true
+      default: "4000"
+    - variable: score_mode
+      label:
+        en_US: Score Calculation
+        ja_JP: スコアの算出方法
+        zh_Hans: 分数计算方式
+        pt_BR: Método de cálculo da pontuação
+      type: select
+      required: true
+      default: reciprocal_rank
+      options:
+        - value: reciprocal_rank
+          label:
+            en_US: From final rank (reciprocal rank)
+            ja_JP: 最終順位から算出（逆順位）
+            zh_Hans: 根据最终排名计算（倒数排名）
+            pt_BR: Pela classificação final (classificação recíproca)
+        - value: llm_estimated_relevance
+          label:
+            en_US: LLM-estimated relevance (6 levels)
+            ja_JP: LLM 推定関連度（6 段階）
+            zh_Hans: LLM 估算相关度（6 个等级）
+            pt_BR: Relevância estimada por LLM (6 níveis)
+      help:
+        en_US: The LLM determines the rank in both modes, so results can vary. Estimated relevance returns rank and score in the same request without extra scoring requests, but scores can still vary between windows.
+        ja_JP: どちらの方法でも順位は LLM が判断するため、結果は変動します。LLM 推定関連度は同じリクエストで順位とスコアを返すため採点専用リクエストは増えませんが、ウィンドウ間で値は変動し得ます。
+        zh_Hans: 两种方式的排名均由 LLM 判断，因此结果可能变化。LLM 估算相关度在同一请求中返回排名和分数，不增加单独评分请求，但分数仍可能因窗口而异。
+        pt_BR: A classificação é decidida pelo LLM nos dois modos e pode variar. A relevância estimada retorna classificação e pontuação na mesma solicitação, sem solicitações extras, mas pode variar entre janelas.
+extra:
+  python:
+    provider_source: provider/openai_llm_reranker.py
+    model_sources:
+      - models/rerank/rerank.py
