@@ -97,11 +97,10 @@ jobs:
           git config user.email "actions@github.com"
 
           echo "Checking out latest main branch and creating a new branch for the plugin bump"
-          git checkout main
           git remote add upstream https://github.com/langgenius/dify-plugins.git
-          git pull upstream main
+          git fetch upstream main
           BRANCH_NAME="bump-${{ steps.get_basic_info.outputs.plugin_name }}-plugin-${{ steps.get_basic_info.outputs.plugin_version }}"
-          git checkout -b ${BRANCH_NAME}
+          git checkout -B "${BRANCH_NAME}" upstream/main
 
           echo "Preparing to move the plugin package to the forked repository"
           if [ -d "${FORKED_PLUGIN_PATH}" ]; then
