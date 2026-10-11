@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 from models.rerank.ranking import InvalidRankingError
 from models.rerank.rerank import OpenAILLMRerankerModel
 from models.rerank.responses_client import InvalidScoreError, RankedScores
+from dify_plugin.errors.model import CredentialsValidateFailedError
 
 
 class RerankModelTests(unittest.TestCase):
@@ -82,9 +83,7 @@ class RerankModelTests(unittest.TestCase):
     @patch("models.rerank.rerank.create_responses_client")
     def test_uses_llm_relevance_scores_and_applies_threshold(self, create_client: Mock) -> None:
         client = create_client.return_value
-        client.rank_with_scores.return_value = RankedScores(
-            order=[2, 0, 1], scores=[0.0, 0.0, 0.2]
-        )
+        client.rank_with_scores.return_value = RankedScores(order=[2, 0, 1], scores=[0.0, 0.0, 0.2])
 
         result = self.model._invoke(
             model="gpt-test",
@@ -100,17 +99,17 @@ class RerankModelTests(unittest.TestCase):
         self.assertEqual([document.index for document in result.docs], [2])
         self.assertEqual([document.score for document in result.docs], [0.2])
         client.rank_with_scores.assert_called_once_with(
-            "query", ["first", "second", "third"], [None, None, None], user=None
+            "query",
+            ["first", "second", "third"],
+            [None, None, None],
+            user=None,
+            continuous_scores=False,
         )
 
     @patch("models.rerank.rerank.create_responses_client")
-    def test_preserves_listwise_order_when_llm_scores_are_tied(
-        self, create_client: Mock
-    ) -> None:
+    def test_preserves_listwise_order_when_llm_scores_are_tied(self, create_client: Mock) -> None:
         client = create_client.return_value
-        client.rank_with_scores.return_value = RankedScores(
-            order=[2, 0, 1], scores=[0.6, 0.2, 0.6]
-        )
+        client.rank_with_scores.return_value = RankedScores(order=[2, 0, 1], scores=[0.6, 0.2, 0.6])
 
         result = self.model._invoke(
             model="gpt-test",
@@ -126,9 +125,7 @@ class RerankModelTests(unittest.TestCase):
         self.assertEqual([document.score for document in result.docs], [0.6, 0.6, 0.2])
 
     @patch("models.rerank.rerank.create_responses_client")
-    def test_assigns_zero_to_all_documents_after_invalid_scores(
-        self, create_client: Mock
-    ) -> None:
+    def test_assigns_zero_to_all_documents_after_invalid_scores(self, create_client: Mock) -> None:
         client = create_client.return_value
         client.rank_with_scores.side_effect = InvalidScoreError("invalid")
 
@@ -163,8 +160,149 @@ class RerankModelTests(unittest.TestCase):
         self.assertEqual(result.docs[0].score, 0.2)
         client.rank.assert_not_called()
         client.rank_with_scores.assert_called_once_with(
-            "query", ["weakly related"], [None], user=None
+            "query", ["weakly related"], [None], user=None, continuous_scores=False
         )
+
+    @patch("models.rerank.rerank.create_responses_client")
+    def test_continuous_scores_apply_fine_threshold_and_preserve_ties(
+        self, create_client: Mock
+    ) -> None:
+        client = create_client.return_value
+        client.rank_with_scores.return_value = RankedScores(
+            order=[2, 0, 1], scores=[0.73, 0.69, 0.73]
+        )
+
+        result = self.model._invoke(
+            model="continuous-config",
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "score_mode": "llm_estimated_relevance_continuous",
+            },
+            query="query",
+            docs=["first", "second", "third"],
+            score_threshold=0.73,
+            top_n=2,
+            user="user-1",
+        )
+
+        self.assertEqual([document.index for document in result.docs], [2, 0])
+        self.assertEqual([document.score for document in result.docs], [0.73, 0.73])
+        client.rank.assert_not_called()
+        client.rank_with_scores.assert_called_once_with(
+            "query",
+            ["first", "second", "third"],
+            [None, None, None],
+            user="user-1",
+            continuous_scores=True,
+        )
+
+    @patch("models.rerank.rerank.create_responses_client")
+    def test_continuous_scores_preserve_anchors_on_window_failure(
+        self, create_client: Mock
+    ) -> None:
+        client = create_client.return_value
+        client.rank_with_scores.side_effect = [
+            RankedScores(order=[1, 0], scores=[0.61, 0.83]),
+            InvalidScoreError("invalid"),
+        ]
+
+        result = self.model._invoke(
+            model="continuous-config",
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "score_mode": "llm_estimated_relevance_continuous",
+                "window_size": "2",
+                "step_size": "1",
+            },
+            query="query",
+            docs=["first", "second", "third"],
+        )
+
+        self.assertEqual([document.index for document in result.docs], [2, 1, 0])
+        self.assertEqual([document.score for document in result.docs], [0.83, 0.61, 0.0])
+        self.assertEqual(client.rank_with_scores.call_count, 2)
+        client.rank_with_scores.assert_called_with(
+            "query",
+            ["first", "third"],
+            [None, 0.83],
+            user=None,
+            continuous_scores=True,
+        )
+
+    @patch("models.rerank.rerank.create_responses_client")
+    def test_continuous_mode_scores_a_single_document(self, create_client: Mock) -> None:
+        client = create_client.return_value
+        client.rank_with_scores.return_value = RankedScores(order=[0], scores=[0.37])
+
+        result = self.model._invoke(
+            model="continuous-config",
+            credentials={
+                "endpoint_model_name": "gpt-test",
+                "score_mode": "llm_estimated_relevance_continuous",
+            },
+            query="query",
+            docs=["partially related"],
+        )
+
+        self.assertEqual(result.docs[0].score, 0.37)
+        client.rank.assert_not_called()
+        client.rank_with_scores.assert_called_once_with(
+            "query", ["partially related"], [None], user=None, continuous_scores=True
+        )
+
+    @patch("models.rerank.rerank.create_responses_client")
+    def test_validates_each_score_mode(self, create_client: Mock) -> None:
+        client = create_client.return_value
+        for mode in (
+            "reciprocal_rank",
+            "llm_estimated_relevance",
+            "llm_estimated_relevance_continuous",
+        ):
+            with self.subTest(mode=mode):
+                client.reset_mock()
+                self.model.validate_credentials(
+                    "config", {"endpoint_model_name": "gpt-test", "score_mode": mode}
+                )
+
+                if mode == "reciprocal_rank":
+                    client.rank.assert_called_once()
+                    client.rank_with_scores.assert_not_called()
+                else:
+                    client.rank.assert_not_called()
+                    client.rank_with_scores.assert_called_once_with(
+                        "Which document identifies the capital of Japan?",
+                        [
+                            "Osaka is a major commercial center in Japan.",
+                            "Tokyo is the capital of Japan.",
+                        ],
+                        [None, None],
+                        continuous_scores=mode == "llm_estimated_relevance_continuous",
+                    )
+
+    @patch("models.rerank.rerank.create_responses_client")
+    def test_invalid_continuous_scores_prevent_saving_credentials(
+        self, create_client: Mock
+    ) -> None:
+        create_client.return_value.rank_with_scores.side_effect = InvalidScoreError("invalid")
+
+        with self.assertRaises(CredentialsValidateFailedError):
+            self.model.validate_credentials(
+                "config",
+                {
+                    "endpoint_model_name": "gpt-test",
+                    "score_mode": "llm_estimated_relevance_continuous",
+                },
+            )
+
+    @patch("models.rerank.rerank.create_responses_client")
+    def test_unknown_score_mode_is_rejected(self, create_client: Mock) -> None:
+        with self.assertRaisesRegex(ValueError, "Unsupported score mode"):
+            self.model._invoke(
+                model="config",
+                credentials={"endpoint_model_name": "gpt-test", "score_mode": "unknown"},
+                query="query",
+                docs=["first"],
+            )
 
 
 if __name__ == "__main__":
