@@ -106,6 +106,10 @@ By clicking on the `API Key Authorization Configuration` button, you can set fol
 
 You can add multiple authorizations for different services or accounts, and can select one of them when using the tools in your app.
 
+Credential validation sends a real transcription request to the configured model or deployment using a one-second silent WAV generated in memory (16 kHz, mono, 16-bit PCM). It does not request the model list or upload user audio. An empty transcript is accepted as success. This request may incur a small charge.
+
+Validation uses a 30-second request timeout and disables automatic retries. The selected API must accept the silent sample and support text-format transcription responses. Validation confirms basic transcription access, not diarization support.
+
 ## ⚙️ Self-Hosted Tuning (Environment Variables)
 
 If you run a self-hosted Dify instance and see file-size related errors, or node/app execution timeouts, review and tune the following environment variables.
