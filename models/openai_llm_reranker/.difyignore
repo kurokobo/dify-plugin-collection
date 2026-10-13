@@ -4,4 +4,4 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 tests/
-uv.lock
+ruff.toml
