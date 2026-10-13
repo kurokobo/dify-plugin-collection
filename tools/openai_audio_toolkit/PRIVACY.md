@@ -24,6 +24,7 @@ Your data will not be used for any other purposes (such as training, profiling, 
 ### Data Sharing and Disclosure
 
 Audio content and credentials are transmitted only to the chosen OpenAI or Azure OpenAI service to perform the requested transcription.
+During credential validation, the plugin also sends a one-second silent WAV generated in memory to the configured API endpoint using the provided credentials and model/deployment name. This sample contains no user audio or personal information and is not stored by the plugin.
 User data and personal information are never shared with any other third parties or external services.
 
 ### Use of Third-party Services

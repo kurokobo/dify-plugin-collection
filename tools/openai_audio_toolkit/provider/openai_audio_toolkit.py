@@ -1,4 +1,6 @@
 from typing import Any
+import io
+import wave
 
 from yarl import URL
 import openai
@@ -24,7 +26,7 @@ class OpenAIAudioToolkitProvider(ToolProvider):
 
         if service == "openai":
             base_url_v1 = str(URL(base_url) / "v1") if base_url else None
-            self._validate_openai_credentials(api_key, base_url_v1)
+            self._validate_openai_credentials(api_key, base_url_v1, model)
         elif service == "azure_openai":
             if not base_url:
                 raise ToolProviderCredentialValidationError("API Base URL is required for Azure OpenAI")
@@ -32,20 +34,41 @@ class OpenAIAudioToolkitProvider(ToolProvider):
         else:
             raise ToolProviderCredentialValidationError(f"Unsupported service: {service}")
 
-    def _validate_openai_credentials(self, api_key: str, base_url: str | None) -> None:
-        client = openai.OpenAI(api_key=api_key, base_url=base_url)
+    def _validate_openai_credentials(self, api_key: str, base_url: str | None, model: str) -> None:
         try:
-            client.models.list()
-        except openai.AuthenticationError:
-            raise ToolProviderCredentialValidationError("Invalid OpenAI API key")
-        except Exception as exc:  # noqa: BLE001
-            raise ToolProviderCredentialValidationError(f"Error validating OpenAI API key: {str(exc)}")
+            with openai.OpenAI(api_key=api_key, base_url=base_url, timeout=30.0, max_retries=0) as client:
+                self._validate_transcription(client, model)
+        except openai.AuthenticationError as exc:
+            raise ToolProviderCredentialValidationError("Invalid OpenAI API key") from exc
+        except openai.OpenAIError as exc:
+            raise ToolProviderCredentialValidationError(f"Error validating OpenAI credentials: {str(exc)}") from exc
 
     def _validate_azure_openai_credentials(self, api_key: str, base_url: str, model: str) -> None:
-        client = openai.AzureOpenAI(api_key=api_key, api_version="2025-04-01-preview", azure_endpoint=base_url)
         try:
-            client.models.list()
-        except openai.AuthenticationError:
-            raise ToolProviderCredentialValidationError("Invalid Azure OpenAI API key")
-        except Exception as exc:  # noqa: BLE001
-            raise ToolProviderCredentialValidationError(f"Error validating Azure OpenAI API key: {str(exc)}")
+            with openai.AzureOpenAI(
+                api_key=api_key,
+                api_version="2025-04-01-preview",
+                azure_endpoint=base_url,
+                timeout=30.0,
+                max_retries=0,
+            ) as client:
+                self._validate_transcription(client, model)
+        except openai.AuthenticationError as exc:
+            raise ToolProviderCredentialValidationError("Invalid Azure OpenAI API key") from exc
+        except openai.OpenAIError as exc:
+            raise ToolProviderCredentialValidationError(f"Error validating Azure OpenAI credentials: {str(exc)}") from exc
+
+    def _validate_transcription(self, client: openai.OpenAI | openai.AzureOpenAI, model: str) -> None:
+        with io.BytesIO() as audio_stream:
+            with wave.open(audio_stream, "wb") as audio_file:
+                audio_file.setnchannels(1)
+                audio_file.setsampwidth(2)
+                audio_file.setframerate(16000)
+                audio_file.writeframes(b"\x00\x00" * 16000)
+            audio_stream.seek(0)
+
+            client.audio.transcriptions.create(
+                file=("validation.wav", audio_stream, "audio/wav"),
+                model=model,
+                response_format="text",
+            )
