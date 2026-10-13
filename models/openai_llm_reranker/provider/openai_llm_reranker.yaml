@@ -172,11 +172,17 @@ model_credential_schema:
             ja_JP: LLM 推定関連度（6 段階）
             zh_Hans: LLM 估算相关度（6 个等级）
             pt_BR: Relevância estimada por LLM (6 níveis)
+        - value: llm_estimated_relevance_continuous
+          label:
+            en_US: LLM-estimated relevance (continuous)
+            ja_JP: LLM 推定関連度（連続値）
+            zh_Hans: LLM 估算相关度（连续值）
+            pt_BR: Relevância estimada por LLM (contínua)
       help:
-        en_US: The LLM determines the rank in both modes, so results can vary. Estimated relevance returns rank and score in the same request without extra scoring requests, but scores can still vary between windows.
-        ja_JP: どちらの方法でも順位は LLM が判断するため、結果は変動します。LLM 推定関連度は同じリクエストで順位とスコアを返すため採点専用リクエストは増えませんが、ウィンドウ間で値は変動し得ます。
-        zh_Hans: 两种方式的排名均由 LLM 判断，因此结果可能变化。LLM 估算相关度在同一请求中返回排名和分数，不增加单独评分请求，但分数仍可能因窗口而异。
-        pt_BR: A classificação é decidida pelo LLM nos dois modos e pode variar. A relevância estimada retorna classificação e pontuação na mesma solicitação, sem solicitações extras, mas pode variar entre janelas.
+        en_US: The LLM determines the rank in all modes. Estimated relevance uses six levels or continuous values from 0 to 1 in the same request. Continuous values allow finer thresholds, not guaranteed higher accuracy. Scores can vary between runs and windows.
+        ja_JP: すべての方法で順位は LLM が判断します。推定関連度は同じリクエストで 6 段階または 0〜1 の連続値を返します。連続値では閾値を細かく設定できますが、精度向上は保証されません。スコアは実行やウィンドウごとに変動し得ます。
+        zh_Hans: 所有方式的排名均由 LLM 判断。估算相关度在同一请求中返回 6 个等级或 0 到 1 的连续值。连续值可用于更细的阈值，但不保证更高的准确性。分数可能因运行和窗口而异。
+        pt_BR: A classificação é decidida pelo LLM em todos os modos. A relevância estimada usa 6 níveis ou valores contínuos de 0 a 1 na mesma solicitação. Valores contínuos permitem limiares mais finos, sem garantir maior precisão. As pontuações podem variar entre execuções e janelas.
 extra:
   python:
     provider_source: provider/openai_llm_reranker.py

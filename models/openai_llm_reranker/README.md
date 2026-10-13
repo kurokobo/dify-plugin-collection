@@ -20,7 +20,7 @@ The selected model must support both the Responses API and Structured Outputs wi
 - **Validated results**: Checks that every candidate is returned exactly once and retries malformed or incomplete model output.
 - **Predictable failure handling**: Preserves the current candidate order when valid ranking output cannot be obtained. It does not return a partial result or fail the entire retrieval.
 - **Long candidate list support**: Uses overlapping windows so every candidate participates in reranking, even when all candidates cannot fit in one request.
-- **Optional estimated relevance**: Scores are derived from the final rank by default, but the LLM can instead estimate absolute relevance on a six-level scale. This makes `score_threshold` useful even when none of the candidates is relevant.
+- **Optional estimated relevance**: Scores are derived from the final rank by default, but the LLM can instead estimate absolute relevance using six levels or continuous values from `0.0` to `1.0`. This makes `score_threshold` useful even when none of the candidates is relevant.
 - **Privacy-conscious requests**: Sets `store` to `false`, hashes Dify user identifiers before sending them as safety identifiers, and instructs the model to treat document content as untrusted data.
 
 ## ⚙️ Setup Instructions
@@ -34,7 +34,7 @@ After installing the plugin:
 Saving the model configuration validates the credentials, endpoint, selected model or deployment, and required API capabilities. This validation sends a small request and consumes a small number of API tokens.
 
 > [!CAUTION]
-> The selected LLM determines the ranking in both score modes and also determines estimated relevance when enabled. Even with the same model and input, rankings and scores may change between runs, so reproducibility is not guaranteed. LLM-estimated relevance scores do not guarantee the probability that a document is relevant to the query.
+> The selected LLM determines the ranking in all score modes and also determines estimated relevance when enabled. Even with the same model and input, rankings and scores may change between runs, so reproducibility is not guaranteed. LLM-estimated relevance scores do not guarantee the probability that a document is relevant to the query. More decimal places do not imply greater accuracy.
 
 ### Model configuration
 
@@ -50,7 +50,7 @@ Saving the model configuration validates the credentials, endpoint, selected mod
 | `Window Size` | Maximum documents ranked in one request. Default: `20`. |
 | `Step Size` | Positions moved toward the head after each request. Default: `10`; must be smaller than the window size. |
 | `Maximum Characters per Document` | Documents are truncated to this length before ranking, while the original text is returned to Dify. Default: `4000`. |
-| `Score Calculation` | `From final rank` derives scores from the generated order. `LLM-estimated relevance` estimates each document's usefulness on a six-level scale from `0.0` to `1.0`, allowing relevance-based threshold filtering. |
+| `Score Calculation` | `From final rank` derives scores from the generated order (default). `LLM-estimated relevance (6 levels)` uses six fixed values from `0.0` to `1.0`. `LLM-estimated relevance (continuous)` allows any numeric value in that range, enabling finer relevance thresholds. |
 
 You can register the same API model more than once with different configuration names and settings. For example, create `gpt-5.6-sol-reciprocal-rank` with `From final rank` and `gpt-5.6-sol-relevance` with `LLM-estimated relevance`, then select the appropriate configuration in Dify without editing the provider settings.
 
@@ -64,13 +64,19 @@ For a long candidate list, overlapping windows are processed from the tail towar
 
 With `From final rank`, the plugin returns the reciprocal of each document's rank. The first result receives `1.0`, the second `0.5`, the third approximately `0.333`, and so on. These values express position, not absolute relevance, and should not be compared across separate searches.
 
-With `LLM-estimated relevance`, the model assigns each document one of `0.0`, `0.2`, `0.4`, `0.6`, `0.8`, or `1.0`. All documents may receive the same low score, including `0.0`, when none appears useful for the query. Final results are ordered by score, with the listwise ranking used to break ties. This mode makes `score_threshold` more useful for filtering unrelated results, including when only one candidate is retrieved.
+With `LLM-estimated relevance (6 levels)` (`score_mode: llm_estimated_relevance`), the model assigns each document one of `0.0`, `0.2`, `0.4`, `0.6`, `0.8`, or `1.0`.
+
+With `LLM-estimated relevance (continuous)` (`score_mode: llm_estimated_relevance_continuous`), the model may assign any finite numeric value from `0.0` to `1.0`, inclusive, such as `0.63` or `0.765`. The same six reference points guide its assessment: `1.0` directly and sufficiently answers the query; `0.8` is highly relevant but incomplete; `0.6` provides useful partial information; `0.4` is weakly relevant; `0.2` is marginally related; and `0.0` does not help answer the query. Intermediate values express usefulness between those reference points. Scores are returned without rounding or quantization.
+
+In both estimated relevance modes, all documents may receive the same low score, including `0.0`, when none appears useful for the query. Final results are ordered by score, with the listwise ranking used to break ties. Each request returns both ranking and scores, without extra scoring-only requests. These modes make `score_threshold` more useful for filtering unrelated results, including when only one candidate is retrieved.
+
+Continuous scoring is useful primarily for finer threshold filtering, not guaranteed ranking improvements: the six-level mode already ranks documents within each tied score. For example, a threshold of `0.7` can distinguish continuous scores of `0.69` and `0.73`. Small scoring variations may also change which documents pass a threshold or their final order, particularly across windows. Evaluate threshold decisions and repeated-run stability with representative queries before choosing this mode; do not treat decimal differences as calibrated confidence.
 
 Previously estimated scores from overlapping windows are reused to improve consistency between windows. Because the scores are generated by an LLM, they may change between runs even with the same input and should not be compared directly across separate searches.
 
 ### Failure handling
 
-Invalid model output is retried once. If it remains invalid, the plugin preserves the current order. In LLM-estimated relevance mode, previously obtained scores are retained and documents that could not be scored receive `0.0`; the plugin does not replace them with a potentially misleading reciprocal-rank `1.0`. Invalid output during configuration validation prevents the model configuration from being saved.
+Invalid model output is retried once. If it remains invalid, the plugin preserves the current order. In both LLM-estimated relevance modes, previously obtained scores are retained and documents that could not be scored receive `0.0`; the plugin does not replace them with a potentially misleading reciprocal-rank `1.0`. Score validation rejects values outside the selected scale, non-finite or non-numeric values, changes to existing scores, and scores that increase in ranking order. Invalid output during configuration validation prevents the model configuration from being saved.
 
 ## 📚 Algorithm Rationale
 

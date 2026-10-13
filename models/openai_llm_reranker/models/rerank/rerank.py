@@ -63,6 +63,7 @@ class OpenAILLMRerankerModel(RerankModel):
         scores_by_index: dict[int, float] | None = None
 
         if use_llm_scores:
+
             def rank_scored_window(
                 window_query: str,
                 window_docs: list[str],
@@ -74,6 +75,7 @@ class OpenAILLMRerankerModel(RerankModel):
                         window_docs,
                         existing_scores,
                         user=user,
+                        continuous_scores=_use_continuous_scores(credentials),
                     )
                     return result.order, result.scores
                 except InvalidScoreError:
@@ -95,6 +97,7 @@ class OpenAILLMRerankerModel(RerankModel):
         elif len(docs) == 1:
             ranked_indices = [0]
         else:
+
             def rank_window(window_query: str, window_docs: list[str]) -> list[int]:
                 try:
                     return client.rank(window_query, window_docs, user=user)
@@ -140,6 +143,7 @@ class OpenAILLMRerankerModel(RerankModel):
                         "Tokyo is the capital of Japan.",
                     ],
                     [None, None],
+                    continuous_scores=_use_continuous_scores(credentials),
                 )
             else:
                 client.rank(
@@ -190,8 +194,10 @@ def _use_llm_scores(credentials: dict) -> bool:
     mode = credentials.get("score_mode") or "reciprocal_rank"
     if mode == "reciprocal_rank":
         return False
-    if mode == "llm_estimated_relevance":
+    if mode in ("llm_estimated_relevance", "llm_estimated_relevance_continuous"):
         return True
     raise ValueError(f"Unsupported score mode: {mode}")
 
 
+def _use_continuous_scores(credentials: dict) -> bool:
+    return credentials.get("score_mode") == "llm_estimated_relevance_continuous"

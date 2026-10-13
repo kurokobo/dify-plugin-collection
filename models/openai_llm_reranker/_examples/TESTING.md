@@ -24,4 +24,18 @@ Keep the score threshold disabled and run this unrelated query with each `Score 
 `How do I bake sourdough bread?`
 
 - With `From final rank`, the results receive position-based scores (`1.0`, `0.5`, approximately `0.333`, and `0.25`) even though none of the plans answers the query.
-- With `LLM-estimated relevance`, all results should receive low scores such as `0.0` or `0.2`; the first result should not automatically receive `1.0`. Exact scores may vary because they are estimated by the selected LLM.
+- With `LLM-estimated relevance (6 levels)`, all results should receive low scores such as `0.0` or `0.2`; the first result should not automatically receive `1.0`.
+- With `LLM-estimated relevance (continuous)`, all results should also receive low scores, but intermediate values such as `0.05` or `0.13` are allowed. Scores must be finite numbers between `0.0` and `1.0`, inclusive.
+
+Exact scores may vary because they are estimated by the selected LLM. Continuous mode permits intermediate values but does not require them; returning only reference-point values is also valid.
+
+### Evaluate Continuous Thresholds
+
+1. Register the same API model twice, once with each estimated relevance mode. Keep all other settings identical.
+2. Repeat the plan query from the first section with the score threshold disabled and record the order and scores.
+3. Set a threshold between two observed continuous scores, then repeat the query. Verify that returned scores meet the threshold (a score equal to the threshold is retained).
+4. Repeat both the plan query and the unrelated query several times with each mode. Compare whether relevant documents are retained, unrelated documents are rejected, and decisions remain stable.
+5. Set `Top K` to `1` and run the unrelated query again. Both estimated relevance modes should still assign a low score rather than automatically returning `1.0`.
+6. To exercise overlapping windows with the four-chunk corpus, set `Window Size` to `2` and `Step Size` to `1`. Verify descending scores and no duplicate chunks. If inspecting Responses API requests, confirm that previously assigned `existing_score` values are returned unchanged, including their decimal precision.
+
+Finer values do not guarantee better ranking or calibrated probabilities. Choose a threshold using representative queries rather than relying on exact scores from one run.
