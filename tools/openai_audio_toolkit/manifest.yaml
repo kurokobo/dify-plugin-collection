@@ -1,6 +1,7 @@
 version: 0.0.2
 type: plugin
 author: kurokobo
+contact: kurokobo@protonmail.com
 name: openai_audio_toolkit
 label:
   en_US: OpenAI Audio Toolkit
