@@ -1,12 +1,20 @@
 from collections.abc import Generator
 from typing import Any
-import requests
 import ast
 import json
 
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from dify_plugin.errors.tool import ToolProviderCredentialValidationError
+
+from tools.utils.knowledge_file_utils import (
+    KnowledgeFileClient,
+    KnowledgeFileError,
+    UnsupportedDifyVersionError,
+)
+from tools.utils.logger_utils import get_logger
+
+logger = get_logger(__name__)
 
 
 class AddFileURLToCitationsTool(Tool):
@@ -33,33 +41,42 @@ class AddFileURLToCitationsTool(Tool):
             yield self.create_text_message("Invalid context format. Please provide a valid context.")
             return
 
-        # gather all documents in context
+        # gather all documents in context (preserving order)
         documents = []
+        document_names = {}
         for citation in context:
+            metadata = citation.get("metadata") or {}
+            key = (metadata.get("dataset_id"), metadata.get("document_id"))
+            if key in document_names:
+                continue
+            document_names[key] = metadata.get("document_name") or ""
             documents.append({
-                "dataset_id": citation.get("metadata").get("dataset_id"),
-                "document_id": citation.get("metadata").get("document_id"),
+                "dataset_id": key[0],
+                "document_id": key[1],
             })
-        documents = [dict(t) for t in {tuple(d.items()) for d in documents}]
 
         # get the download url for each document
-        headers = {
-            "authorization": f"bearer {api_key}",
-            "content-type": "application/json",
-        }
+        client = KnowledgeFileClient(api_base_url, api_key)
         for document in documents:
-            url = f"{api_base_url.rstrip('/')}/datasets/{document['dataset_id']}/documents/{document['document_id']}/upload-file"
+            key = (document["dataset_id"], document["document_id"])
             try:
-                response = requests.get(url, headers=headers)
-                response.raise_for_status()
-                data = response.json()
-            except Exception as e:
+                data = client.get_file_info(
+                    document["dataset_id"],
+                    document["document_id"],
+                    with_details=format == "minimal_json",
+                )
+            except UnsupportedDifyVersionError as e:
+                yield self.create_text_message(f"Error fetching file information: {str(e)}")
+                return
+            except KnowledgeFileError as e:
+                # e.g. documents not created from uploaded files, such as Notion or website
+                logger.warning(f"Failed to get file information for document {key}: {str(e)}")
                 data = {}
 
-            document["download_url"] = data.get("download_url", "")
-            document['name'] = data.get("name", "")
-            document['size'] = data.get("size", 0)
-            document['mime_type'] = data.get("mime_type", "")
+            document["download_url"] = data.get("download_url") or ""
+            document['name'] = data.get("name") or document_names.get(key, "")
+            document['size'] = data.get("size") or 0
+            document['mime_type'] = data.get("mime_type") or ""
 
         # full: inject download urls into original context
         if format == "full":
@@ -83,35 +100,41 @@ class AddFileURLToCitationsTool(Tool):
                     f"- [{document.get('name')}]({document.get('download_url')})")
             yield self.create_text_message("\n".join(list))
 
-        # chunks_html: group by documents, attach chunks, and output as HTML details
+        # chunks_markdown: list all chunks as nested HTML details in the order of the context
         elif format == "chunks_markdown":
-            from html import unescape
+            from html import escape, unescape
 
-            doc_dict = {}
+            doc_dict = {
+                (d.get("dataset_id"), d.get("document_id")): d for d in documents
+            }
+
+            chunk_blocks = []
             for citation in context:
-                meta = citation.get("metadata", {})
-                key = (meta.get("dataset_id"), meta.get("document_id"))
-                if key not in doc_dict:
-                    doc_info = next((d for d in documents if d.get("dataset_id") == key[0] and d.get("document_id") == key[1]), {})
-                    doc_dict[key] = {
-                        "name": meta.get("document_name", doc_info.get("name", "")),
-                        "download_url": doc_info.get("download_url", ""),
-                        "chunks": []
-                    }
-                doc_dict[key]["chunks"].append(citation.get("content", ""))
+                meta = citation.get("metadata") or {}
+                doc_info = doc_dict.get((meta.get("dataset_id"), meta.get("document_id")), {})
+                doc_name = escape(
+                    meta.get("document_name") or doc_info.get("name") or citation.get("title") or ""
+                )
+                download_url = doc_info.get("download_url", "")
 
-            html_blocks = []
-            for doc in doc_dict.values():
-                doc_name = doc.get("name", "")
-                download_url = doc.get("download_url", "")
-                block = f"<details>\n<summary>{doc_name} ({len(doc['chunks'])})</summary>\n\n"
-                block += f"💾 [{doc_name}]({download_url})\n\n"
-                for i, content in enumerate(doc["chunks"]):
-                    content = unescape(content)
-                    quoted = "\n".join(["> " + line for line in content.splitlines()])
-                    block += quoted
-                    if i != len(doc["chunks"]) - 1:
-                        block += "\n\n"
-                block += "\n</details>"
-                html_blocks.append(block)
-            yield self.create_text_message("\n\n".join(html_blocks))
+                # markdown links are not rendered inside <summary>, so use <a> tag instead
+                summary = f'<a href="{escape(download_url)}">{doc_name}</a>' if download_url else doc_name
+                position = meta.get("segment_position")
+                if position is not None:
+                    summary += f" #{position}"
+                score = meta.get("score")
+                if isinstance(score, (int, float)):
+                    summary += f" ({score:.2f})"
+
+                # escape "<" so that raw HTML tags in the chunk do not break the nested details
+                content = unescape(citation.get("content") or "").replace("<", "&lt;")
+                quoted = "\n".join(["> " + line for line in content.splitlines()]) or ">"
+                chunk_blocks.append((summary, quoted))
+
+            # put separators inside each details so that they are hidden when collapsed
+            block = f"<details>\n<summary>CITATIONS ({len(chunk_blocks)})</summary>\n\n"
+            for i, (summary, quoted) in enumerate(chunk_blocks):
+                separator = "\n\n---" if i < len(chunk_blocks) - 1 else ""
+                block += f"<details open>\n<summary>{summary}</summary>\n\n{quoted}{separator}\n\n</details>\n\n"
+            block += "</details>"
+            yield self.create_text_message(block)

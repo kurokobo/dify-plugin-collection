@@ -12,12 +12,12 @@ Small tools for working with Dify Knowledge API:
 
 - ✅ **Get Full Doc**
   - Retrieve the full doc by concatenating all the chunks of the specified document in Knowledge.
-- ⚠️ **Add File URL to Citations**
-  - **This tool does not work with versions newer than 1.8.1. See below for details.**
+- ✅ **Add File URL to Citations**
   - Retrieves download URLs for files included in the results of the Knowledge Retrieval node and returns a list.
-- ⚠️ **Download File**
-  - **This tool does not work with versions newer than 1.8.1. See below for details.**
+  - Requires Dify 1.13.1 or later (or 1.8.1 or earlier). See the **Supported Dify Versions** section below for details.
+- ✅ **Download File**
   - Retrieve the uploaded file in Knowledge as a JSON, download URL, file object, or file content.
+  - Requires Dify 1.13.1 or later (or 1.8.1 or earlier). See the **Supported Dify Versions** section below for details.
 
 ## ▶️ Demo App
 
@@ -40,6 +40,27 @@ By clicking on the `API Key Authorization Configuration` button, you can set fol
   - You can generate it at `Knowledge` > `API Access` > `API Key` in the Dify Console.
 
 You can add multiple authorizations for different Dify Knowledge APIs, and can select one of them when using the tools in your app.
+
+## ⚠️ Supported Dify Versions
+
+**Get Full Doc** works with any Dify version.
+
+**Add File URL to Citations** and **Download File** depend on the Knowledge API endpoint to get the download URL of the uploaded file, which differs by Dify version:
+
+| Dify Version | Status | Endpoint |
+| --- | --- | --- |
+| 1.13.1 or later | ✅ Supported (Recommended) | `GET /datasets/{dataset_id}/documents/{document_id}/download` |
+| 1.9.0 to 1.13.0 | ❌ Not supported | None ([removed](https://github.com/langgenius/dify/pull/25543)) |
+| 1.8.1 or earlier | ✅ Supported (Legacy) | `GET /datasets/{dataset_id}/documents/{document_id}/upload-file` |
+
+- The tools try the new endpoint first, and fall back to the legacy endpoint automatically.
+- On unsupported versions, the tools return an error message as the `text` output instead of failing the node.
+- Only documents created from uploaded files can be downloaded. Documents created from RAG pipelines (local files) are supported only on Dify 1.19.0 or later.
+
+Note that the download URL is a signed URL issued by Dify:
+
+- The URL expires after the time specified by `FILES_ACCESS_TIMEOUT` in Dify (`300` seconds by default). Links shown in a chat will no longer work after that.
+- The host of the URL is determined by `FILES_URL` in Dify. To use the `file` or `content` format of **Download File**, the URL must be reachable from the plugin daemon.
 
 ## 🛠️ Bundled Tools
 
@@ -65,11 +86,8 @@ As `text` output variable, you can get the full doc of the specified document as
 
 ### ✅ Add File URL to Citations
 
-⚠️ **USE WITH CAUTION** ⚠️
-
-- **This tool does not work with Dify versions newer than 1.8.1.**
-- **This is because the `/upload-file` endpoint of the Dify Knowledge API, which this tool relies on, has been removed ([see here](https://github.com/langgenius/dify/pull/25543)).**
-- **If a similar API is implemented again in the future, I'll update this tool, but I don't have an ETA.**
+> [!NOTE]
+> This tool requires Dify 1.13.1 or later (or 1.8.1 or earlier). See the **Supported Dify Versions** section above for details.
 
 This is a tool to retrieve the download URLs for files included in the results of the Knowledge Retrieval node.
 With this tool, you can provide the download URLs of the files in the workflow results.
@@ -109,16 +127,14 @@ You can choose the output format:
   - Returns a list of Markdown formatted download links for the referenced documents.
   - By including this directly in the Answer node, you can completely prevent the issue of the URL being unintentionally altered by the LLM model and becoming unusable.
 - `chunks_markdown`
-  - Returns a collapsible Markdown that contains the referenced chunks and download links for the documents.
+  - Returns a collapsible Markdown that lists all referenced chunks in the order of the Knowledge Retrieval node results.
+  - Each chunk is shown as a nested collapsible block (expanded by default) titled with the document name (clickable to download), the chunk position (`#<segment_position>`), and the score.
   - This can be used to replace the default Citations feature of the chatbot, by placing the output of this tool in the Answer node directly.
 
 ### ✅ Download File
 
-⚠️ **USE WITH CAUTION** ⚠️
-
-- **This tool does not work with Dify versions newer than 1.8.1.**
-- **This is because the `/upload-file` endpoint of the Dify Knowledge API, which this tool relies on, has been removed ([see here](https://github.com/langgenius/dify/pull/25543)).**
-- **If a similar API is implemented again in the future, I'll update this tool, but I don't have an ETA.**
+> [!NOTE]
+> This tool requires Dify 1.13.1 or later (or 1.8.1 or earlier). See the **Supported Dify Versions** section above for details.
 
 This is a tool to retrieve the uploaded file in Knowledge.  
 With this tool, you can use Knowledge like a simple file server. This is useful when you want to retrieve specific files or their contents within your workflow and use them as templates, for example.
@@ -142,7 +158,9 @@ You can choose the output format of the file:
 
 - `json`
   - As `text` output variable.
-  - Raw response from the Knowledge API: `/datasets/{dataset_id}/documents/{document_id}/upload-file` (`GET`).
+  - File information as a JSON string, such as `name`, `size`, `extension`, `mime_type`, and `download_url`.
+  - On Dify 1.8.1 or earlier, this is the raw response from the legacy `upload-file` endpoint.
+  - On Dify 1.13.1 or later, some fields such as `id` and `size` are `null` for documents not created from uploaded files directly (e.g., RAG pipelines).
 - `url`
   - As `text` output variable.
   - Download URL of the file.

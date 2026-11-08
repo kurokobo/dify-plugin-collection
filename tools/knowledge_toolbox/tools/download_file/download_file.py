@@ -7,6 +7,8 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from dify_plugin.errors.tool import ToolProviderCredentialValidationError
 
+from tools.utils.knowledge_file_utils import KnowledgeFileClient, KnowledgeFileError
+
 
 class DownloadFileTool(Tool):
 
@@ -26,27 +28,19 @@ class DownloadFileTool(Tool):
         if not api_key:
             raise ToolProviderCredentialValidationError("Knowledge API key is required.")
 
-        # step 1: get the upload-file endpoint
-        url = f"{api_base_url.rstrip('/')}/datasets/{knowledge_id}/documents/{document_id}/upload-file"
-        headers = {
-            "authorization": f"bearer {api_key}",
-            "content-type": "application/json",
-        }
-
+        # step 1: get the file information including the download url
+        client = KnowledgeFileClient(api_base_url, api_key)
         try:
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-            data = response.json()
-            download_url = data.get("download_url")
-        except Exception as e:
-            yield self.create_text_message(
-                f"Error fetching upload-file endpoint: {str(e)}"
+            data = client.get_file_info(
+                knowledge_id,
+                document_id,
+                with_details=format in ("json", "link", "file"),
             )
+        except KnowledgeFileError as e:
+            yield self.create_text_message(f"Error fetching file information: {str(e)}")
             return
 
-        if not download_url:
-            yield self.create_text_message("No download URL found in the response.")
-            return
+        download_url = data.get("download_url")
 
         if format == "json":
             yield self.create_text_message(

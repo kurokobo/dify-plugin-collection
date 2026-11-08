@@ -16,7 +16,7 @@ A repository of various plugins for Dify, developed by [@kurokobo](https://githu
 <!-- ls: tools -->
 - [📁 File Tools v0.0.2 (tools/file_tools)](/tools/file_tools)
   - A collection of various tools for handling file object.
-- [📁 Knowledge Toolbox v0.0.4 (tools/knowledge_toolbox)](/tools/knowledge_toolbox)
+- [📁 Knowledge Toolbox v0.0.5 (tools/knowledge_toolbox)](/tools/knowledge_toolbox)
   - Small tools for working with Dify Knowledge API.
 - [📁 OpenAI Audio Toolkit v0.0.2 (tools/openai_audio_toolkit)](/tools/openai_audio_toolkit)
   - Speech tools including diarized speech-to-text powered by OpenAI or Azure OpenAI.
