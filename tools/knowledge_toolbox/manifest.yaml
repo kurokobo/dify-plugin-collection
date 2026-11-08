@@ -1,6 +1,7 @@
 version: 0.0.5
 type: plugin
 author: kurokobo
+contact: kurokobo@protonmail.com
 name: knowledge_toolbox
 label:
   en_US: Knowledge Toolbox
