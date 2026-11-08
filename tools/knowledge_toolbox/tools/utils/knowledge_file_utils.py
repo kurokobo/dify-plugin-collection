@@ -14,6 +14,15 @@ UNSUPPORTED_VERSION_MESSAGE = (
     "Dify 1.9.0 to 1.13.0 are not supported."
 )
 
+# Message returned by Dify when the document is not backed by a downloadable file
+NO_UPLOADED_FILE_MARKER = "does not have an uploaded file"
+
+NO_UPLOADED_FILE_HINT = (
+    "Only documents created from files can be downloaded. "
+    "Documents in Knowledge Pipelines (including Knowledge converted to pipelines) "
+    "can be downloaded only on Dify 1.19.0 or later."
+)
+
 
 class KnowledgeFileError(Exception):
     """Raised when the file information of a document cannot be retrieved."""
@@ -72,6 +81,11 @@ class KnowledgeFileClient:
         response = self._get(f"/datasets/{dataset_id}/documents/{document_id}/download")
         if self._is_route_not_found(response):
             return None
+        if response.status_code == 404 and NO_UPLOADED_FILE_MARKER in response.text.lower():
+            raise KnowledgeFileError(
+                f"Fetching the download URL failed with HTTP 404: {self._error_message(response)} "
+                f"{NO_UPLOADED_FILE_HINT}"
+            )
         self._raise_for_status(response, "Fetching the download URL")
 
         download_url = self._json(response).get("url")
@@ -163,9 +177,7 @@ class KnowledgeFileClient:
         return data
 
     @staticmethod
-    def _raise_for_status(response: requests.Response, action: str) -> None:
-        if response.ok:
-            return
+    def _error_message(response: requests.Response) -> str:
         message = response.text.strip()
         try:
             data = response.json()
@@ -173,4 +185,12 @@ class KnowledgeFileClient:
                 message = str(data.get("message"))
         except Exception:
             pass
-        raise KnowledgeFileError(f"{action} failed with HTTP {response.status_code}: {message[:500]}")
+        return message[:500]
+
+    @classmethod
+    def _raise_for_status(cls, response: requests.Response, action: str) -> None:
+        if response.ok:
+            return
+        raise KnowledgeFileError(
+            f"{action} failed with HTTP {response.status_code}: {cls._error_message(response)}"
+        )

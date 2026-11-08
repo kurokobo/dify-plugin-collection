@@ -55,7 +55,8 @@ You can add multiple authorizations for different Dify Knowledge APIs, and can s
 
 - The tools try the new endpoint first, and fall back to the legacy endpoint automatically.
 - On unsupported versions, the tools return an error message as the `text` output instead of failing the node.
-- Only documents created from uploaded files can be downloaded. Documents created from RAG pipelines (local files) are supported only on Dify 1.19.0 or later.
+- Only documents created from files can be downloaded (not from Notion, websites, etc.).
+- Documents in Knowledge Pipelines (`data_source_type` is `local_file`), including Knowledge converted to pipelines, can be downloaded only on Dify 1.19.0 or later. This is a limitation of the Knowledge API in Dify 1.13.1 to 1.18.x ([fixed in 1.19.0](https://github.com/langgenius/dify/pull/45428)), and the download link is not generated for such documents.
 
 Note that the download URL is a signed URL issued by Dify:
 
@@ -160,7 +161,7 @@ You can choose the output format of the file:
   - As `text` output variable.
   - File information as a JSON string, such as `name`, `size`, `extension`, `mime_type`, and `download_url`.
   - On Dify 1.8.1 or earlier, this is the raw response from the legacy `upload-file` endpoint.
-  - On Dify 1.13.1 or later, some fields such as `id` and `size` are `null` for documents not created from uploaded files directly (e.g., RAG pipelines).
+  - On Dify 1.13.1 or later, some fields such as `id` and `size` are `null` for documents in Knowledge Pipelines (Dify 1.19.0 or later).
 - `url`
   - As `text` output variable.
   - Download URL of the file.

@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
   - Dify 1.8.1 or earlier is still supported by falling back to the legacy `/upload-file` endpoint.
   - Dify 1.9.0 to 1.13.0 are not supported, and a clear error message is now returned instead.
 - **Download File** tool now returns an error message for invalid Knowledge ID or Document ID.
+- **Download File** tool now returns a hint for documents that cannot be downloaded, such as documents in Knowledge Pipelines on Dify 1.13.1 to 1.18.x.
 - **Add File URL to Citations** tool now preserves the order of the referenced documents.
 - `chunks_markdown` format of **Add File URL to Citations** tool now lists all chunks in a single collapsible `CITATIONS` block, each with the download link of the document, the chunk position, and the score.
 
