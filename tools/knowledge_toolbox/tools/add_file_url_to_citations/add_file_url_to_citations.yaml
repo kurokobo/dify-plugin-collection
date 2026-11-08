@@ -53,25 +53,25 @@ parameters:
         "full" returns a complete object with the metadata of the Knowledge Retrieval node results, adding a "download_url" field.
         "minimal_json" returns a JSON string with basic information such as file names and download URLs of the referenced documents.
         "minimal_markdown" returns a list of Markdown formatted download links for the referenced documents.
-        "chunks_markdown" returns a collapsible Markdown that contains the referenced chunks and download links for the documents.
+        "chunks_markdown" returns a collapsible Markdown that lists all referenced chunks with the download link of the document, the chunk position, and the score.
       ja_JP: >-
         結果のフォーマット。
         "full" は知識取得ノードの結果のメタデータに "download_url" フィールドを追加した完全なオブジェクトを返す。
         "minimal_json" は参照されているドキュメントのファイル名やダウンロード URL などの基礎情報を JSON 形式の文字列で返す。
         "minimal_markdown" は参照されているドキュメントの Markdown 形式のダウンロードリンクの一覧を返す。
-        "chunks_markdown" は参照されているチャンクとドキュメントのダウンロードリンクを含む折りたたみ可能な Markdown を返す。
+        "chunks_markdown" は参照されているすべてのチャンクを、ドキュメントのダウンロードリンク、チャンクの位置、スコアとともに一覧にした折りたたみ可能な Markdown を返す。
       zh_Hans: >-
         输出的格式。
         "full" 返回一个完整的对象，包含知识检索节点结果的元数据，并添加一个 "download_url" 字段。
         "minimal_json" 返回一个 JSON 字符串，包含引用文档的基本信息，如文件名和下载 URL。
         "minimal_markdown" 返回一个 Markdown 格式的引用文档下载链接列表。
-        "chunks_markdown" 返回一个可折叠的 Markdown，包含引用的块和文档的下载链接。
+        "chunks_markdown" 返回一个可折叠的 Markdown，列出所有引用的块，并附带文档的下载链接、块的位置和分数。
       pt_BR: >-
         Formato da saída.
         "full" retorna um objeto completo com os metadados dos resultados do nó de Recuperação de Conhecimento, adicionando um campo "download_url".
         "minimal_json" retorna uma string JSON com informações básicas, como nomes de arquivos e URLs de download dos documentos referenciados.
         "minimal_markdown" retorna uma lista de links de download formatados em Markdown para os documentos referenciados.
-        "chunks_markdown" retorna um Markdown dobrável que contém os blocos referenciados e links de download para os documentos.
+        "chunks_markdown" retorna um Markdown dobrável que lista todos os blocos referenciados com o link de download do documento, a posição do bloco e a pontuação.
     options:
       - value: "full"
         label:
